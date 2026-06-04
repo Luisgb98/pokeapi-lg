@@ -1,0 +1,98 @@
+import { describe, expect, it } from 'vitest';
+import {
+  mapEvolutionChain,
+  mapPokemon,
+  mapPokemonSummary,
+} from '../../infrastructure/pokeapi/mappers';
+import { bulbasaurRaw, pikachuChain, pikachuRaw } from '../mocks/fixtures';
+
+describe('mapPokemonSummary', () => {
+  it('maps basic fields correctly', () => {
+    const result = mapPokemonSummary(pikachuRaw);
+
+    expect(result.id).toBe(25);
+    expect(result.name).toBe('pikachu');
+    expect(result.displayName).toBe('Pikachu');
+    expect(result.types).toEqual(['electric']);
+    expect(result.generation).toBe('generation-i');
+    expect(result.sprite).toBe('https://sprites.pokemon.com/pikachu.png');
+  });
+
+  it('falls back to computed sprite URL when front_default is null', () => {
+    const noSprite = {
+      ...pikachuRaw,
+      sprites: { ...pikachuRaw.sprites, front_default: null },
+    };
+    const result = mapPokemonSummary(noSprite);
+    expect(result.sprite).toContain('githubusercontent.com');
+  });
+
+  it('sorts types by slot', () => {
+    const result = mapPokemonSummary(bulbasaurRaw);
+    expect(result.types).toEqual(['grass', 'poison']);
+  });
+
+  it('derives generation from ID', () => {
+    const result = mapPokemonSummary(bulbasaurRaw); // id=1
+    expect(result.generation).toBe('generation-i');
+  });
+});
+
+describe('mapPokemon', () => {
+  it('includes all summary fields plus stats and evolutionChainId', () => {
+    const result = mapPokemon(pikachuRaw, 10);
+
+    expect(result.id).toBe(25);
+    expect(result.evolutionChainId).toBe(10);
+    expect(result.artwork).toBe('https://artwork.pokemon.com/pikachu.png');
+    expect(result.stats).toEqual({
+      hp: 35,
+      attack: 55,
+      defense: 40,
+      specialAttack: 50,
+      specialDefense: 50,
+      speed: 90,
+    });
+  });
+
+  it('falls back to computed artwork URL when official-artwork is null', () => {
+    const noArtwork = {
+      ...pikachuRaw,
+      sprites: {
+        ...pikachuRaw.sprites,
+        other: { 'official-artwork': { front_default: null } },
+      },
+    };
+    const result = mapPokemon(noArtwork, 10);
+    expect(result.artwork).toContain('official-artwork');
+  });
+});
+
+describe('mapEvolutionChain', () => {
+  it('maps chain id', () => {
+    const result = mapEvolutionChain(pikachuChain);
+    expect(result.id).toBe(10);
+  });
+
+  it('maps root of chain correctly', () => {
+    const result = mapEvolutionChain(pikachuChain);
+    expect(result.chain.name).toBe('pichu');
+    expect(result.chain.id).toBe(172);
+    expect(result.chain.displayName).toBe('Pichu');
+  });
+
+  it('maps nested evolutions', () => {
+    const result = mapEvolutionChain(pikachuChain);
+    const pikachu = result.chain.evolvesTo[0];
+    expect(pikachu.name).toBe('pikachu');
+    expect(pikachu.id).toBe(25);
+    const raichu = pikachu.evolvesTo[0];
+    expect(raichu.name).toBe('raichu');
+    expect(raichu.evolvesTo).toHaveLength(0);
+  });
+
+  it('sets sprite URLs from ID', () => {
+    const result = mapEvolutionChain(pikachuChain);
+    expect(result.chain.sprite).toContain('172');
+  });
+});
