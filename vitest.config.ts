@@ -5,17 +5,17 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
-    setupFiles: ['./__tests__/setup.ts'],
+    setupFiles: ['./src/__tests__/setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      include: ['domain/**', 'infrastructure/**', 'application/**'],
+      include: ['src/domain/**', 'src/infrastructure/**', 'src/application/**'],
       exclude: [
         '**/*.test.ts',
-        '__tests__/**',
-        'domain/ports/**',
-        'infrastructure/pokeapi/types.ts',
-        'application/queries/**',
+        'src/__tests__/**',
+        'src/domain/ports/**',
+        'src/infrastructure/pokeapi/types.ts',
+        'src/presentation/queries/**',
       ],
       thresholds: {
         lines: 80,
@@ -27,7 +27,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '.'),
+      '@': path.resolve(__dirname, 'src'),
     },
   },
 });
