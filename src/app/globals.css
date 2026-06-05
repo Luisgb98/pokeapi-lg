@@ -107,6 +107,7 @@ body {
 /* ─── Utility animations ────────────────────────────────────────────────────── */
 .animate-fade-in-up {
   animation: fade-in-up 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0ms);
 }
 
 .animate-float {
@@ -137,6 +138,8 @@ body {
 
 .pokemon-card:hover {
   transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: #d6d3d1;
 }
 
 /* ─── Scrollbar ─────────────────────────────────────────────────────────────── */

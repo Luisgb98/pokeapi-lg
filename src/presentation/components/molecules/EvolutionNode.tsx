@@ -55,9 +55,8 @@ export function EvolutionNode({ node, currentId, isFirst = false }: EvolutionNod
         <span
           className={cn(
             'text-xs font-semibold tracking-tight',
-            isCurrent ? 'text-stone-900' : 'text-stone-500 group-hover:text-stone-700',
+            isCurrent ? 'font-display text-stone-900' : 'text-stone-500 group-hover:text-stone-700',
           )}
-          style={isCurrent ? { fontFamily: 'var(--font-display)' } : undefined}
         >
           {node.displayName}
         </span>

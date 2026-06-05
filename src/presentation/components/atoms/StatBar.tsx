@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const STAT_COLORS: Record<string, string> = {
-  hp: '#22c55e',
-  attack: '#ef4444',
-  defense: '#3b82f6',
-  specialAttack: '#a855f7',
-  specialDefense: '#06b6d4',
-  speed: '#eab308',
+const STAT_BG: Record<string, string> = {
+  hp: 'bg-green-500',
+  attack: 'bg-red-500',
+  defense: 'bg-blue-500',
+  specialAttack: 'bg-purple-500',
+  specialDefense: 'bg-cyan-500',
+  speed: 'bg-yellow-500',
 };
 
 const STAT_LABELS: Record<string, string> = {
@@ -42,12 +42,11 @@ export function StatBar({ statKey, value, max = 255 }: StatBarProps) {
   }, []);
 
   const pct = Math.round((value / max) * 100);
-  const color = STAT_COLORS[statKey] ?? '#9ca3af';
   const label = STAT_LABELS[statKey] ?? statKey;
 
   return (
     <div ref={ref} className="flex items-center gap-3">
-      <span className="w-9 shrink-0 font-mono text-xs font-medium text-stone-400 uppercase tracking-wider">
+      <span className="w-9 shrink-0 font-mono text-xs font-medium uppercase tracking-wider text-stone-400">
         {label}
       </span>
       <span className="w-8 shrink-0 text-right font-mono text-sm font-semibold text-stone-700">
@@ -55,12 +54,8 @@ export function StatBar({ statKey, value, max = 255 }: StatBarProps) {
       </span>
       <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-stone-100">
         <div
-          className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-700 ease-out"
-          style={{
-            width: animated ? `${pct}%` : '0%',
-            backgroundColor: color,
-            transitionDelay: '0.1s',
-          }}
+          className={`absolute inset-y-0 left-0 w-[var(--bar-w)] rounded-full transition-[width] duration-700 ease-out delay-100 ${STAT_BG[statKey] ?? 'bg-gray-400'}`}
+          style={{ '--bar-w': animated ? `${pct}%` : '0%' } as React.CSSProperties}
         />
       </div>
     </div>

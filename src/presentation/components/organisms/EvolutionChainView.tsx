@@ -9,10 +9,7 @@ interface EvolutionChainViewProps {
 export function EvolutionChainView({ chain, currentId }: EvolutionChainViewProps) {
   return (
     <div>
-      <h2
-        className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400"
-        style={{ fontFamily: 'var(--font-display)' }}
-      >
+      <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
         Evolution Chain
       </h2>
       <div className="overflow-x-auto">

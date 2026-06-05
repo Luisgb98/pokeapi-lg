@@ -54,10 +54,7 @@ export default async function PokemonDetailPage({ params }: Props) {
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Stats */}
           <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2
-              className="mb-5 text-sm font-bold uppercase tracking-[0.15em] text-stone-400"
-              style={{ fontFamily: 'var(--font-syne)' }}
-            >
+            <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
               Base Stats
             </h2>
             <StatList stats={pokemon.stats} />
