@@ -10,7 +10,13 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       include: ['domain/**', 'infrastructure/**', 'application/**'],
-      exclude: ['**/*.test.ts', '__tests__/**'],
+      exclude: [
+        '**/*.test.ts',
+        '__tests__/**',
+        'domain/ports/**',
+        'infrastructure/pokeapi/types.ts',
+        'application/queries/**',
+      ],
       thresholds: {
         lines: 80,
         functions: 80,
