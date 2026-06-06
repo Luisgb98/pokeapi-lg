@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDebounce } from '@/presentation/hooks/useDebounce';
 import { useInfiniteScroll } from '@/presentation/hooks/useInfiniteScroll';
 import { usePokemonStore } from '@/presentation/store/pokemonStore';
@@ -11,7 +11,7 @@ import { Spinner } from '@/presentation/components/atoms/Spinner';
 import type { PokemonType, Generation } from '@/domain/entities/Pokemon';
 
 export function PokemonGrid() {
-  const { search, type, generation, scrollY, setScrollY } = usePokemonStore();
+  const { search, type, generation, scrollY, restoreCount, setNavState } = usePokemonStore();
   const debouncedSearch = useDebounce(search, 320);
 
   const params = {
@@ -26,31 +26,17 @@ export function PokemonGrid() {
   const pokemon = data?.pages.flatMap((p) => p.items) ?? [];
   const total = data?.pages.at(-1)?.total ?? 0;
 
-  // Track which cards were already in cache at mount so we can skip re-animating them.
-  // mountCountRef: 0 = animate all (fresh load), N = skip cards 0..N-1 (restoration).
-  // prevParamsStr: detects filter/search changes so mountCountRef resets for new queries.
-  const mountCountRef = useRef<number | null>(null);
-  const prevParamsStr = useRef('');
-  const currentParamsStr = `${params.type ?? ''}-${params.generation ?? ''}-${params.search ?? ''}`;
-  if (prevParamsStr.current !== currentParamsStr) {
-    prevParamsStr.current = currentParamsStr;
-    mountCountRef.current = null;
-  }
-  if (mountCountRef.current === null && pokemon.length > 0) {
-    mountCountRef.current = scrollY > 0 ? pokemon.length : 0;
-  }
-
   const handleFetchNext = useCallback(() => {
     void fetchNextPage();
   }, [fetchNextPage]);
 
   const sentinelRef = useInfiniteScroll(handleFetchNext, !!hasNextPage && !isFetchingNextPage);
 
-  // Save scroll BEFORE navigation starts (not during unmount — by then Next.js
-  // has already reset window.scrollY to 0 as part of its Link scroll behaviour).
+  // Save scroll position and loaded-card count BEFORE navigation starts.
+  // Not during unmount — by then Next.js has already reset window.scrollY to 0.
   const handleCardClick = useCallback(() => {
-    setScrollY(window.scrollY);
-  }, [setScrollY]);
+    setNavState(window.scrollY, pokemon.length);
+  }, [setNavState, pokemon.length]);
 
   // Restore scroll on mount. Uses a retry loop because the page may not yet be
   // tall enough on the first animation frame when many cards are rendering.
@@ -113,11 +99,7 @@ export function PokemonGrid() {
                 pokemon={p}
                 index={i}
                 onClick={handleCardClick}
-                animate={
-                  mountCountRef.current === null ||
-                  mountCountRef.current === 0 ||
-                  i >= mountCountRef.current
-                }
+                animate={scrollY === 0 || i >= restoreCount}
               />
             ))}
           </div>
