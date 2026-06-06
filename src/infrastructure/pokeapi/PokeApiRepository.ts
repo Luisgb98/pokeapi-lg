@@ -12,7 +12,12 @@ import {
   getGenerationFromId,
   POKEMON_TYPES,
 } from '../../domain/entities/Pokemon';
-import type { PokemonFilters, PokemonRepository } from '../../domain/ports/PokemonRepository';
+import type {
+  PokemonFilters,
+  PokemonPage,
+  PokemonPagination,
+  PokemonRepository,
+} from '../../domain/ports/PokemonRepository';
 import { getOrFetch, TtlCache } from './cache';
 import { mapEvolutionChain, mapPokemon, mapPokemonSummary } from './mappers';
 import type {
@@ -82,7 +87,7 @@ export class PokeApiRepository implements PokemonRepository {
     });
   }
 
-  async findAll(filters?: PokemonFilters): Promise<PokemonSummary[]> {
+  async findAll(filters?: PokemonFilters, pagination?: PokemonPagination): Promise<PokemonPage> {
     const all = await this.fetchAllPokemon();
 
     let filtered = all.filter((p) => {
@@ -112,19 +117,27 @@ export class PokeApiRepository implements PokemonRepository {
       });
     }
 
+    const total = filtered.length;
+
+    // Slice to the requested page before fetching individual details.
+    // Without pagination, fetch all (used in tests and search fallback).
+    const { offset = 0, limit = total } = pagination ?? {};
+    const page = filtered.slice(offset, offset + limit);
+    const hasMore = offset + limit < total;
+
     // Fetch full pokemon data in batches to avoid overwhelming the API
     const BATCH_SIZE = 20;
     const summaries: PokemonSummary[] = [];
 
-    for (let i = 0; i < filtered.length; i += BATCH_SIZE) {
-      const batch = filtered.slice(i, i + BATCH_SIZE);
+    for (let i = 0; i < page.length; i += BATCH_SIZE) {
+      const batch = page.slice(i, i + BATCH_SIZE);
       const pokemonData = await Promise.all(
         batch.map((p) => this.fetchPokemon(extractIdFromUrl(p.url))),
       );
       summaries.push(...pokemonData.map(mapPokemonSummary));
     }
 
-    return summaries.sort((a, b) => a.id - b.id);
+    return { items: summaries.sort((a, b) => a.id - b.id), total, hasMore };
   }
 
   async findById(id: number): Promise<Pokemon | null> {
@@ -152,7 +165,7 @@ export class PokeApiRepository implements PokemonRepository {
     filters?: PokemonFilters,
   ): Promise<PokemonSummary[]> {
     const normalizedTerm = term.toLowerCase().trim();
-    if (!normalizedTerm) return this.findAll(filters);
+    if (!normalizedTerm) return (await this.findAll(filters)).items;
 
     const all = await this.fetchAllPokemon();
 

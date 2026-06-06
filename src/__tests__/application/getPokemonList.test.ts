@@ -23,7 +23,7 @@ const pichu: PokemonSummary = {
 
 function mockRepo(overrides: Partial<PokemonRepository> = {}): PokemonRepository {
   return {
-    findAll: vi.fn().mockResolvedValue([pikachu]),
+    findAll: vi.fn().mockResolvedValue({ items: [pikachu], total: 1, hasMore: false }),
     findById: vi.fn().mockResolvedValue(null),
     findEvolutionChain: vi.fn().mockResolvedValue({
       id: 10,
@@ -47,9 +47,9 @@ describe('getPokemonList', () => {
       filters: { type: 'electric' },
     });
 
-    expect(repo.findAll).toHaveBeenCalledWith({ type: 'electric' });
+    expect(repo.findAll).toHaveBeenCalledWith({ type: 'electric' }, undefined);
     expect(repo.searchByNameWithEvolutions).not.toHaveBeenCalled();
-    expect(result.pokemon).toHaveLength(1);
+    expect(result.items).toHaveLength(1);
     expect(result.total).toBe(1);
   });
 
@@ -64,13 +64,32 @@ describe('getPokemonList', () => {
       generation: 'generation-i',
     });
     expect(repo.findAll).not.toHaveBeenCalled();
-    expect(result.pokemon).toHaveLength(2);
+    expect(result.items).toHaveLength(2);
     expect(result.total).toBe(2);
+    expect(result.hasMore).toBe(false);
+  });
+
+  it('paginates search results when pagination is provided', async () => {
+    const repo = mockRepo();
+    const result = await getPokemonList(repo, {
+      search: 'pikachu',
+      pagination: { offset: 0, limit: 1 },
+    });
+
+    expect(result.items).toHaveLength(1);
+    expect(result.total).toBe(2);
+    expect(result.hasMore).toBe(true);
+  });
+
+  it('passes pagination through to findAll', async () => {
+    const repo = mockRepo();
+    await getPokemonList(repo, { pagination: { offset: 24, limit: 24 } });
+    expect(repo.findAll).toHaveBeenCalledWith(undefined, { offset: 24, limit: 24 });
   });
 
   it('returns correct total count', async () => {
     const repo = mockRepo({
-      findAll: vi.fn().mockResolvedValue([pikachu, pichu]),
+      findAll: vi.fn().mockResolvedValue({ items: [pikachu, pichu], total: 2, hasMore: false }),
     });
     const result = await getPokemonList(repo);
     expect(result.total).toBe(2);
@@ -79,6 +98,6 @@ describe('getPokemonList', () => {
   it('works with no input (returns all)', async () => {
     const repo = mockRepo();
     await getPokemonList(repo);
-    expect(repo.findAll).toHaveBeenCalledWith(undefined);
+    expect(repo.findAll).toHaveBeenCalledWith(undefined, undefined);
   });
 });

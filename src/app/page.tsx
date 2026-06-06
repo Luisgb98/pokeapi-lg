@@ -4,14 +4,15 @@ import { FilterBar } from '@/presentation/components/organisms/FilterBar';
 import { PokemonGrid } from '@/presentation/components/organisms/PokemonGrid';
 import { SkeletonCard } from '@/presentation/components/atoms/SkeletonCard';
 import { getRepository } from '@/application/container';
-import { getPokemonList } from '@/application/usecases/getPokemonList';
+import { getPokemonList, POKEMON_PAGE_SIZE } from '@/application/usecases/getPokemonList';
+import { pokemonListQueryKey } from '@/presentation/lib/queryKeys';
 
 function PokemonGridSkeleton() {
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
       <div className="mb-5 h-5 w-24 animate-pulse rounded-full bg-stone-100" />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {Array.from({ length: 18 }).map((_, i) => (
+        {Array.from({ length: 24 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
       </div>
@@ -23,8 +24,20 @@ export default async function HomePage() {
   const queryClient = new QueryClient();
   const repository = getRepository();
 
-  const { pokemon, total } = await getPokemonList(repository);
-  queryClient.setQueryData(['pokemon', 'list'], { data: pokemon, meta: { total } });
+  // Prefetch only the first page — the client loads subsequent pages on scroll.
+  const firstPage = await getPokemonList(repository, {
+    pagination: { offset: 0, limit: POKEMON_PAGE_SIZE },
+  });
+
+  // Seed the infinite query cache directly so the client sees page 0 immediately.
+  // updatedAt: 1 marks this as the oldest possible timestamp so TanStack Query
+  // never overwrites client-loaded pages when the Server Component re-runs on
+  // back navigation (client dataUpdatedAt will always be newer than 1).
+  queryClient.setQueryData(
+    pokemonListQueryKey({}),
+    { pages: [firstPage], pageParams: [0] },
+    { updatedAt: 1 },
+  );
 
   return (
     <div className="min-h-dvh">

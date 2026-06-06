@@ -1,25 +1,37 @@
-import type { PokemonSummary } from '../../domain/entities/Pokemon';
-import type { PokemonFilters, PokemonRepository } from '../../domain/ports/PokemonRepository';
+import type {
+  PokemonFilters,
+  PokemonPage,
+  PokemonPagination,
+  PokemonRepository,
+} from '../../domain/ports/PokemonRepository';
+
+/** How many Pokémon to load per infinite-scroll page. */
+export const POKEMON_PAGE_SIZE = 24;
 
 export interface GetPokemonListInput {
   filters?: PokemonFilters;
   search?: string;
-}
-
-export interface GetPokemonListOutput {
-  pokemon: PokemonSummary[];
-  total: number;
+  pagination?: PokemonPagination;
 }
 
 export async function getPokemonList(
   repository: PokemonRepository,
   input: GetPokemonListInput = {},
-): Promise<GetPokemonListOutput> {
-  const { filters, search } = input;
+): Promise<PokemonPage> {
+  const { filters, search, pagination } = input;
 
-  const pokemon = search
-    ? await repository.searchByNameWithEvolutions(search, filters)
-    : await repository.findAll(filters);
+  if (search) {
+    const allResults = await repository.searchByNameWithEvolutions(search, filters);
+    if (!pagination) {
+      return { items: allResults, total: allResults.length, hasMore: false };
+    }
+    const { offset, limit } = pagination;
+    return {
+      items: allResults.slice(offset, offset + limit),
+      total: allResults.length,
+      hasMore: offset + limit < allResults.length,
+    };
+  }
 
-  return { pokemon, total: pokemon.length };
+  return repository.findAll(filters, pagination);
 }
