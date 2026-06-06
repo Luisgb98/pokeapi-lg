@@ -122,26 +122,6 @@ body {
   animation: stat-fill 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ─── Pokemon card ──────────────────────────────────────────────────────────── */
-.pokemon-card {
-  background: #ffffff;
-  border: 1px solid #e7e5e4;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-card);
-  transition:
-    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.22s ease;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.pokemon-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-card-hover);
-  border-color: #d6d3d1;
-}
-
 /* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;

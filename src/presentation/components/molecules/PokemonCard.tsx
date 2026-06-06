@@ -1,9 +1,9 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
+import { cardVariants } from '@/presentation/components/ui/card';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
+import { cn } from '@/presentation/lib/utils';
 import type { PokemonSummary } from '@/domain/entities/Pokemon';
 
 interface PokemonCardProps {
@@ -18,7 +18,10 @@ export function PokemonCard({ pokemon, index = 0 }: PokemonCardProps) {
   return (
     <Link
       href={`/pokemon/${pokemon.id}`}
-      className="pokemon-card group block animate-fade-in-up focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
+      className={cn(
+        cardVariants({ variant: 'pokemon' }),
+        'group block animate-fade-in-up focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900',
+      )}
       style={{ '--delay': `${Math.min(index * 40, 600)}ms` } as React.CSSProperties}
     >
       <div
@@ -49,7 +52,8 @@ export function PokemonCard({ pokemon, index = 0 }: PokemonCardProps) {
             fill
             sizes="112px"
             className="object-contain drop-shadow-sm"
-            loading="lazy"
+            priority={index < 12}
+            loading={index < 12 ? undefined : 'lazy'}
           />
         </div>
 

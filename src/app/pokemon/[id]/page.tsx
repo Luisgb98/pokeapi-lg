@@ -6,6 +6,14 @@ import { EvolutionChainView } from '@/presentation/components/organisms/Evolutio
 import { getRepository } from '@/application/container';
 import { getPokemonById, PokemonNotFoundError } from '@/application/usecases/getPokemonById';
 
+// Pre-render Gen I at build time; remaining ids are generated on-demand (ISR).
+export async function generateStaticParams() {
+  return Array.from({ length: 151 }, (_, i) => ({ id: String(i + 1) }));
+}
+
+export const dynamicParams = true;
+export const revalidate = 3600;
+
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -19,8 +27,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const repository = getRepository();
     const { pokemon } = await getPokemonById(repository, numericId);
     return {
-      title: `${pokemon.displayName} — Pokédex`,
+      title: pokemon.displayName,
       description: `View ${pokemon.displayName}'s base stats, type matchups, and evolution chain.`,
+      openGraph: {
+        title: `${pokemon.displayName} — Pokédex`,
+        description: `View ${pokemon.displayName}'s base stats, type matchups, and evolution chain.`,
+        images: [{ url: pokemon.artwork, width: 475, height: 475, alt: pokemon.displayName }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${pokemon.displayName} — Pokédex`,
+        images: [pokemon.artwork],
+      },
     };
   } catch {
     return {};

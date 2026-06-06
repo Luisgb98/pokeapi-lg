@@ -1,22 +1,33 @@
+import { Suspense } from 'react';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { FilterBar } from '@/presentation/components/organisms/FilterBar';
 import { PokemonGrid } from '@/presentation/components/organisms/PokemonGrid';
+import { SkeletonCard } from '@/presentation/components/atoms/SkeletonCard';
 import { getRepository } from '@/application/container';
 import { getPokemonList } from '@/application/usecases/getPokemonList';
+
+function PokemonGridSkeleton() {
+  return (
+    <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+      <div className="mb-5 h-5 w-24 animate-pulse rounded-full bg-stone-100" />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        {Array.from({ length: 18 }).map((_, i) => (
+          <SkeletonCard key={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default async function HomePage() {
   const queryClient = new QueryClient();
   const repository = getRepository();
 
   const { pokemon, total } = await getPokemonList(repository);
-  queryClient.setQueryData(
-    ['pokemon', 'list', { type: undefined, generation: undefined, search: undefined }],
-    { success: true, data: pokemon, meta: { total } },
-  );
+  queryClient.setQueryData(['pokemon', 'list'], { data: pokemon, meta: { total } });
 
   return (
     <div className="min-h-dvh">
-      {/* Header */}
       <header className="mx-auto max-w-7xl px-4 pb-4 pt-8 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between">
           <div>
@@ -33,7 +44,9 @@ export default async function HomePage() {
 
       <HydrationBoundary state={dehydrate(queryClient)}>
         <FilterBar />
-        <PokemonGrid />
+        <Suspense fallback={<PokemonGridSkeleton />}>
+          <PokemonGrid />
+        </Suspense>
       </HydrationBoundary>
     </div>
   );

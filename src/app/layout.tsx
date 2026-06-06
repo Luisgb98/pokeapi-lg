@@ -25,9 +25,29 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Pokédex — Explore the world of Pokémon',
+  title: {
+    default: 'Pokédex — Explore the world of Pokémon',
+    template: '%s — Pokédex',
+  },
   description:
     'Browse all 1,025 Pokémon with real-time search, type and generation filters, stats, and evolution chains.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Pokédex',
+    title: 'Pokédex — Explore the world of Pokémon',
+    description:
+      'Browse all 1,025 Pokémon with real-time search, type and generation filters, stats, and evolution chains.',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Pokédex — Explore the world of Pokémon',
+    description:
+      'Browse all 1,025 Pokémon with real-time search, type and generation filters, stats, and evolution chains.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

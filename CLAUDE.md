@@ -35,13 +35,13 @@ src/
 
 ## Hexagonal Architecture — Layer Import Rules
 
-| Layer | May import | NEVER import |
-|---|---|---|
-| `domain/` | Nothing internal | Everything below |
-| `application/` | `domain/` only | `infrastructure/`, `presentation/`, React |
-| `infrastructure/` | `domain/`, `application/` | `presentation/` |
-| `presentation/` | `domain/`, `application/` | `infrastructure/` directly |
-| `app/` | `presentation/`, `application/` | `infrastructure/` directly |
+| Layer             | May import                      | NEVER import                              |
+| ----------------- | ------------------------------- | ----------------------------------------- |
+| `domain/`         | Nothing internal                | Everything below                          |
+| `application/`    | `domain/` only                  | `infrastructure/`, `presentation/`, React |
+| `infrastructure/` | `domain/`, `application/`       | `presentation/`                           |
+| `presentation/`   | `domain/`, `application/`       | `infrastructure/` directly                |
+| `app/`            | `presentation/`, `application/` | `infrastructure/` directly                |
 
 **Critical:** `application/` must contain zero React imports. `queries/` and `store/` belong in `presentation/`, not `application/`.
 
@@ -82,6 +82,7 @@ export default async function PokemonDetailPage({ params }) {
 ```
 
 Rules:
+
 - Add `"use client"` only when the file uses state, effects, refs, browser APIs, or event handlers
 - Never fetch in `useEffect` when data can be fetched server-side
 - Use `generateMetadata` on all detail pages
@@ -147,6 +148,7 @@ className="delay-100"
 6. Scrollbar styles
 
 **Never add to globals.css:**
+
 - Component-specific class selectors (`.pokemon-card`, `.stat-bar`, `.badge-fire`, …)
 - Hover/focus states for specific components
 - Any selector that names a feature, component, or variant
@@ -180,15 +182,15 @@ const cardVariants = cva('rounded-2xl border bg-card', {
 
 ```ts
 interface TypeClasses {
-  badgeBg: string;     // 'bg-[#FFEDD5]'
-  badgeText: string;   // 'text-[#7C2D12]'
+  badgeBg: string; // 'bg-[#FFEDD5]'
+  badgeText: string; // 'text-[#7C2D12]'
   badgeBorder: string; // 'border-[#F97316]/20'
-  accentBg: string;    // 'bg-[#F97316]'
-  tintBg: string;      // 'bg-[#F97316]/[2%]'
-  gradientBg: string;  // 'bg-[linear-gradient(135deg,#FFEDD5_0%,...)]'
+  accentBg: string; // 'bg-[#F97316]'
+  tintBg: string; // 'bg-[#F97316]/[2%]'
+  gradientBg: string; // 'bg-[linear-gradient(135deg,#FFEDD5_0%,...)]'
 }
-export const TYPE_CLASSES: Record<PokemonType, TypeClasses>
-export function getPrimaryTypeClasses(types: readonly PokemonType[]): TypeClasses
+export const TYPE_CLASSES: Record<PokemonType, TypeClasses>;
+export function getPrimaryTypeClasses(types: readonly PokemonType[]): TypeClasses;
 ```
 
 Never build color strings at runtime. Never export hex values from this file.
