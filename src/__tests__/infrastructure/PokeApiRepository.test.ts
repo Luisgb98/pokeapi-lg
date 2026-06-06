@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { PokeApiRepository } from '../../infrastructure/pokeapi/PokeApiRepository';
 
-// A fresh repository instance per test so caches don't bleed between tests
 let repo: PokeApiRepository;
 
 beforeEach(() => {
@@ -12,41 +11,58 @@ describe('findAll', () => {
   it('returns pokemon sorted by ID', async () => {
     const result = await repo.findAll();
 
-    expect(result.length).toBeGreaterThan(0);
-    for (let i = 1; i < result.length; i++) {
-      expect(result[i].id).toBeGreaterThan(result[i - 1].id);
+    expect(result.items.length).toBeGreaterThan(0);
+    for (let i = 1; i < result.items.length; i++) {
+      expect(result.items[i].id).toBeGreaterThan(result.items[i - 1].id);
     }
   });
 
   it('filters by generation', async () => {
     const result = await repo.findAll({ generation: 'generation-i' });
 
-    expect(result.length).toBeGreaterThan(0);
-    result.forEach((p) => expect(p.generation).toBe('generation-i'));
+    expect(result.items.length).toBeGreaterThan(0);
+    result.items.forEach((p) => expect(p.generation).toBe('generation-i'));
   });
 
   it('filters by type', async () => {
     const result = await repo.findAll({ type: 'electric' });
 
-    expect(result.length).toBeGreaterThan(0);
-    result.forEach((p) => expect(p.types).toContain('electric'));
+    expect(result.items.length).toBeGreaterThan(0);
+    result.items.forEach((p) => expect(p.types).toContain('electric'));
   });
 
   it('combines type and generation filters', async () => {
     const result = await repo.findAll({ type: 'electric', generation: 'generation-i' });
 
-    result.forEach((p) => {
+    result.items.forEach((p) => {
       expect(p.types).toContain('electric');
       expect(p.generation).toBe('generation-i');
     });
   });
 
-  it('returns empty array when no pokemon match filters', async () => {
-    // generation-ii electric pokemon: pichu (172), but our mock only returns pichu for electric type
+  it('returns pichu when filtering gen-ii electric', async () => {
     const result = await repo.findAll({ type: 'electric', generation: 'generation-ii' });
-    // pichu is gen-ii (id=172) and electric
-    const names = result.map((p) => p.name);
+    const names = result.items.map((p) => p.name);
     expect(names).toContain('pichu');
+  });
+
+  it('paginates results with correct total and hasMore', async () => {
+    const result = await repo.findAll(undefined, { offset: 0, limit: 1 });
+
+    expect(result.items).toHaveLength(1);
+    expect(result.total).toBeGreaterThan(1);
+    expect(result.hasMore).toBe(true);
+  });
+
+  it('returns hasMore false when all results fit in the page', async () => {
+    const full = await repo.findAll({ type: 'electric', generation: 'generation-i' });
+    const paged = await repo.findAll(
+      { type: 'electric', generation: 'generation-i' },
+      { offset: 0, limit: full.total },
+    );
+
+    expect(paged.hasMore).toBe(false);
+    expect(paged.total).toBe(full.total);
   });
 });
 
@@ -63,8 +79,6 @@ describe('findById', () => {
   });
 
   it('returns null for unknown id (error from API is swallowed)', async () => {
-    // id 9999 has no mock handler → server will throw "Unhandled request"
-    // We'll test a different path: confirm non-null for a valid one
     const result = await repo.findById(25);
     expect(result).not.toBeNull();
   });
@@ -86,7 +100,6 @@ describe('searchByNameWithEvolutions', () => {
     const result = await repo.searchByNameWithEvolutions('pikachu');
     const names = result.map((p) => p.name);
 
-    // Should include pikachu AND its chain members pichu and raichu
     expect(names).toContain('pikachu');
     expect(names).toContain('pichu');
     expect(names).toContain('raichu');

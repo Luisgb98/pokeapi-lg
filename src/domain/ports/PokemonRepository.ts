@@ -6,9 +6,21 @@ export interface PokemonFilters {
   readonly generation?: Generation;
 }
 
+export interface PokemonPagination {
+  readonly offset: number;
+  readonly limit: number;
+}
+
+export interface PokemonPage {
+  readonly items: PokemonSummary[];
+  /** Total matching the active filters — not just the current page. */
+  readonly total: number;
+  readonly hasMore: boolean;
+}
+
 export interface PokemonRepository {
-  /** Returns lightweight summaries for all Pokémon, optionally filtered. */
-  findAll(filters?: PokemonFilters): Promise<PokemonSummary[]>;
+  /** Returns a page of lightweight summaries, optionally filtered and paginated. */
+  findAll(filters?: PokemonFilters, pagination?: PokemonPagination): Promise<PokemonPage>;
 
   /** Returns full detail for a single Pokémon including stats. */
   findById(id: number): Promise<Pokemon | null>;

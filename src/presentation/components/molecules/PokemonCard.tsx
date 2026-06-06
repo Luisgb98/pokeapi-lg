@@ -9,20 +9,28 @@ import type { PokemonSummary } from '@/domain/entities/Pokemon';
 interface PokemonCardProps {
   pokemon: PokemonSummary;
   index?: number;
+  onClick?: () => void;
+  animate?: boolean;
 }
 
-export function PokemonCard({ pokemon, index = 0 }: PokemonCardProps) {
+export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: PokemonCardProps) {
   const tc = getPrimaryTypeClasses(pokemon.types);
   const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
 
   return (
     <Link
       href={`/pokemon/${pokemon.id}`}
+      onClick={onClick}
       className={cn(
         cardVariants({ variant: 'pokemon' }),
-        'group block animate-fade-in-up focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900',
+        'group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900',
+        animate && 'animate-fade-in-up',
       )}
-      style={{ '--delay': `${Math.min(index * 40, 600)}ms` } as React.CSSProperties}
+      style={
+        animate
+          ? ({ '--delay': `${Math.min(index * 40, 600)}ms` } as React.CSSProperties)
+          : undefined
+      }
     >
       <div
         className={`absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${tc.tintBg}`}

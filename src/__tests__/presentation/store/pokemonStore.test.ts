@@ -11,6 +11,7 @@ describe('usePokemonStore', () => {
     expect(state.search).toBe('');
     expect(state.type).toBeUndefined();
     expect(state.generation).toBeUndefined();
+    expect(state.scrollY).toBe(0);
   });
 
   it('setSearch updates the search field', () => {
@@ -40,10 +41,34 @@ describe('usePokemonStore', () => {
     expect(usePokemonStore.getState().generation).toBeUndefined();
   });
 
+  it('setScrollY updates the scrollY field', () => {
+    usePokemonStore.getState().setScrollY(1200);
+    expect(usePokemonStore.getState().scrollY).toBe(1200);
+  });
+
+  it('setSearch resets scrollY', () => {
+    usePokemonStore.getState().setScrollY(500);
+    usePokemonStore.getState().setSearch('bulbasaur');
+    expect(usePokemonStore.getState().scrollY).toBe(0);
+  });
+
+  it('setType resets scrollY', () => {
+    usePokemonStore.getState().setScrollY(800);
+    usePokemonStore.getState().setType('fire');
+    expect(usePokemonStore.getState().scrollY).toBe(0);
+  });
+
+  it('setGeneration resets scrollY', () => {
+    usePokemonStore.getState().setScrollY(300);
+    usePokemonStore.getState().setGeneration('generation-i');
+    expect(usePokemonStore.getState().scrollY).toBe(0);
+  });
+
   it('reset clears all fields to initial values', () => {
     usePokemonStore.getState().setSearch('bulbasaur');
     usePokemonStore.getState().setType('grass');
     usePokemonStore.getState().setGeneration('generation-i');
+    usePokemonStore.getState().setScrollY(999);
 
     usePokemonStore.getState().reset();
 
@@ -51,5 +76,6 @@ describe('usePokemonStore', () => {
     expect(state.search).toBe('');
     expect(state.type).toBeUndefined();
     expect(state.generation).toBeUndefined();
+    expect(state.scrollY).toBe(0);
   });
 });
