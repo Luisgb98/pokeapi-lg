@@ -17,22 +17,49 @@ describe('findAll', () => {
     }
   });
 
-  it('filters by generation', async () => {
-    const result = await repo.findAll({ generation: 'generation-i' });
+  it('filters by a single generation', async () => {
+    const result = await repo.findAll({ generations: ['generation-i'] });
 
     expect(result.items.length).toBeGreaterThan(0);
     result.items.forEach((p) => expect(p.generation).toBe('generation-i'));
   });
 
-  it('filters by type', async () => {
-    const result = await repo.findAll({ type: 'electric' });
+  it('filters by multiple generations (OR logic)', async () => {
+    const result = await repo.findAll({ generations: ['generation-i', 'generation-ii'] });
+
+    expect(result.items.length).toBeGreaterThan(0);
+    result.items.forEach((p) => expect(['generation-i', 'generation-ii']).toContain(p.generation));
+  });
+
+  it('filters by a single type', async () => {
+    const result = await repo.findAll({ types: ['electric'] });
 
     expect(result.items.length).toBeGreaterThan(0);
     result.items.forEach((p) => expect(p.types).toContain('electric'));
   });
 
+  it('filters by multiple types AND logic (intersection)', async () => {
+    // electric ∩ grass → no Pokémon in fixture has both types → empty
+    const result = await repo.findAll({ types: ['electric', 'grass'], typeMatchMode: 'all' });
+    expect(result.total).toBe(0);
+    expect(result.items).toHaveLength(0);
+  });
+
+  it('filters by multiple types (OR logic)', async () => {
+    // electric → pikachu, raichu, pichu (3); grass → bulbasaur (1); combined → all 4
+    const electricResult = await repo.findAll({ types: ['electric'] });
+    const grassResult = await repo.findAll({ types: ['grass'] });
+    const bothResult = await repo.findAll({ types: ['electric', 'grass'] });
+
+    expect(electricResult.total).toBe(3);
+    expect(grassResult.total).toBe(1);
+    expect(bothResult.total).toBe(4);
+    expect(bothResult.total).toBeGreaterThan(electricResult.total);
+    expect(bothResult.total).toBeGreaterThan(grassResult.total);
+  });
+
   it('combines type and generation filters', async () => {
-    const result = await repo.findAll({ type: 'electric', generation: 'generation-i' });
+    const result = await repo.findAll({ types: ['electric'], generations: ['generation-i'] });
 
     result.items.forEach((p) => {
       expect(p.types).toContain('electric');
@@ -41,7 +68,7 @@ describe('findAll', () => {
   });
 
   it('returns pichu when filtering gen-ii electric', async () => {
-    const result = await repo.findAll({ type: 'electric', generation: 'generation-ii' });
+    const result = await repo.findAll({ types: ['electric'], generations: ['generation-ii'] });
     const names = result.items.map((p) => p.name);
     expect(names).toContain('pichu');
   });
@@ -55,9 +82,9 @@ describe('findAll', () => {
   });
 
   it('returns hasMore false when all results fit in the page', async () => {
-    const full = await repo.findAll({ type: 'electric', generation: 'generation-i' });
+    const full = await repo.findAll({ types: ['electric'], generations: ['generation-i'] });
     const paged = await repo.findAll(
-      { type: 'electric', generation: 'generation-i' },
+      { types: ['electric'], generations: ['generation-i'] },
       { offset: 0, limit: full.total },
     );
 

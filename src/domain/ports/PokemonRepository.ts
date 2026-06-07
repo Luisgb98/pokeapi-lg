@@ -1,9 +1,12 @@
 import type { Generation, Pokemon, PokemonSummary, PokemonType } from '../entities/Pokemon';
 import type { EvolutionChain } from '../entities/EvolutionChain';
 
+export type TypeMatchMode = 'any' | 'all';
+
 export interface PokemonFilters {
-  readonly type?: PokemonType;
-  readonly generation?: Generation;
+  readonly types?: readonly PokemonType[];
+  readonly generations?: readonly Generation[];
+  readonly typeMatchMode?: TypeMatchMode;
 }
 
 export interface PokemonPagination {
