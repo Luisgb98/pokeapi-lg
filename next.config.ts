@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
         pathname: '/PokeAPI/sprites/**',
       },
     ],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    formats: ['image/webp'],
   },
 };
 

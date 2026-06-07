@@ -102,7 +102,7 @@ export function MultiSelect({
 
       {open && (
         <div className="absolute left-0 top-full z-30 mt-1 w-full min-w-[10rem] rounded-xl border border-stone-200 bg-white shadow-lg">
-          {headerSlot && values.length >= 1 && (
+          {headerSlot && (
             <div className="sticky top-0 rounded-t-xl border-b border-stone-100 bg-white px-3 py-2">
               {headerSlot}
             </div>

@@ -4,15 +4,16 @@ import { useTranslations } from 'next-intl';
 import { SlidersHorizontal } from 'lucide-react';
 import { SearchInput } from '@/presentation/components/molecules/SearchInput';
 import { MultiSelect } from '@/presentation/components/molecules/MultiSelect';
+import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
 import { usePokemonStore } from '@/presentation/store/pokemonStore';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import { GENERATION_OPTIONS } from '@/presentation/lib/generationLabels';
-import { TYPE_CLASSES } from '@/presentation/lib/typeColors';
 import { cn } from '@/presentation/lib/utils';
 import type { PokemonType, Generation } from '@/domain/entities/Pokemon';
 
 export function FilterBar() {
   const t = useTranslations('filter');
+  const tTypes = useTranslations('types');
   const {
     search,
     types,
@@ -26,7 +27,7 @@ export function FilterBar() {
 
   const TYPE_OPTIONS = POKEMON_TYPES.map((type) => ({
     value: type,
-    label: type.charAt(0).toUpperCase() + type.slice(1),
+    label: tTypes(type),
   }));
 
   const hasActiveFilters = types.length > 0 || generations.length > 0 || search.length === 1;
@@ -106,12 +107,7 @@ export function FilterBar() {
                 </span>
                 {types.length <= 3 ? (
                   types.map((type) => (
-                    <span
-                      key={type}
-                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ${TYPE_CLASSES[type].badgeBg} ${TYPE_CLASSES[type].badgeText} ${TYPE_CLASSES[type].badgeBorder}`}
-                    >
-                      {type}
-                    </span>
+                    <TypeBadge key={type} type={type} size="sm" label={tTypes(type)} />
                   ))
                 ) : (
                   <span className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600">
