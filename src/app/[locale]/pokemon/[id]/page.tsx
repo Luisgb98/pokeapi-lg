@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { StatList } from '@/presentation/components/molecules/StatList';
+import { StatsRadarChart } from '@/presentation/components/molecules/StatsRadarChart';
 import { PokemonDetailHeader } from '@/presentation/components/organisms/PokemonDetailHeader';
 import { EvolutionChainView } from '@/presentation/components/organisms/EvolutionChainView';
 import { TypeMatchupTable } from '@/presentation/components/organisms/TypeMatchupTable';
@@ -116,7 +117,10 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
             <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
               {t('baseStats')}
             </h2>
-            <StatList stats={pokemon.stats} />
+            <StatsRadarChart stats={pokemon.stats} />
+            <div className="mt-5">
+              <StatList stats={pokemon.stats} />
+            </div>
           </section>
 
           <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
