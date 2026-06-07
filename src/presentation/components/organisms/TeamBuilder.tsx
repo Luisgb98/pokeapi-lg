@@ -168,11 +168,7 @@ export function TeamBuilder({ typeLabels }: TeamBuilderProps) {
         defenseLabel={t('defense')}
       />
 
-      <PokemonPickerModal
-        open={pickerOpen}
-        onClose={() => setPickerOpen(false)}
-        typeLabels={typeLabels}
-      />
+      <PokemonPickerModal open={pickerOpen} onClose={() => setPickerOpen(false)} />
     </div>
   );
 }

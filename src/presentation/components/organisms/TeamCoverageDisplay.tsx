@@ -73,8 +73,6 @@ function CoverageCell({ entry, typeLabels }: CoverageCellProps) {
 }
 
 export function TeamCoverageDisplay({ teamTypes, typeLabels, title }: TeamCoverageDisplayProps) {
-  const t = useTranslations('teamBuilder');
-
   const coverage = useMemo(() => computeTeamCoverage(teamTypes), [teamTypes]);
 
   const sorted = useMemo(

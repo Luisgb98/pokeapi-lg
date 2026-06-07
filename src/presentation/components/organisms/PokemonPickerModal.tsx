@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Dialog } from 'radix-ui';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -16,10 +16,9 @@ import type { PokemonType } from '@/domain/entities/Pokemon';
 interface PokemonPickerModalProps {
   open: boolean;
   onClose: () => void;
-  typeLabels: Record<PokemonType, string>;
 }
 
-export function PokemonPickerModal({ open, onClose, typeLabels }: PokemonPickerModalProps) {
+export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
   const t = useTranslations('teamBuilder');
   const tTypes = useTranslations('types');
 
@@ -34,9 +33,10 @@ export function PokemonPickerModal({ open, onClose, typeLabels }: PokemonPickerM
   const { data, isLoading } = usePokemonInfiniteList(hasSearch ? { search: debouncedSearch } : {});
   const results = hasSearch ? (data?.pages[0]?.items ?? []) : [];
 
-  useEffect(() => {
-    if (!open) setSearch('');
-  }, [open]);
+  function handleClose() {
+    setSearch('');
+    onClose();
+  }
 
   function handleAdd(p: {
     id: number;
@@ -53,11 +53,11 @@ export function PokemonPickerModal({ open, onClose, typeLabels }: PokemonPickerM
       sprite: p.sprite,
     };
     addMember(member);
-    if (team.length + 1 >= TEAM_MAX_SIZE) onClose();
+    if (team.length + 1 >= TEAM_MAX_SIZE) handleClose();
   }
 
   return (
-    <Dialog.Root open={open} onOpenChange={(v: boolean) => !v && onClose()}>
+    <Dialog.Root open={open} onOpenChange={(v: boolean) => !v && handleClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity data-[state=closed]:opacity-0 data-[state=open]:opacity-100" />
 
@@ -79,7 +79,7 @@ export function PokemonPickerModal({ open, onClose, typeLabels }: PokemonPickerM
             </Dialog.Title>
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="Close"
               className="flex size-7 items-center justify-center rounded-lg text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600"
             >
