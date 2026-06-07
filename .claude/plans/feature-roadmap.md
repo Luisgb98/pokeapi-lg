@@ -2,16 +2,16 @@
 
 ## Build Order (bang for buck)
 
-| #   | Feature                                 | Branch                     | Status      |
-| --- | --------------------------------------- | -------------------------- | ----------- |
-| 1   | Species / Flavor Text                   | `feat/species-flavor-text`  | done        |
-| 2   | Stats Radar Chart                       | `feat-stats-radar-chart`    | done        |
-| 3   | Dynamic OG Images                       | —                          | pending     |
-| 4   | Favorites / Bookmarks (Zustand persist) | —                          | pending     |
-| 5   | Pokémon Comparison page                 | —                          | pending     |
-| 6   | Move Learnset Table                     | —                          | pending     |
-| 7   | Shiny / Form Switcher                   | —                          | pending     |
-| 8   | "Who's that Pokémon?" Mini-Game         | —                          | pending     |
+| #   | Feature                                 | Branch                     | Status  |
+| --- | --------------------------------------- | -------------------------- | ------- |
+| 1   | Species / Flavor Text                   | `feat/species-flavor-text` | done    |
+| 2   | Stats Radar Chart                       | `feat-stats-radar-chart`   | done    |
+| 3   | Dynamic OG Images                       | —                          | pending |
+| 4   | Favorites / Bookmarks (Zustand persist) | —                          | pending |
+| 5   | Pokémon Comparison page                 | —                          | pending |
+| 6   | Move Learnset Table                     | —                          | pending |
+| 7   | Shiny / Form Switcher                   | —                          | pending |
+| 8   | "Who's that Pokémon?" Mini-Game         | —                          | pending |
 
 ---
 

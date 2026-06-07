@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import type { PokemonStats } from '@/domain/entities/Pokemon';
 
 const STAT_CONFIG = [
-  { key: 'hp' as const,             label: 'HP',  angle: -90 },
-  { key: 'attack' as const,         label: 'ATK', angle: -30 },
-  { key: 'defense' as const,        label: 'DEF', angle:  30 },
-  { key: 'specialAttack' as const,  label: 'SpA', angle:  90 },
+  { key: 'hp' as const, label: 'HP', angle: -90 },
+  { key: 'attack' as const, label: 'ATK', angle: -30 },
+  { key: 'defense' as const, label: 'DEF', angle: 30 },
+  { key: 'specialAttack' as const, label: 'SpA', angle: 90 },
   { key: 'specialDefense' as const, label: 'SpD', angle: 150 },
-  { key: 'speed' as const,          label: 'SPD', angle: 210 },
+  { key: 'speed' as const, label: 'SPD', angle: 210 },
 ] as const;
 
 const CX = 150;
@@ -65,9 +65,7 @@ export function StatsRadarChart({ stats }: { stats: PokemonStats }) {
       {/* Axis lines */}
       {STAT_CONFIG.map(({ angle }) => {
         const { x, y } = polarToXY(angle, RADAR_R);
-        return (
-          <line key={angle} x1={CX} y1={CY} x2={x} y2={y} stroke="#e7e5e4" strokeWidth="1" />
-        );
+        return <line key={angle} x1={CX} y1={CY} x2={x} y2={y} stroke="#e7e5e4" strokeWidth="1" />;
       })}
 
       {/* Data polygon — scale from center on mount */}
@@ -108,14 +106,7 @@ export function StatsRadarChart({ stats }: { stats: PokemonStats }) {
             >
               {label}
             </text>
-            <text
-              x={x}
-              y={y + 9}
-              textAnchor={anchor}
-              fontSize="11"
-              fontWeight="700"
-              fill="#44403c"
-            >
+            <text x={x} y={y + 9} textAnchor={anchor} fontSize="11" fontWeight="700" fill="#44403c">
               {value}
             </text>
           </g>
