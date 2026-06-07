@@ -108,5 +108,16 @@
     "resistHalf": "½",
     "resistQuarter": "¼",
     "immune": "×0"
+  },
+  "species": {
+    "section": "Pokédex-Eintrag",
+    "genus": "Kategorie",
+    "eggGroups": "Ei-Gruppen",
+    "captureRate": "Fangrate",
+    "baseHappiness": "Basis-Freundschaft",
+    "genderRatio": "Geschlecht",
+    "genderless": "Geschlechtslos",
+    "male": "Männlich",
+    "female": "Weiblich"
   }
 }

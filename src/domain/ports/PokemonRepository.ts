@@ -1,5 +1,6 @@
 import type { Generation, Pokemon, PokemonSummary, PokemonType } from '../entities/Pokemon';
 import type { EvolutionChain } from '../entities/EvolutionChain';
+import type { PokemonSpecies } from '../entities/PokemonSpecies';
 
 export type TypeMatchMode = 'any' | 'all';
 
@@ -36,4 +37,7 @@ export interface PokemonRepository {
    * any Pokémon whose name contains the search term.
    */
   searchByNameWithEvolutions(term: string, filters?: PokemonFilters): Promise<PokemonSummary[]>;
+
+  /** Returns species metadata (flavor text, genus, egg groups, etc.) for a given locale. */
+  findSpeciesData(id: number, locale: string): Promise<PokemonSpecies>;
 }

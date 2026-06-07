@@ -43,6 +43,19 @@ export interface PokeApiSpecies {
   name: string;
   generation: PokeApiNamedResource;
   evolution_chain: { url: string };
+  flavor_text_entries: Array<{
+    flavor_text: string;
+    language: PokeApiNamedResource;
+    version: PokeApiNamedResource;
+  }>;
+  genera: Array<{
+    genus: string;
+    language: PokeApiNamedResource;
+  }>;
+  egg_groups: PokeApiNamedResource[];
+  gender_rate: number;
+  capture_rate: number;
+  base_happiness: number | null;
 }
 
 export interface PokeApiEvolutionChainLink {

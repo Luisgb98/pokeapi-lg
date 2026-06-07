@@ -108,5 +108,16 @@
     "resistHalf": "½",
     "resistQuarter": "¼",
     "immune": "×0"
+  },
+  "species": {
+    "section": "Entrada Pokédex",
+    "genus": "Categoria",
+    "eggGroups": "Grupos de Ovo",
+    "captureRate": "Taxa de Captura",
+    "baseHappiness": "Felicidade Base",
+    "genderRatio": "Gênero",
+    "genderless": "Sem gênero",
+    "male": "Macho",
+    "female": "Fêmea"
   }
 }

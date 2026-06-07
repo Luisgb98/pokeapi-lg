@@ -7,7 +7,9 @@ import { EvolutionChainView } from '@/presentation/components/organisms/Evolutio
 import { TypeMatchupTable } from '@/presentation/components/organisms/TypeMatchupTable';
 import { getRepository } from '@/application/container';
 import { getPokemonById, PokemonNotFoundError } from '@/application/usecases/getPokemonById';
+import { getSpeciesData } from '@/application/usecases/getSpeciesData';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
+import { SpeciesInfoSection } from '@/presentation/components/organisms/SpeciesInfoSection';
 import { routing } from '@/i18n/routing';
 
 export async function generateStaticParams() {
@@ -55,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PokemonDetailPage({ params, searchParams }: Props) {
-  const { id } = await params;
+  const { locale, id } = await params;
   const { from } = await searchParams;
   const numericId = parseInt(id, 10);
 
@@ -66,11 +68,18 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
   const t = await getTranslations('detail');
   const tTypes = await getTranslations('types');
   const tTypeChart = await getTranslations('typeChart');
+  const tSpecies = await getTranslations('species');
 
-  let pokemon, evolutionChain;
+  let pokemon, evolutionChain, species;
   try {
     const repository = getRepository();
-    ({ pokemon, evolutionChain } = await getPokemonById(repository, numericId));
+    const [pokemonResult, speciesResult] = await Promise.all([
+      getPokemonById(repository, numericId),
+      getSpeciesData(repository, numericId, locale),
+    ]);
+    pokemon = pokemonResult.pokemon;
+    evolutionChain = pokemonResult.evolutionChain;
+    species = speciesResult;
   } catch (error) {
     if (error instanceof PokemonNotFoundError) {
       notFound();
@@ -88,6 +97,21 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
+          <SpeciesInfoSection
+            species={species}
+            labels={{
+              section: tSpecies('section'),
+              genus: tSpecies('genus'),
+              eggGroups: tSpecies('eggGroups'),
+              captureRate: tSpecies('captureRate'),
+              baseHappiness: tSpecies('baseHappiness'),
+              genderRatio: tSpecies('genderRatio'),
+              genderless: tSpecies('genderless'),
+              male: tSpecies('male'),
+              female: tSpecies('female'),
+            }}
+          />
+
           <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
               {t('baseStats')}

@@ -12,6 +12,7 @@ import {
   getGenerationFromId,
   POKEMON_TYPES,
 } from '../../domain/entities/Pokemon';
+import type { PokemonSpecies } from '../../domain/entities/PokemonSpecies';
 import type {
   PokemonFilters,
   PokemonPage,
@@ -19,7 +20,7 @@ import type {
   PokemonRepository,
 } from '../../domain/ports/PokemonRepository';
 import { getOrFetch, TtlCache } from './cache';
-import { mapEvolutionChain, mapPokemon, mapPokemonSummary } from './mappers';
+import { mapEvolutionChain, mapPokemon, mapPokemonSpecies, mapPokemonSummary } from './mappers';
 import type {
   PokeApiEvolutionChain,
   PokeApiNamedResource,
@@ -149,6 +150,11 @@ export class PokeApiRepository implements PokemonRepository {
     } catch {
       return null;
     }
+  }
+
+  async findSpeciesData(id: number, locale: string): Promise<PokemonSpecies> {
+    const raw = await this.fetchSpecies(id);
+    return mapPokemonSpecies(raw, locale);
   }
 
   async findEvolutionChain(chainId: number): Promise<EvolutionChain> {
