@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useDebounce } from '@/presentation/hooks/useDebounce';
 import { useInfiniteScroll } from '@/presentation/hooks/useInfiniteScroll';
 import { usePokemonStore } from '@/presentation/store/pokemonStore';
@@ -11,6 +12,7 @@ import { Spinner } from '@/presentation/components/atoms/Spinner';
 import type { PokemonType, Generation } from '@/domain/entities/Pokemon';
 
 export function PokemonGrid() {
+  const t = useTranslations('grid');
   const { search, types, generations, typeMatchMode, scrollY, restoreCount, setNavState } =
     usePokemonStore();
   const debouncedSearch = useDebounce(search, 320);
@@ -34,14 +36,10 @@ export function PokemonGrid() {
 
   const sentinelRef = useInfiniteScroll(handleFetchNext, !!hasNextPage && !isFetchingNextPage);
 
-  // Save scroll position and loaded-card count BEFORE navigation starts.
-  // Not during unmount — by then Next.js has already reset window.scrollY to 0.
   const handleCardClick = useCallback(() => {
     setNavState(window.scrollY, pokemon.length);
   }, [setNavState, pokemon.length]);
 
-  // Restore scroll on mount. Uses a retry loop because the page may not yet be
-  // tall enough on the first animation frame when many cards are rendering.
   useEffect(() => {
     if (scrollY <= 0) return;
     let rafId: number;
@@ -60,7 +58,7 @@ export function PokemonGrid() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-lg font-semibold text-stone-700">Something went wrong</p>
+        <p className="text-lg font-semibold text-stone-700">{t('errorTitle')}</p>
         <p className="mt-1 text-sm text-stone-400">{(error as Error).message}</p>
       </div>
     );
@@ -68,18 +66,16 @@ export function PokemonGrid() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
-      {/* Results count */}
       <div className="mb-5 flex items-center gap-2">
         <span className="font-mono text-sm font-medium text-stone-900">
           {isLoading ? '—' : total.toLocaleString()}
         </span>
         <span className="text-sm text-stone-400">
-          {total === 1 ? 'Pokémon' : 'Pokémon'}
-          {debouncedSearch && ` matching "${debouncedSearch}"`}
+          Pokémon
+          {debouncedSearch && ` ${t('matchingSearch', { query: debouncedSearch })}`}
         </span>
       </div>
 
-      {/* Grid */}
       {isLoading ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {Array.from({ length: 24 }).map((_, i) => (
@@ -89,8 +85,8 @@ export function PokemonGrid() {
       ) : pokemon.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <span className="mb-3 text-5xl">🔍</span>
-          <p className="text-base font-semibold text-stone-700">No Pokémon found</p>
-          <p className="mt-1 text-sm text-stone-400">Try adjusting your search or filters</p>
+          <p className="text-base font-semibold text-stone-700">{t('noResults')}</p>
+          <p className="mt-1 text-sm text-stone-400">{t('noResultsHint')}</p>
         </div>
       ) : (
         <>
@@ -106,20 +102,17 @@ export function PokemonGrid() {
             ))}
           </div>
 
-          {/* Infinite scroll sentinel */}
           <div ref={sentinelRef} aria-hidden="true" className="h-1" />
 
-          {/* Next-page loading indicator */}
           {isFetchingNextPage && (
             <div className="flex justify-center py-8">
               <Spinner size="md" />
             </div>
           )}
 
-          {/* End-of-list message */}
           {!hasNextPage && pokemon.length > 0 && (
             <p className="mt-8 text-center font-mono text-xs text-stone-400">
-              All {total.toLocaleString()} Pokémon loaded
+              {t('allLoaded', { count: total.toLocaleString() })}
             </p>
           )}
         </>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { SlidersHorizontal } from 'lucide-react';
 import { SearchInput } from '@/presentation/components/molecules/SearchInput';
 import { MultiSelect } from '@/presentation/components/molecules/MultiSelect';
@@ -10,12 +11,8 @@ import { TYPE_CLASSES } from '@/presentation/lib/typeColors';
 import { cn } from '@/presentation/lib/utils';
 import type { PokemonType, Generation } from '@/domain/entities/Pokemon';
 
-const TYPE_OPTIONS = POKEMON_TYPES.map((t) => ({
-  value: t,
-  label: t.charAt(0).toUpperCase() + t.slice(1),
-}));
-
 export function FilterBar() {
+  const t = useTranslations('filter');
   const {
     search,
     types,
@@ -27,11 +24,16 @@ export function FilterBar() {
     setTypeMatchMode,
   } = usePokemonStore();
 
+  const TYPE_OPTIONS = POKEMON_TYPES.map((type) => ({
+    value: type,
+    label: type.charAt(0).toUpperCase() + type.slice(1),
+  }));
+
   const hasActiveFilters = types.length > 0 || generations.length > 0 || search.length === 1;
 
   const typeMatchToggle = (
     <div className="flex items-center gap-1.5">
-      <span className="text-xs text-stone-400">Match:</span>
+      <span className="text-xs text-stone-400">{t('matchLabel')}</span>
       <span className="flex items-center gap-0.5 rounded-md border border-stone-200 bg-stone-50 p-0.5">
         <button
           type="button"
@@ -43,7 +45,7 @@ export function FilterBar() {
               : 'text-stone-400 hover:text-stone-600',
           )}
         >
-          Any
+          {t('matchAny')}
         </button>
         <button
           type="button"
@@ -55,7 +57,7 @@ export function FilterBar() {
               : 'text-stone-400 hover:text-stone-600',
           )}
         >
-          All
+          {t('matchAll')}
         </button>
       </span>
     </div>
@@ -65,7 +67,13 @@ export function FilterBar() {
     <div className="sticky top-0 z-20 border-b border-stone-200 bg-white/80 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <SearchInput value={search} onChange={setSearch} className="flex-1" />
+          <SearchInput
+            value={search}
+            onChange={setSearch}
+            placeholder={t('searchPlaceholder')}
+            clearLabel={t('clearSearch')}
+            className="flex-1"
+          />
 
           <div className="flex shrink-0 items-center gap-2">
             <SlidersHorizontal className="size-4 shrink-0 text-stone-400" />
@@ -74,7 +82,7 @@ export function FilterBar() {
               values={types}
               onChange={(v) => setTypes(v as PokemonType[])}
               options={TYPE_OPTIONS}
-              placeholder="All types"
+              placeholder={t('allTypes')}
               className="w-36"
               headerSlot={typeMatchToggle}
             />
@@ -83,7 +91,7 @@ export function FilterBar() {
               values={generations}
               onChange={(v) => setGenerations(v as Generation[])}
               options={GENERATION_OPTIONS}
-              placeholder="All gens"
+              placeholder={t('allGens')}
               className="w-36"
             />
           </div>
@@ -94,20 +102,20 @@ export function FilterBar() {
             {types.length > 0 && (
               <>
                 <span className="text-xs text-stone-500">
-                  {types.length === 1 ? 'Type:' : 'Types:'}
+                  {types.length === 1 ? t('typeLabel') : t('typesLabel')}
                 </span>
                 {types.length <= 3 ? (
-                  types.map((t) => (
+                  types.map((type) => (
                     <span
-                      key={t}
-                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ${TYPE_CLASSES[t].badgeBg} ${TYPE_CLASSES[t].badgeText} ${TYPE_CLASSES[t].badgeBorder}`}
+                      key={type}
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ${TYPE_CLASSES[type].badgeBg} ${TYPE_CLASSES[type].badgeText} ${TYPE_CLASSES[type].badgeBorder}`}
                     >
-                      {t}
+                      {type}
                     </span>
                   ))
                 ) : (
                   <span className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600">
-                    {types.length} types
+                    {t('typesCount', { count: types.length })}
                   </span>
                 )}
               </>
@@ -116,7 +124,7 @@ export function FilterBar() {
             {generations.length > 0 && (
               <>
                 <span className="text-xs text-stone-500">
-                  {generations.length === 1 ? 'Gen:' : 'Gens:'}
+                  {generations.length === 1 ? t('genLabel') : t('gensLabel')}
                 </span>
                 {generations.length <= 3 ? (
                   generations.map((g) => {
@@ -132,14 +140,14 @@ export function FilterBar() {
                   })
                 ) : (
                   <span className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600">
-                    {generations.length} gens
+                    {t('gensCount', { count: generations.length })}
                   </span>
                 )}
               </>
             )}
 
             {search.length === 1 && (
-              <span className="text-xs text-amber-600">Type 1 more character to search</span>
+              <span className="text-xs text-amber-600">{t('typeMoreChar')}</span>
             )}
           </div>
         )}

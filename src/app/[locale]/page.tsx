@@ -1,8 +1,10 @@
 import { Suspense } from 'react';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { getTranslations } from 'next-intl/server';
 import { FilterBar } from '@/presentation/components/organisms/FilterBar';
 import { PokemonGrid } from '@/presentation/components/organisms/PokemonGrid';
 import { SkeletonCard } from '@/presentation/components/atoms/SkeletonCard';
+import { LanguageSwitcher } from '@/presentation/components/atoms/LanguageSwitcher';
 import { getRepository } from '@/application/container';
 import { getPokemonList, POKEMON_PAGE_SIZE } from '@/application/usecases/getPokemonList';
 import { pokemonListQueryKey } from '@/presentation/lib/queryKeys';
@@ -21,18 +23,14 @@ function PokemonGridSkeleton() {
 }
 
 export default async function HomePage() {
+  const t = await getTranslations('home');
   const queryClient = new QueryClient();
   const repository = getRepository();
 
-  // Prefetch only the first page — the client loads subsequent pages on scroll.
   const firstPage = await getPokemonList(repository, {
     pagination: { offset: 0, limit: POKEMON_PAGE_SIZE },
   });
 
-  // Seed the infinite query cache directly so the client sees page 0 immediately.
-  // updatedAt: 1 marks this as the oldest possible timestamp so TanStack Query
-  // never overwrites client-loaded pages when the Server Component re-runs on
-  // back navigation (client dataUpdatedAt will always be newer than 1).
   queryClient.setQueryData(
     pokemonListQueryKey({}),
     { pages: [firstPage], pageParams: [0] },
@@ -45,13 +43,14 @@ export default async function HomePage() {
         <div className="flex items-end justify-between">
           <div>
             <h1 className="font-display text-3xl font-black tracking-tight text-stone-900 sm:text-4xl">
-              Pokédex
+              {t('heading')}
             </h1>
-            <p className="mt-1 text-sm text-stone-500">
-              Explore, filter, and discover Pokémon across all generations
-            </p>
+            <p className="mt-1 text-sm text-stone-500">{t('subtitle')}</p>
           </div>
-          <div className="hidden select-none text-4xl opacity-15 sm:block">◉</div>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <div className="hidden select-none text-4xl opacity-15 sm:block">◉</div>
+          </div>
         </div>
       </header>
 

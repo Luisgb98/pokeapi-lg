@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "title": "Pokédex — Explore the world of Pokémon",
+    "titleTemplate": "%s — Pokédex",
+    "description": "Browse all 1,025 Pokémon with real-time search, type and generation filters, stats, and evolution chains.",
+    "siteTitle": "Pokédex"
+  },
+  "home": {
+    "heading": "Pokédex",
+    "subtitle": "Explore, filter, and discover Pokémon across all generations"
+  },
+  "filter": {
+    "searchPlaceholder": "Search Pokémon or evolutions…",
+    "clearSearch": "Clear search",
+    "allTypes": "All types",
+    "allGens": "All gens",
+    "matchLabel": "Match:",
+    "matchAny": "Any",
+    "matchAll": "All",
+    "typeLabel": "Type:",
+    "typesLabel": "Types:",
+    "genLabel": "Gen:",
+    "gensLabel": "Gens:",
+    "typesCount": "{count} types",
+    "gensCount": "{count} gens",
+    "typeMoreChar": "Type 1 more character to search"
+  },
+  "grid": {
+    "matchingSearch": "matching \"{query}\"",
+    "noResults": "No Pokémon found",
+    "noResultsHint": "Try adjusting your search or filters",
+    "allLoaded": "All {count} Pokémon loaded",
+    "errorTitle": "Something went wrong"
+  },
+  "detail": {
+    "backLink": "Pokédex",
+    "baseStats": "Base Stats",
+    "evolutionChain": "Evolution Chain",
+    "metaDescription": "View {name}'s base stats, type matchups, and evolution chain."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "The page you're looking for doesn't exist.",
+    "backLink": "Back to Pokédex"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "defaultMessage": "An unexpected error occurred. Please try again.",
+    "retry": "Try again"
+  }
+}
