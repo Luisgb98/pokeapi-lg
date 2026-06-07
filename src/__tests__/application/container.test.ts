@@ -24,6 +24,7 @@ describe('container', () => {
       findById: vi.fn(),
       findEvolutionChain: vi.fn(),
       searchByNameWithEvolutions: vi.fn(),
+      findSpeciesData: vi.fn(),
     };
     setRepository(mock);
     expect(getRepository()).toBe(mock);

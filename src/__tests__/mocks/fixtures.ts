@@ -71,6 +71,31 @@ export const pikachuSpecies: PokeApiSpecies = {
   name: 'pikachu',
   generation: { name: 'generation-i', url: '' },
   evolution_chain: { url: 'https://pokeapi.co/api/v2/evolution-chain/10/' },
+  flavor_text_entries: [
+    {
+      flavor_text:
+        'When several of these\npokémon gather,\ftheir electricity can cause lightning storms.',
+      language: { name: 'en', url: '' },
+      version: { name: 'red', url: '' },
+    },
+    {
+      flavor_text:
+        'Cuando varios de estos Pokémon se reúnen, su electricidad puede causar tormentas.',
+      language: { name: 'es', url: '' },
+      version: { name: 'x', url: '' },
+    },
+  ],
+  genera: [
+    { genus: 'Mouse Pokémon', language: { name: 'en', url: '' } },
+    { genus: 'Ratón Pokémon', language: { name: 'es', url: '' } },
+  ],
+  egg_groups: [
+    { name: 'field', url: '' },
+    { name: 'fairy', url: '' },
+  ],
+  gender_rate: 4,
+  capture_rate: 190,
+  base_happiness: 70,
 };
 
 export const pichuSpecies: PokeApiSpecies = {
@@ -78,6 +103,18 @@ export const pichuSpecies: PokeApiSpecies = {
   name: 'pichu',
   generation: { name: 'generation-ii', url: '' },
   evolution_chain: { url: 'https://pokeapi.co/api/v2/evolution-chain/10/' },
+  flavor_text_entries: [
+    {
+      flavor_text: 'Despite its small size, it can zap even adult humans.',
+      language: { name: 'en', url: '' },
+      version: { name: 'gold', url: '' },
+    },
+  ],
+  genera: [{ genus: 'Tiny Mouse Pokémon', language: { name: 'en', url: '' } }],
+  egg_groups: [{ name: 'undiscovered', url: '' }],
+  gender_rate: 4,
+  capture_rate: 190,
+  base_happiness: 70,
 };
 
 export const pikachuChain: PokeApiEvolutionChain = {

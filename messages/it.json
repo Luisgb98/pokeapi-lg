@@ -108,5 +108,16 @@
     "resistHalf": "½",
     "resistQuarter": "¼",
     "immune": "×0"
+  },
+  "species": {
+    "section": "Voce Pokédex",
+    "genus": "Categoria",
+    "eggGroups": "Gruppi Uovo",
+    "captureRate": "Tasso di Cattura",
+    "baseHappiness": "Felicità Base",
+    "genderRatio": "Sesso",
+    "genderless": "Asessuale",
+    "male": "Maschio",
+    "female": "Femmina"
   }
 }

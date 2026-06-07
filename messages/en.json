@@ -108,5 +108,16 @@
     "resistHalf": "½",
     "resistQuarter": "¼",
     "immune": "×0"
+  },
+  "species": {
+    "section": "Pokédex Entry",
+    "genus": "Category",
+    "eggGroups": "Egg Groups",
+    "captureRate": "Capture Rate",
+    "baseHappiness": "Base Happiness",
+    "genderRatio": "Gender",
+    "genderless": "Genderless",
+    "male": "Male",
+    "female": "Female"
   }
 }

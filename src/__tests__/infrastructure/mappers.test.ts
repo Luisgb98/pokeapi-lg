@@ -2,9 +2,10 @@ import { describe, expect, it } from 'vitest';
 import {
   mapEvolutionChain,
   mapPokemon,
+  mapPokemonSpecies,
   mapPokemonSummary,
 } from '../../infrastructure/pokeapi/mappers';
-import { bulbasaurRaw, pikachuChain, pikachuRaw } from '../mocks/fixtures';
+import { bulbasaurRaw, pikachuChain, pikachuRaw, pikachuSpecies } from '../mocks/fixtures';
 
 describe('mapPokemonSummary', () => {
   it('maps basic fields correctly', () => {
@@ -94,5 +95,40 @@ describe('mapEvolutionChain', () => {
   it('sets sprite URLs from ID', () => {
     const result = mapEvolutionChain(pikachuChain);
     expect(result.chain.sprite).toContain('172');
+  });
+});
+
+describe('mapPokemonSpecies', () => {
+  it('maps genus for the requested locale', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'es');
+    expect(result.genus).toBe('Ratón Pokémon');
+  });
+
+  it('falls back to English genus when locale has no entry', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'de');
+    expect(result.genus).toBe('Mouse Pokémon');
+  });
+
+  it('picks flavor text for the requested locale', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'es');
+    expect(result.flavorText).toContain('Pokémon se reúnen');
+  });
+
+  it('falls back to English flavor text when locale has no entry', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'de');
+    expect(result.flavorText).toContain('electricity can cause lightning storms');
+  });
+
+  it('cleans form-feed and newline characters from flavor text', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'en');
+    expect(result.flavorText).not.toMatch(/[\f\n]/);
+  });
+
+  it('maps egg groups, gender rate, capture rate, and base happiness', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'en');
+    expect(result.eggGroups).toEqual(['field', 'fairy']);
+    expect(result.genderRate).toBe(4);
+    expect(result.captureRate).toBe(190);
+    expect(result.baseHappiness).toBe(70);
   });
 });
