@@ -44,12 +44,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       openGraph: {
         title: `${pokemon.displayName} — ${tMeta('siteTitle')}`,
         description: t('metaDescription', { name: pokemon.displayName }),
-        images: [{ url: pokemon.artwork, width: 475, height: 475, alt: pokemon.displayName }],
+        images: [
+          { url: `/api/og/${numericId}`, width: 1200, height: 630, alt: pokemon.displayName },
+        ],
       },
       twitter: {
         card: 'summary_large_image',
         title: `${pokemon.displayName} — ${tMeta('siteTitle')}`,
-        images: [pokemon.artwork],
+        images: [`/api/og/${numericId}`],
       },
     };
   } catch {
