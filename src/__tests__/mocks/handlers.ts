@@ -3,6 +3,7 @@ import {
   allPokemonList,
   bulbasaurRaw,
   electricTypeDetail,
+  grassTypeDetail,
   pichuRaw,
   pichuSpecies,
   pikachuChain,
@@ -58,4 +59,5 @@ export const handlers = [
   ),
 
   http.get(`${BASE}/type/electric`, () => HttpResponse.json(electricTypeDetail)),
+  http.get(`${BASE}/type/grass`, () => HttpResponse.json(grassTypeDetail)),
 ];

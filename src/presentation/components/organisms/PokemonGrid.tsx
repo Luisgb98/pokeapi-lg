@@ -11,13 +11,15 @@ import { Spinner } from '@/presentation/components/atoms/Spinner';
 import type { PokemonType, Generation } from '@/domain/entities/Pokemon';
 
 export function PokemonGrid() {
-  const { search, type, generation, scrollY, restoreCount, setNavState } = usePokemonStore();
+  const { search, types, generations, typeMatchMode, scrollY, restoreCount, setNavState } =
+    usePokemonStore();
   const debouncedSearch = useDebounce(search, 320);
 
   const params = {
-    type: type as PokemonType | undefined,
-    generation: generation as Generation | undefined,
-    search: debouncedSearch || undefined,
+    types: types as PokemonType[],
+    generations: generations as Generation[],
+    typeMatchMode,
+    search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
   };
 
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, error } =

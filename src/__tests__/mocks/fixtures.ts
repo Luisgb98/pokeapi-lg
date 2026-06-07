@@ -108,6 +108,14 @@ export const electricTypeDetail: PokeApiTypeDetail = {
   ],
 };
 
+export const grassTypeDetail: PokeApiTypeDetail = {
+  id: 12,
+  name: 'grass',
+  pokemon: [
+    { slot: 1, pokemon: { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' } },
+  ],
+};
+
 export const allPokemonList = {
   count: 4,
   next: null,

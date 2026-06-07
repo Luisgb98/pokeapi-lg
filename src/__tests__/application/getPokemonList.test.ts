@@ -44,10 +44,10 @@ describe('getPokemonList', () => {
   it('calls findAll when no search term is provided', async () => {
     const repo = mockRepo();
     const result = await getPokemonList(repo, {
-      filters: { type: 'electric' },
+      filters: { types: ['electric'] },
     });
 
-    expect(repo.findAll).toHaveBeenCalledWith({ type: 'electric' }, undefined);
+    expect(repo.findAll).toHaveBeenCalledWith({ types: ['electric'] }, undefined);
     expect(repo.searchByNameWithEvolutions).not.toHaveBeenCalled();
     expect(result.items).toHaveLength(1);
     expect(result.total).toBe(1);
@@ -57,11 +57,11 @@ describe('getPokemonList', () => {
     const repo = mockRepo();
     const result = await getPokemonList(repo, {
       search: 'pikachu',
-      filters: { generation: 'generation-i' },
+      filters: { generations: ['generation-i'] },
     });
 
     expect(repo.searchByNameWithEvolutions).toHaveBeenCalledWith('pikachu', {
-      generation: 'generation-i',
+      generations: ['generation-i'],
     });
     expect(repo.findAll).not.toHaveBeenCalled();
     expect(result.items).toHaveLength(2);

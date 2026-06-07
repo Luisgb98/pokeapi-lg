@@ -96,25 +96,23 @@ export class PokeApiRepository implements PokemonRepository {
       return id <= 10000;
     });
 
-    // generation filter: cheap — derive from ID range
-    if (filters?.generation) {
+    // generation filter: cheap — derive from ID range (OR across selected gens)
+    if (filters?.generations?.length) {
       filtered = filtered.filter((p) => {
         const id = extractIdFromUrl(p.url);
-        return getGenerationFromId(id) === filters.generation;
+        return filters.generations!.some((g) => getGenerationFromId(id) === g);
       });
     }
 
-    // type filter: needs one extra API call (cached)
-    let typeIds: Set<number> | undefined;
-    if (filters?.type) {
-      typeIds = await this.fetchTypeIds(filters.type);
-    }
-
-    if (typeIds) {
-      filtered = filtered.filter((p) => {
-        const id = extractIdFromUrl(p.url);
-        return typeIds!.has(id);
-      });
+    // type filter: fetch all selected type ID sets in parallel
+    // 'any' (default) → union (OR); 'all' → intersection (AND)
+    if (filters?.types?.length) {
+      const typeSets = await Promise.all(filters.types.map((t) => this.fetchTypeIds(t)));
+      const matchIds =
+        filters.typeMatchMode === 'all'
+          ? typeSets.reduce((acc, s) => new Set([...acc].filter((id) => s.has(id))))
+          : new Set(typeSets.flatMap((s) => [...s]));
+      filtered = filtered.filter((p) => matchIds.has(extractIdFromUrl(p.url)));
     }
 
     const total = filtered.length;
@@ -197,19 +195,19 @@ export class PokeApiRepository implements PokemonRepository {
     // Apply generation/type filters on top
     let result = expanded;
 
-    if (filters?.generation) {
-      result = result.filter(
-        (p) => getGenerationFromId(extractIdFromUrl(p.url)) === filters.generation,
+    if (filters?.generations?.length) {
+      result = result.filter((p) =>
+        filters.generations!.some((g) => getGenerationFromId(extractIdFromUrl(p.url)) === g),
       );
     }
 
-    let typeIds: Set<number> | undefined;
-    if (filters?.type) {
-      typeIds = await this.fetchTypeIds(filters.type);
-    }
-
-    if (typeIds) {
-      result = result.filter((p) => typeIds!.has(extractIdFromUrl(p.url)));
+    if (filters?.types?.length) {
+      const typeSets = await Promise.all(filters.types.map((t) => this.fetchTypeIds(t)));
+      const matchIds =
+        filters.typeMatchMode === 'all'
+          ? typeSets.reduce((acc, s) => new Set([...acc].filter((id) => s.has(id))))
+          : new Set(typeSets.flatMap((s) => [...s]));
+      result = result.filter((p) => matchIds.has(extractIdFromUrl(p.url)));
     }
 
     // Fetch summaries in batches
