@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "title": "Pokédex — Entdecke die Welt der Pokémon",
+    "titleTemplate": "%s — Pokédex",
+    "description": "Durchsuche alle 1.025 Pokémon mit Echtzeit-Suche, Typ- und Generationsfiltern, Statuswerten und Entwicklungsketten.",
+    "siteTitle": "Pokédex"
+  },
+  "home": {
+    "heading": "Pokédex",
+    "subtitle": "Entdecke, filtere und erkunde Pokémon aller Generationen"
+  },
+  "filter": {
+    "searchPlaceholder": "Pokémon oder Entwicklungen suchen…",
+    "clearSearch": "Suche löschen",
+    "allTypes": "Alle Typen",
+    "allGens": "Alle Gen.",
+    "matchLabel": "Übereinstimmung:",
+    "matchAny": "Beliebig",
+    "matchAll": "Alle",
+    "typeLabel": "Typ:",
+    "typesLabel": "Typen:",
+    "genLabel": "Gen.:",
+    "gensLabel": "Gen.:",
+    "typesCount": "{count} Typen",
+    "gensCount": "{count} Gen.",
+    "typeMoreChar": "Noch 1 Zeichen eingeben, um zu suchen"
+  },
+  "grid": {
+    "matchingSearch": "passend zu \"{query}\"",
+    "noResults": "Keine Pokémon gefunden",
+    "noResultsHint": "Versuche, die Suche oder Filter anzupassen",
+    "allLoaded": "Alle {count} Pokémon geladen",
+    "errorTitle": "Etwas ist schiefgelaufen"
+  },
+  "detail": {
+    "backLink": "Pokédex",
+    "baseStats": "Basiswerte",
+    "evolutionChain": "Entwicklungskette",
+    "metaDescription": "Sieh dir die Basiswerte, Typkompatibilitäten und Entwicklungskette von {name} an."
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "message": "Die gesuchte Seite existiert nicht.",
+    "backLink": "Zurück zum Pokédex"
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "defaultMessage": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.",
+    "retry": "Erneut versuchen"
+  }
+}

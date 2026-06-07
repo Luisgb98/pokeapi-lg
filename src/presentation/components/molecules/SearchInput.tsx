@@ -8,6 +8,7 @@ interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  clearLabel?: string;
   className?: string;
 }
 
@@ -15,6 +16,7 @@ export function SearchInput({
   value,
   onChange,
   placeholder = 'Search Pokémon or evolutions…',
+  clearLabel = 'Clear search',
   className,
 }: SearchInputProps) {
   return (
@@ -31,7 +33,7 @@ export function SearchInput({
         <button
           onClick={() => onChange('')}
           className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-stone-400 transition-colors hover:text-stone-700"
-          aria-label="Clear search"
+          aria-label={clearLabel}
         >
           <X className="size-3.5" />
         </button>

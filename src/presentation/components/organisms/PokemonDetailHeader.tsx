@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
 import { GenerationBadge } from '@/presentation/components/atoms/GenerationBadge';

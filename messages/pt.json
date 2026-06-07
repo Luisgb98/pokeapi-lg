@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "title": "Pokédex — Explore o mundo dos Pokémon",
+    "titleTemplate": "%s — Pokédex",
+    "description": "Navegue por todos os 1.025 Pokémon com pesquisa em tempo real, filtros por tipo e geração, estatísticas e cadeias evolutivas.",
+    "siteTitle": "Pokédex"
+  },
+  "home": {
+    "heading": "Pokédex",
+    "subtitle": "Explore, filtre e descubra Pokémon de todas as gerações"
+  },
+  "filter": {
+    "searchPlaceholder": "Pesquisar Pokémon ou evoluções…",
+    "clearSearch": "Limpar pesquisa",
+    "allTypes": "Todos os tipos",
+    "allGens": "Todas as ger.",
+    "matchLabel": "Correspondência:",
+    "matchAny": "Qualquer",
+    "matchAll": "Todos",
+    "typeLabel": "Tipo:",
+    "typesLabel": "Tipos:",
+    "genLabel": "Ger.:",
+    "gensLabel": "Ger.:",
+    "typesCount": "{count} tipos",
+    "gensCount": "{count} ger.",
+    "typeMoreChar": "Digite mais 1 caractere para pesquisar"
+  },
+  "grid": {
+    "matchingSearch": "correspondentes a \"{query}\"",
+    "noResults": "Nenhum Pokémon encontrado",
+    "noResultsHint": "Tente ajustar sua pesquisa ou filtros",
+    "allLoaded": "Todos os {count} Pokémon carregados",
+    "errorTitle": "Algo deu errado"
+  },
+  "detail": {
+    "backLink": "Pokédex",
+    "baseStats": "Estatísticas Base",
+    "evolutionChain": "Cadeia Evolutiva",
+    "metaDescription": "Veja as estatísticas base, compatibilidades de tipo e cadeia evolutiva de {name}."
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "message": "A página que você está procurando não existe.",
+    "backLink": "Voltar ao Pokédex"
+  },
+  "error": {
+    "title": "Algo deu errado",
+    "defaultMessage": "Ocorreu um erro inesperado. Por favor, tente novamente.",
+    "retry": "Tentar novamente"
+  }
+}

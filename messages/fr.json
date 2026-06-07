@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "title": "Pokédex — Explorez le monde des Pokémon",
+    "titleTemplate": "%s — Pokédex",
+    "description": "Parcourez les 1 025 Pokémon avec recherche en temps réel, filtres par type et génération, statistiques et chaînes d'évolution.",
+    "siteTitle": "Pokédex"
+  },
+  "home": {
+    "heading": "Pokédex",
+    "subtitle": "Explorez, filtrez et découvrez les Pokémon de toutes les générations"
+  },
+  "filter": {
+    "searchPlaceholder": "Rechercher des Pokémon ou évolutions…",
+    "clearSearch": "Effacer la recherche",
+    "allTypes": "Tous les types",
+    "allGens": "Toutes les gén.",
+    "matchLabel": "Correspondance :",
+    "matchAny": "Au moins un",
+    "matchAll": "Tous",
+    "typeLabel": "Type :",
+    "typesLabel": "Types :",
+    "genLabel": "Gén. :",
+    "gensLabel": "Gén. :",
+    "typesCount": "{count} types",
+    "gensCount": "{count} gén.",
+    "typeMoreChar": "Tapez encore 1 caractère pour rechercher"
+  },
+  "grid": {
+    "matchingSearch": "correspondant à \"{query}\"",
+    "noResults": "Aucun Pokémon trouvé",
+    "noResultsHint": "Essayez d'ajuster votre recherche ou vos filtres",
+    "allLoaded": "Les {count} Pokémon sont tous chargés",
+    "errorTitle": "Une erreur s'est produite"
+  },
+  "detail": {
+    "backLink": "Pokédex",
+    "baseStats": "Statistiques de base",
+    "evolutionChain": "Chaîne d'évolution",
+    "metaDescription": "Consultez les statistiques de base, les compatibilités de type et la chaîne d'évolution de {name}."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "message": "La page que vous recherchez n'existe pas.",
+    "backLink": "Retour au Pokédex"
+  },
+  "error": {
+    "title": "Une erreur s'est produite",
+    "defaultMessage": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+    "retry": "Réessayer"
+  }
+}
