@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
@@ -14,6 +17,7 @@ interface PokemonCardProps {
 }
 
 export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: PokemonCardProps) {
+  const tTypes = useTranslations('types');
   const tc = getPrimaryTypeClasses(pokemon.types);
   const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
 
@@ -23,7 +27,7 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
       onClick={onClick}
       className={cn(
         cardVariants({ variant: 'pokemon' }),
-        'group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900',
+        'group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900',
         animate && 'animate-fade-in-up',
       )}
       style={
@@ -36,7 +40,7 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
         className={`absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${tc.tintBg}`}
       />
 
-      <div className="relative flex flex-col items-center px-4 pb-4 pt-5">
+      <div className="relative flex flex-1 flex-col items-center px-4 pb-4 pt-5">
         <span className="absolute left-3 top-3 font-mono text-xs font-medium tracking-wider text-stone-400">
           {formattedId}
         </span>
@@ -69,9 +73,9 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
           {pokemon.displayName}
         </h3>
 
-        <div className="flex flex-wrap justify-center gap-1">
+        <div className="mt-auto flex flex-wrap justify-center gap-1 pt-2 min-h-[2.75rem] content-start">
           {pokemon.types.map((t) => (
-            <TypeBadge key={t} type={t} size="sm" />
+            <TypeBadge key={t} type={t} size="sm" label={tTypes(t)} />
           ))}
         </div>
       </div>

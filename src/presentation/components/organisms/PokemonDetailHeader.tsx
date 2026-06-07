@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft } from 'lucide-react';
@@ -8,22 +11,28 @@ import type { Pokemon } from '@/domain/entities/Pokemon';
 
 interface PokemonDetailHeaderProps {
   pokemon: Pokemon;
+  backTo?: string;
 }
 
-export function PokemonDetailHeader({ pokemon }: PokemonDetailHeaderProps) {
+export function PokemonDetailHeader({ pokemon, backTo }: PokemonDetailHeaderProps) {
+  const tNav = useTranslations('nav');
+  const tTypes = useTranslations('types');
   const tc = getPrimaryTypeClasses(pokemon.types);
   const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
+
+  const backHref = backTo === 'team' ? '/team' : '/';
+  const backLabel = backTo === 'team' ? tNav('teamBuilder') : tNav('pokedex');
 
   return (
     <div className="relative overflow-hidden">
       <div className={`relative pb-8 pt-6 ${tc.gradientBg}`}>
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <Link
-            href="/"
+            href={backHref}
             className="inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-sm font-medium text-stone-600 transition-colors hover:bg-white/60 hover:text-stone-900"
           >
             <ArrowLeft className="size-4" />
-            <span>Pokédex</span>
+            <span>{backLabel}</span>
           </Link>
         </div>
 
@@ -48,7 +57,7 @@ export function PokemonDetailHeader({ pokemon }: PokemonDetailHeaderProps) {
             </h1>
             <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
               {pokemon.types.map((t) => (
-                <TypeBadge key={t} type={t} />
+                <TypeBadge key={t} type={t} label={tTypes(t)} />
               ))}
               <GenerationBadge generation={pokemon.generation} />
             </div>

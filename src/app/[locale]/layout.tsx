@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { QueryProvider } from '@/presentation/components/providers/QueryProvider';
+import { TopNav } from '@/presentation/components/organisms/TopNav';
 import { routing } from '@/i18n/routing';
 import type { Locale } from '@/i18n/routing';
 import '../globals.css';
@@ -79,7 +80,10 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-dvh antialiased">
         <NextIntlClientProvider messages={messages}>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <TopNav />
+            {children}
+          </QueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>

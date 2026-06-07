@@ -4,12 +4,8 @@ export default function Loading() {
   return (
     <div className="min-h-dvh">
       <header className="mx-auto max-w-7xl px-4 pb-4 pt-8 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between">
-          <div>
-            <div className="h-10 w-32 animate-pulse rounded-lg bg-stone-200" />
-            <div className="mt-1 h-4 w-64 animate-pulse rounded-full bg-stone-100" />
-          </div>
-        </div>
+        <div className="h-10 w-32 animate-pulse rounded-lg bg-stone-200" />
+        <div className="mt-1 h-4 w-64 animate-pulse rounded-full bg-stone-100" />
       </header>
 
       <div className="sticky top-0 z-20 border-b border-stone-200 bg-white/80 backdrop-blur-md">

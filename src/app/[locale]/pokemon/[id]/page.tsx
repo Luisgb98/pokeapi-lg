@@ -4,8 +4,10 @@ import { getTranslations } from 'next-intl/server';
 import { StatList } from '@/presentation/components/molecules/StatList';
 import { PokemonDetailHeader } from '@/presentation/components/organisms/PokemonDetailHeader';
 import { EvolutionChainView } from '@/presentation/components/organisms/EvolutionChainView';
+import { TypeMatchupTable } from '@/presentation/components/organisms/TypeMatchupTable';
 import { getRepository } from '@/application/container';
 import { getPokemonById, PokemonNotFoundError } from '@/application/usecases/getPokemonById';
+import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import { routing } from '@/i18n/routing';
 
 export async function generateStaticParams() {
@@ -19,6 +21,7 @@ export const revalidate = 3600;
 
 interface Props {
   params: Promise<{ locale: string; id: string }>;
+  searchParams: Promise<{ from?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -51,8 +54,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function PokemonDetailPage({ params }: Props) {
+export default async function PokemonDetailPage({ params, searchParams }: Props) {
   const { id } = await params;
+  const { from } = await searchParams;
   const numericId = parseInt(id, 10);
 
   if (isNaN(numericId) || numericId < 1) {
@@ -60,6 +64,8 @@ export default async function PokemonDetailPage({ params }: Props) {
   }
 
   const t = await getTranslations('detail');
+  const tTypes = await getTranslations('types');
+  const tTypeChart = await getTranslations('typeChart');
 
   let pokemon, evolutionChain;
   try {
@@ -72,9 +78,13 @@ export default async function PokemonDetailPage({ params }: Props) {
     throw error;
   }
 
+  const typeLabels = Object.fromEntries(
+    POKEMON_TYPES.map((type) => [type, tTypes(type)]),
+  ) as Record<(typeof POKEMON_TYPES)[number], string>;
+
   return (
     <div className="min-h-dvh bg-stone-50">
-      <PokemonDetailHeader pokemon={pokemon} />
+      <PokemonDetailHeader pokemon={pokemon} backTo={from} />
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
@@ -88,6 +98,23 @@ export default async function PokemonDetailPage({ params }: Props) {
           <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
             <EvolutionChainView chain={evolutionChain} currentId={numericId} />
           </section>
+
+          <div className="lg:col-span-2">
+            <TypeMatchupTable
+              types={pokemon.types}
+              typeLabels={typeLabels}
+              labels={{
+                title: tTypeChart('title'),
+                weaknesses: tTypeChart('weaknesses'),
+                resistances: tTypeChart('resistances'),
+                weakX4: tTypeChart('weakX4'),
+                weakX2: tTypeChart('weakX2'),
+                resistHalf: tTypeChart('resistHalf'),
+                resistQuarter: tTypeChart('resistQuarter'),
+                immune: tTypeChart('immune'),
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
