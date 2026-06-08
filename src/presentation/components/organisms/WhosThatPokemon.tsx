@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useReducer, useEffect, useTransition } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import type { CSSProperties } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/presentation/lib/utils';
@@ -9,67 +9,7 @@ import type { GameChallenge } from '@/application/usecases/getGameChallenge';
 import type { PokemonSummary } from '@/domain/entities/Pokemon';
 import { getOfficialArtworkUrl } from '@/domain/entities/Pokemon';
 import { fetchNextChallenge } from '@/application/actions/game';
-
-const TIMER_SECONDS = 30;
-const MAX_ROUNDS = 10;
-
-type GamePhase = 'playing' | 'revealed';
-
-interface GameState {
-  phase: GamePhase;
-  selectedId: number | null;
-  timeLeft: number;
-  score: { correct: number; total: number };
-  challenge: GameChallenge;
-  roundOffset: number;
-}
-
-type GameAction =
-  | { type: 'GUESS'; pokemonId: number }
-  | { type: 'TICK' }
-  | { type: 'START_NEXT'; challenge: GameChallenge };
-
-function reducer(state: GameState, action: GameAction): GameState {
-  switch (action.type) {
-    case 'GUESS': {
-      if (state.phase !== 'playing') return state;
-      const isCorrect = action.pokemonId === state.challenge.correct.id;
-      return {
-        ...state,
-        phase: 'revealed',
-        selectedId: action.pokemonId,
-        score: {
-          correct: state.score.correct + (isCorrect ? 1 : 0),
-          total: state.score.total + 1,
-        },
-      };
-    }
-    case 'TICK': {
-      if (state.phase !== 'playing') return state;
-      if (state.timeLeft <= 1) {
-        return {
-          ...state,
-          phase: 'revealed',
-          selectedId: null,
-          score: { ...state.score, total: state.score.total + 1 },
-        };
-      }
-      return { ...state, timeLeft: state.timeLeft - 1 };
-    }
-    case 'START_NEXT': {
-      return {
-        ...state,
-        phase: 'playing',
-        selectedId: null,
-        timeLeft: TIMER_SECONDS,
-        challenge: action.challenge,
-        roundOffset: state.roundOffset + 1,
-      };
-    }
-    default:
-      return state;
-  }
-}
+import { useGameStore, TIMER_SECONDS, MAX_ROUNDS } from '@/presentation/store/gameStore';
 
 interface Props {
   initialChallenge: GameChallenge;
@@ -79,45 +19,89 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
   const t = useTranslations('game');
   const [isPending, startTransition] = useTransition();
 
-  const [state, dispatch] = useReducer(reducer, {
-    phase: 'playing',
-    selectedId: null,
-    timeLeft: TIMER_SECONDS,
-    score: { correct: 0, total: 0 },
-    challenge: initialChallenge,
-    roundOffset: 0,
-  });
+  // isReady gates rendering until localStorage is rehydrated, preventing
+  // hydration mismatches (server renders skeleton, client fills in real state)
+  const [isReady, setIsReady] = useState(false);
 
-  const { phase, selectedId, timeLeft, score, challenge } = state;
+  // Timer is local — elapsed time can't be recovered across page reloads
+  const [timeLeft, setTimeLeft] = useState(TIMER_SECONDS);
+
+  const {
+    phase,
+    selectedId,
+    score,
+    challenge,
+    roundOffset,
+    initOrRestore,
+    guess,
+    timeOut,
+    startNext,
+  } = useGameStore();
+
+  useEffect(() => {
+    void useGameStore.persist.rehydrate();
+    initOrRestore(initialChallenge);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsReady(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Countdown tick — each render schedules the next decrement
+  useEffect(() => {
+    if (!isReady || phase !== 'playing' || timeLeft <= 0) return;
+    const id = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
+    return () => clearTimeout(id);
+  }, [isReady, phase, timeLeft]);
+
+  // Trigger timeout when timer hits zero
+  useEffect(() => {
+    if (isReady && timeLeft === 0 && phase === 'playing') timeOut();
+  }, [isReady, timeLeft, phase, timeOut]);
+
+  if (!isReady || !challenge) {
+    return (
+      <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-stone-100 px-5 py-3">
+          <div className="h-4 w-24 animate-pulse rounded-full bg-stone-100" />
+          <div className="h-4 w-16 animate-pulse rounded-full bg-stone-100" />
+        </div>
+        <div className="h-1.5 animate-pulse bg-stone-100" />
+        <div className="p-5">
+          <div className="mb-3 h-6" />
+          <div className="mx-auto flex h-56 w-56 items-center justify-center">
+            <div className="h-48 w-48 animate-pulse rounded-full bg-stone-100" />
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-2.5">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-12 animate-pulse rounded-xl bg-stone-100" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const isRevealed = phase === 'revealed';
   const timedOut = isRevealed && selectedId === null;
   const isCorrectGuess = isRevealed && selectedId === challenge.correct.id;
   const isGameOver = isRevealed && score.total >= MAX_ROUNDS;
-
-  // Round number: 1-based, counting completed rounds
   const currentRound = phase === 'playing' ? score.total + 1 : score.total;
 
-  useEffect(() => {
-    if (phase !== 'playing') return;
-    const id = setInterval(() => dispatch({ type: 'TICK' }), 1000);
-    return () => clearInterval(id);
-  }, [phase]);
+  const timerPct = isRevealed ? 0 : (timeLeft / TIMER_SECONDS) * 100;
+  const timerColor = timeLeft > 10 ? 'bg-green-400' : timeLeft > 5 ? 'bg-yellow-400' : 'bg-red-400';
 
   const handleGuess = (pokemonId: number) => {
     if (isRevealed) return;
-    dispatch({ type: 'GUESS', pokemonId });
+    guess(pokemonId);
   };
 
   const handleNextRound = () => {
+    setTimeLeft(TIMER_SECONDS);
     startTransition(async () => {
-      const next = await fetchNextChallenge(state.roundOffset + 1);
-      dispatch({ type: 'START_NEXT', challenge: next });
+      const next = await fetchNextChallenge(roundOffset + 1);
+      startNext(next);
     });
   };
-
-  // Timer bar width: only animate during play, snap to 0 when revealed
-  const timerPct = isRevealed ? 0 : (timeLeft / TIMER_SECONDS) * 100;
-  const timerColor = timeLeft > 10 ? 'bg-green-400' : timeLeft > 5 ? 'bg-yellow-400' : 'bg-red-400';
 
   return (
     <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
@@ -131,7 +115,7 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
         </span>
       </div>
 
-      {/* Timer bar — only animate width during playing; snap to 0 on reveal */}
+      {/* Timer bar — only transitions during play, snaps to 0 on reveal */}
       <div className="h-1.5 bg-stone-100">
         {!isGameOver && (
           <div
@@ -160,8 +144,7 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
           )}
         </div>
 
-        {/* Pokémon image — transition only applied when revealing; no transition when
-            resetting to silhouette, so there's no color flash on round change */}
+        {/* Pokémon image — transition only when revealing; snaps to black on new round */}
         <div className="flex items-center justify-center py-2">
           <Image
             src={getOfficialArtworkUrl(challenge.correct.id)}
@@ -176,7 +159,6 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
           />
         </div>
 
-        {/* Revealed name */}
         {isRevealed && (
           <p className="mb-3 text-center font-display text-xl font-black tracking-tight text-stone-900">
             {challenge.correct.displayName}
@@ -236,7 +218,6 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
         {isRevealed && (
           <div className="mt-5">
             {isGameOver ? (
-              /* End-of-game stats */
               <div className="rounded-xl bg-stone-50 px-5 py-5 text-center">
                 <p className="font-display text-lg font-bold text-stone-900">{t('gameOver')}</p>
                 <p className="mt-1 font-display text-5xl font-black text-stone-900">
@@ -246,7 +227,6 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
                 <p className="mt-2 text-sm text-stone-500">{t('gameOverSubtitle')}</p>
               </div>
             ) : (
-              /* Next round */
               <div className="flex items-center justify-between">
                 <p
                   className={cn(
