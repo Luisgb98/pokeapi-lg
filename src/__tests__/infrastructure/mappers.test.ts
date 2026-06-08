@@ -68,11 +68,34 @@ describe('mapPokemon', () => {
       ...pikachuRaw,
       sprites: {
         ...pikachuRaw.sprites,
-        other: { 'official-artwork': { front_default: null } },
+        other: { 'official-artwork': { front_default: null, front_shiny: null } },
       },
     };
     const result = mapPokemon(noArtwork, 10);
     expect(result.artwork).toContain('official-artwork');
+  });
+
+  it('maps shinyArtwork from sprites when available', () => {
+    const result = mapPokemon(pikachuRaw, 10);
+    expect(result.shinyArtwork).toBe('https://artwork.pokemon.com/shiny/pikachu.png');
+  });
+
+  it('falls back to computed shiny artwork URL when sprites shiny field is null', () => {
+    const noShiny = {
+      ...pikachuRaw,
+      sprites: {
+        ...pikachuRaw.sprites,
+        other: {
+          'official-artwork': {
+            front_default: pikachuRaw.sprites.other['official-artwork'].front_default,
+            front_shiny: null,
+          },
+        },
+      },
+    };
+    const result = mapPokemon(noShiny, 10);
+    expect(result.shinyArtwork).toContain('shiny');
+    expect(result.shinyArtwork).toContain('25');
   });
 });
 
@@ -137,6 +160,17 @@ describe('mapPokemonSpecies', () => {
     expect(result.genderRate).toBe(4);
     expect(result.captureRate).toBe(190);
     expect(result.baseHappiness).toBe(70);
+  });
+
+  it('maps varieties with id, name, displayName, and isDefault', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'en');
+    expect(result.varieties).toHaveLength(1);
+    expect(result.varieties[0]).toMatchObject({
+      id: 25,
+      name: 'pikachu',
+      displayName: 'Default',
+      isDefault: true,
+    });
   });
 });
 

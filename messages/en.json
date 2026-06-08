@@ -144,6 +144,13 @@
     "male": "Male",
     "female": "Female"
   },
+  "forms": {
+    "shiny": "Shiny",
+    "normalLabel": "Normal",
+    "selectForm": "Select form",
+    "toggleShiny": "Toggle shiny mode",
+    "loadingForm": "Loading form…"
+  },
   "moves": {
     "section": "Moves",
     "all": "All",

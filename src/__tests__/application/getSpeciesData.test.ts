@@ -10,6 +10,7 @@ const mockSpecies: PokemonSpecies = {
   genderRate: 4,
   captureRate: 190,
   baseHappiness: 70,
+  varieties: [],
 };
 
 function makeRepo(): PokemonRepository {

@@ -144,6 +144,13 @@
     "male": "Maschio",
     "female": "Femmina"
   },
+  "forms": {
+    "shiny": "Cromatico",
+    "normalLabel": "Normale",
+    "selectForm": "Seleziona forma",
+    "toggleShiny": "Attiva modalità cromatica",
+    "loadingForm": "Caricamento forma…"
+  },
   "moves": {
     "section": "Mosse",
     "all": "Tutte",

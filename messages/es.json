@@ -144,6 +144,13 @@
     "male": "Macho",
     "female": "Hembra"
   },
+  "forms": {
+    "shiny": "Variocolor",
+    "normalLabel": "Normal",
+    "selectForm": "Seleccionar forma",
+    "toggleShiny": "Activar modo variocolor",
+    "loadingForm": "Cargando forma…"
+  },
   "moves": {
     "section": "Movimientos",
     "all": "Todos",

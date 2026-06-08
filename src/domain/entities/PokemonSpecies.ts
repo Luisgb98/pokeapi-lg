@@ -1,3 +1,10 @@
+export interface PokemonVariety {
+  readonly id: number;
+  readonly name: string;
+  readonly displayName: string;
+  readonly isDefault: boolean;
+}
+
 export interface PokemonSpecies {
   readonly genus: string;
   readonly flavorText: string;
@@ -6,6 +13,7 @@ export interface PokemonSpecies {
   readonly genderRate: number;
   readonly captureRate: number;
   readonly baseHappiness: number;
+  readonly varieties: readonly PokemonVariety[];
 }
 
 /** Returns female percentage (0–100), or null for genderless. */
@@ -32,6 +40,18 @@ const EGG_GROUP_DISPLAY: Record<string, string> = {
   dragon: 'Dragon',
   undiscovered: 'Undiscovered',
 };
+
+/** Derives a human-readable label for an alternate form, stripping the base Pokémon name. */
+export function formatVarietyDisplayName(baseName: string, varietyName: string): string {
+  if (varietyName === baseName) return 'Default';
+  const suffix = varietyName.startsWith(`${baseName}-`)
+    ? varietyName.slice(baseName.length + 1)
+    : varietyName;
+  return suffix
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
 
 export function formatEggGroupName(name: string): string {
   return (

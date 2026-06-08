@@ -7,6 +7,8 @@
   --color-foreground: #0c0a09;
   --color-card: #ffffff;
   --color-card-foreground: #0c0a09;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0c0a09;
 
   /* shadcn semantic tokens */
   --color-primary: #0c0a09;
@@ -104,6 +106,21 @@ body {
   }
 }
 
+@keyframes sparkle-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.4) rotate(-10deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1) rotate(10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-36px) scale(0.5) rotate(5deg);
+  }
+}
+
 /* ─── Utility animations ────────────────────────────────────────────────────── */
 .animate-fade-in-up {
   animation: fade-in-up 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -120,6 +137,24 @@ body {
 
 .animate-stat-fill {
   animation: stat-fill 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-sparkle-rise {
+  animation: sparkle-rise 1.8s ease-in-out infinite;
+  animation-delay: var(--sparkle-delay, 0ms);
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
