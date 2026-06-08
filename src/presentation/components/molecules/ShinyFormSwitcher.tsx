@@ -43,7 +43,7 @@ export function ShinyFormSwitcher({
           >
             <SelectValue placeholder={labels.selectForm} />
           </SelectTrigger>
-          <SelectContent className="rounded-xl border-stone-200">
+          <SelectContent position="popper" align="start" className="rounded-xl border-stone-200">
             {varieties.map((v) => (
               <SelectItem key={v.id} value={String(v.id)}>
                 {v.displayName}
