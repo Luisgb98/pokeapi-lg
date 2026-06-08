@@ -7,6 +7,8 @@
   --color-foreground: #0c0a09;
   --color-card: #ffffff;
   --color-card-foreground: #0c0a09;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0c0a09;
 
   /* shadcn semantic tokens */
   --color-primary: #0c0a09;
