@@ -71,7 +71,8 @@
   "nav": {
     "pokedex": "Pokédex",
     "teamBuilder": "Equipe",
-    "compare": "Comparar"
+    "compare": "Comparar",
+    "game": "Quem é?"
   },
   "teamBuilder": {
     "heading": "Construtor de equipe",
@@ -172,5 +173,21 @@
     "noMoves": "Nenhum golpe encontrado",
     "searchPlaceholder": "Buscar golpes…",
     "noMovesSearch": "Nenhum golpe corresponde a \"{query}\""
+  },
+  "game": {
+    "heading": "Quem é esse Pokémon?",
+    "subtitle": "Desafio diário — consegue adivinhar a silhueta?",
+    "daily": "Desafio diário",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "Correto!",
+    "wrong": "Errado! Era {name}",
+    "timeout": "Tempo esgotado! Era {name}",
+    "nextRound": "Próxima rodada",
+    "loading": "Carregando…",
+    "roundOf": "Rodada {current}/{total}",
+    "gameOver": "Desafio concluído!",
+    "gameOverSubtitle": "Volte amanhã para um novo desafio"
   }
 }

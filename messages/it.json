@@ -71,7 +71,8 @@
   "nav": {
     "pokedex": "Pokédex",
     "teamBuilder": "Squadra",
-    "compare": "Confronta"
+    "compare": "Confronta",
+    "game": "Chi è?"
   },
   "teamBuilder": {
     "heading": "Costruttore di squadra",
@@ -172,5 +173,21 @@
     "noMoves": "Nessuna mossa trovata",
     "searchPlaceholder": "Cerca mosse…",
     "noMovesSearch": "Nessuna mossa corrisponde a \"{query}\""
+  },
+  "game": {
+    "heading": "Chi è questo Pokémon?",
+    "subtitle": "Sfida quotidiana — riesci a indovinare la sagoma?",
+    "daily": "Sfida quotidiana",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "Corretto!",
+    "wrong": "Sbagliato! Era {name}",
+    "timeout": "Tempo scaduto! Era {name}",
+    "nextRound": "Prossimo turno",
+    "loading": "Caricamento…",
+    "roundOf": "Round {current}/{total}",
+    "gameOver": "Sfida completata!",
+    "gameOverSubtitle": "Torna domani per una nuova sfida"
   }
 }
