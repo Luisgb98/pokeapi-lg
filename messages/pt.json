@@ -143,5 +143,25 @@
     "genderless": "Sem gênero",
     "male": "Macho",
     "female": "Fêmea"
+  },
+  "moves": {
+    "section": "Golpes",
+    "all": "Todos",
+    "levelUp": "Subida de nível",
+    "machine": "MT / MO",
+    "egg": "Ovo",
+    "tutor": "Tutor",
+    "move": "Golpe",
+    "type": "Tipo",
+    "category": "Cat.",
+    "power": "Força",
+    "accuracy": "Prec.",
+    "pp": "PP",
+    "level": "Nv.",
+    "method": "Método",
+    "physical": "Físico",
+    "special": "Especial",
+    "status": "Estado",
+    "noMoves": "Nenhum golpe encontrado"
   }
 }

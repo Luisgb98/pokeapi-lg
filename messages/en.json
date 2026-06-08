@@ -143,5 +143,25 @@
     "genderless": "Genderless",
     "male": "Male",
     "female": "Female"
+  },
+  "moves": {
+    "section": "Moves",
+    "all": "All",
+    "levelUp": "Level Up",
+    "machine": "TM / HM",
+    "egg": "Egg",
+    "tutor": "Tutor",
+    "move": "Move",
+    "type": "Type",
+    "category": "Cat.",
+    "power": "Power",
+    "accuracy": "Acc.",
+    "pp": "PP",
+    "level": "Lv.",
+    "method": "Method",
+    "physical": "Physical",
+    "special": "Special",
+    "status": "Status",
+    "noMoves": "No moves found"
   }
 }

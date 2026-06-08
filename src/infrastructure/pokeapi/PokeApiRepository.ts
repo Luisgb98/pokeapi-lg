@@ -1,5 +1,7 @@
 import type { EvolutionChain } from '../../domain/entities/EvolutionChain';
 import { flattenChainNames } from '../../domain/entities/EvolutionChain';
+import type { LearnedMove, LearnMethod } from '../../domain/entities/Move';
+import { LEARN_METHODS } from '../../domain/entities/Move';
 import type {
   Generation,
   Pokemon,
@@ -20,9 +22,16 @@ import type {
   PokemonRepository,
 } from '../../domain/ports/PokemonRepository';
 import { getOrFetch, TtlCache } from './cache';
-import { mapEvolutionChain, mapPokemon, mapPokemonSpecies, mapPokemonSummary } from './mappers';
+import {
+  mapEvolutionChain,
+  mapMove,
+  mapPokemon,
+  mapPokemonSpecies,
+  mapPokemonSummary,
+} from './mappers';
 import type {
   PokeApiEvolutionChain,
+  PokeApiMove,
   PokeApiNamedResource,
   PokeApiPaginatedResponse,
   PokeApiPokemon,
@@ -36,6 +45,30 @@ const BASE_URL = 'https://pokeapi.co/api/v2';
 const LIST_TTL = 60 * 60 * 1000;
 /** How long to cache individual pokemon — 30 minutes */
 const DETAIL_TTL = 30 * 60 * 1000;
+
+/** Version groups ordered from newest to oldest — used to pick the most current learnset. */
+const VERSION_GROUP_PRIORITY: readonly string[] = [
+  'scarlet-violet',
+  'sword-shield',
+  'brilliant-diamond-and-shining-pearl',
+  'legends-arceus',
+  'ultra-sun-ultra-moon',
+  'sun-moon',
+  'omega-ruby-alpha-sapphire',
+  'x-y',
+  'black-2-white-2',
+  'black-white',
+  'heartgold-soulsilver',
+  'platinum',
+  'diamond-pearl',
+  'firered-leafgreen',
+  'emerald',
+  'ruby-sapphire',
+  'crystal',
+  'gold-silver',
+  'red-blue',
+  'yellow',
+];
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url, { next: { revalidate: 3600 } });
@@ -56,6 +89,8 @@ export class PokeApiRepository implements PokemonRepository {
   private readonly speciesCache = new TtlCache<number, PokeApiSpecies>(DETAIL_TTL);
   /** evolution chain id → mapped EvolutionChain */
   private readonly chainCache = new TtlCache<number, EvolutionChain>(DETAIL_TTL);
+  /** move id → PokeApiMove */
+  private readonly moveCache = new TtlCache<number, PokeApiMove>(DETAIL_TTL);
 
   private async fetchAllPokemon(): Promise<PokeApiNamedResource[]> {
     return getOrFetch(this.allPokemonCache, 'all', async () => {
@@ -161,6 +196,59 @@ export class PokeApiRepository implements PokemonRepository {
     return getOrFetch(this.chainCache, chainId, async () => {
       const raw = await fetchJson<PokeApiEvolutionChain>(`${BASE_URL}/evolution-chain/${chainId}`);
       return mapEvolutionChain(raw);
+    });
+  }
+
+  async findMoveLearnset(id: number): Promise<readonly LearnedMove[]> {
+    const rawPokemon = await this.fetchPokemon(id);
+    const rawMoves = rawPokemon.moves ?? [];
+
+    // Find the most recent version group that has data for this Pokémon
+    const allVersionGroups = new Set(
+      rawMoves.flatMap((m) => m.version_group_details.map((d) => d.version_group.name)),
+    );
+    const currentVersion =
+      VERSION_GROUP_PRIORITY.find((vg) => allVersionGroups.has(vg)) ??
+      (allVersionGroups.values().next().value as string | undefined);
+
+    if (!currentVersion) return [];
+
+    // Build (moveId, learnMethod, levelLearnedAt) tuples for the current version
+    const supported = new Set<string>(LEARN_METHODS);
+    const seen = new Set<string>();
+    const entries: Array<{ moveId: number; learnMethod: LearnMethod; levelLearnedAt: number }> = [];
+
+    for (const moveEntry of rawMoves) {
+      const details = moveEntry.version_group_details.filter(
+        (d) => d.version_group.name === currentVersion && supported.has(d.move_learn_method.name),
+      );
+      for (const detail of details) {
+        const moveId = extractIdFromUrl(moveEntry.move.url);
+        const learnMethod = detail.move_learn_method.name as LearnMethod;
+        const key = `${moveId}-${learnMethod}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        entries.push({ moveId, learnMethod, levelLearnedAt: detail.level_learned_at });
+      }
+    }
+
+    if (entries.length === 0) return [];
+
+    // Batch-fetch all unique move details (each hit is individually cached)
+    const uniqueMoveIds = [...new Set(entries.map((e) => e.moveId))];
+    const moveDetails = await Promise.all(
+      uniqueMoveIds.map((moveId) =>
+        getOrFetch(this.moveCache, moveId, () =>
+          fetchJson<PokeApiMove>(`${BASE_URL}/move/${moveId}`),
+        ),
+      ),
+    );
+    const moveById = new Map(moveDetails.map((m) => [m.id, mapMove(m)]));
+
+    return entries.flatMap((entry) => {
+      const move = moveById.get(entry.moveId);
+      if (!move) return [];
+      return [{ move, learnMethod: entry.learnMethod, levelLearnedAt: entry.levelLearnedAt }];
     });
   }
 

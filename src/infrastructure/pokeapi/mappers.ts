@@ -10,10 +10,12 @@ import {
   type PokemonType,
 } from '../../domain/entities/Pokemon';
 import type { EvolutionChain, EvolutionNode } from '../../domain/entities/EvolutionChain';
+import type { DamageClass, Move } from '../../domain/entities/Move';
 import type { PokemonSpecies } from '../../domain/entities/PokemonSpecies';
 import type {
   PokeApiEvolutionChain,
   PokeApiEvolutionChainLink,
+  PokeApiMove,
   PokeApiPokemon,
   PokeApiSpecies,
   PokeApiStatEntry,
@@ -76,6 +78,20 @@ export function mapEvolutionChain(raw: PokeApiEvolutionChain): EvolutionChain {
   return {
     id: raw.id,
     chain: mapEvolutionNode(raw.chain),
+  };
+}
+
+export function mapMove(raw: PokeApiMove): Move {
+  const enName = raw.names.find((n) => n.language.name === 'en')?.name;
+  return {
+    id: raw.id,
+    name: raw.name,
+    displayName: enName ?? formatPokemonName(raw.name),
+    type: raw.type.name as PokemonType,
+    damageClass: raw.damage_class.name as DamageClass,
+    power: raw.power,
+    accuracy: raw.accuracy,
+    pp: raw.pp,
   };
 }
 

@@ -19,6 +19,7 @@ function makeRepo(): PokemonRepository {
     findEvolutionChain: vi.fn(),
     searchByNameWithEvolutions: vi.fn(),
     findSpeciesData: vi.fn().mockResolvedValue(mockSpecies),
+    findMoveLearnset: vi.fn().mockResolvedValue([]),
   };
 }
 

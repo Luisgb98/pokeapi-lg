@@ -143,5 +143,25 @@
     "genderless": "Asessuale",
     "male": "Maschio",
     "female": "Femmina"
+  },
+  "moves": {
+    "section": "Mosse",
+    "all": "Tutte",
+    "levelUp": "Salita di livello",
+    "machine": "MT / MN",
+    "egg": "Uovo",
+    "tutor": "Tutor",
+    "move": "Mossa",
+    "type": "Tipo",
+    "category": "Cat.",
+    "power": "Forza",
+    "accuracy": "Prec.",
+    "pp": "PP",
+    "level": "Lv.",
+    "method": "Metodo",
+    "physical": "Fisico",
+    "special": "Speciale",
+    "status": "Stato",
+    "noMoves": "Nessuna mossa trovata"
   }
 }

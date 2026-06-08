@@ -143,5 +143,25 @@
     "genderless": "Geschlechtslos",
     "male": "Männlich",
     "female": "Weiblich"
+  },
+  "moves": {
+    "section": "Attacken",
+    "all": "Alle",
+    "levelUp": "Level-Up",
+    "machine": "TM / VM",
+    "egg": "Ei",
+    "tutor": "Lehrer",
+    "move": "Attacke",
+    "type": "Typ",
+    "category": "Kat.",
+    "power": "Stärke",
+    "accuracy": "Gen.",
+    "pp": "AP",
+    "level": "Lv.",
+    "method": "Methode",
+    "physical": "Physisch",
+    "special": "Spezial",
+    "status": "Status",
+    "noMoves": "Keine Attacken gefunden"
   }
 }
