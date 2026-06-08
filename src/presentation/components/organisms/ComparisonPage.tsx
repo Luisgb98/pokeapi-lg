@@ -109,7 +109,7 @@ export function ComparisonPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-      <div className="mb-8 flex items-start justify-between">
+      <div className="mb-8 flex flex-wrap items-start justify-between gap-2">
         <div>
           <h1 className="font-display text-3xl font-black tracking-tight text-stone-900">
             {t('heading')}
@@ -127,7 +127,7 @@ export function ComparisonPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
         {SLOTS.map((slot, i) => (
           <ComparisonPicker
             key={slot}

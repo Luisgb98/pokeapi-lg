@@ -67,9 +67,9 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
             inputRef.current?.focus();
           }}
           className={cn(
-            'fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2',
-            'rounded-2xl border border-stone-200 bg-white shadow-2xl',
-            'flex max-h-[min(600px,85dvh)] flex-col',
+            'fixed inset-0 z-50 flex flex-col bg-white',
+            'sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2',
+            'sm:max-h-[min(600px,85dvh)] sm:rounded-2xl sm:border sm:border-stone-200 sm:shadow-2xl',
           )}
         >
           {/* Header */}
@@ -147,7 +147,10 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
           </div>
 
           {/* Results */}
-          <div className="min-h-0 flex-1 overflow-y-auto">
+          <div
+            className="min-h-0 flex-1 overflow-y-auto"
+            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+          >
             {!hasSearch ? (
               <p className="px-5 py-8 text-center text-sm text-stone-400">{t('searchHint')}</p>
             ) : isLoading ? (

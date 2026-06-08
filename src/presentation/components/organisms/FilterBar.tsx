@@ -84,7 +84,8 @@ export function FilterBar() {
             className="flex-1"
           />
 
-          <div className="flex shrink-0 items-center gap-2">
+          {/* Filter controls */}
+          <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
             <SlidersHorizontal className="size-4 shrink-0 text-stone-400" />
 
             <MultiSelect
@@ -92,7 +93,7 @@ export function FilterBar() {
               onChange={(v) => setTypes(v as PokemonType[])}
               options={TYPE_OPTIONS}
               placeholder={t('allTypes')}
-              className="w-36"
+              className="w-32 sm:w-36"
               headerSlot={typeMatchToggle}
             />
 
@@ -101,7 +102,7 @@ export function FilterBar() {
               onChange={(v) => setGenerations(v as Generation[])}
               options={GENERATION_OPTIONS}
               placeholder={t('allGens')}
-              className="w-36"
+              className="w-32 sm:w-36"
             />
 
             {hydrated && (
@@ -111,7 +112,7 @@ export function FilterBar() {
                 aria-pressed={showFavoritesOnly}
                 aria-label={tFav('filterLabel')}
                 className={cn(
-                  'flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors',
+                  'flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors',
                   showFavoritesOnly
                     ? 'border-rose-200 bg-rose-50 text-rose-600'
                     : 'border-stone-200 text-stone-500 hover:border-stone-300 hover:text-stone-700',

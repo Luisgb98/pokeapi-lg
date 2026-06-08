@@ -13,11 +13,11 @@ export function EvolutionNode({ node, currentId, isFirst = false }: EvolutionNod
   const isCurrent = node.id === currentId;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col items-center gap-1 sm:flex-row sm:gap-2">
       {!isFirst && (
         <div className="flex flex-col items-center gap-0.5 px-1">
           <svg
-            className="size-5 shrink-0 text-stone-300"
+            className="size-5 shrink-0 rotate-90 text-stone-300 sm:rotate-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

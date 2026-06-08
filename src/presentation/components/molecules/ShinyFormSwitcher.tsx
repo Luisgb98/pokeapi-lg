@@ -34,7 +34,7 @@ export function ShinyFormSwitcher({
   const hasMultipleForms = varieties.length > 1;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center justify-center gap-2 sm:justify-start">
       {hasMultipleForms && (
         <Select value={String(selectedFormId)} onValueChange={(v) => onFormChange(Number(v))}>
           <SelectTrigger

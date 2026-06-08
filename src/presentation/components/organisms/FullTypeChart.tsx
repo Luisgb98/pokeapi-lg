@@ -48,6 +48,7 @@ export function FullTypeChart({
       </div>
 
       <div className="overflow-x-auto">
+        <p className="mb-1 text-right text-[10px] text-stone-300 sm:hidden">scroll →</p>
         <table className="border-collapse text-[10px]" aria-label={title}>
           <thead>
             <tr>
