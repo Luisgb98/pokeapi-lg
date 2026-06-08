@@ -109,6 +109,13 @@
     "resistQuarter": "¼",
     "immune": "×0"
   },
+  "favorites": {
+    "add": "Aggiungi {name} ai preferiti",
+    "remove": "Rimuovi {name} dai preferiti",
+    "filterLabel": "Mostra solo i preferiti",
+    "empty": "Nessun preferito ancora",
+    "emptyHint": "Tocca il cuore su qualsiasi carta Pokémon per salvarlo qui"
+  },
   "species": {
     "section": "Voce Pokédex",
     "genus": "Categoria",

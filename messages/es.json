@@ -109,6 +109,13 @@
     "resistQuarter": "¼",
     "immune": "×0"
   },
+  "favorites": {
+    "add": "Añadir {name} a favoritos",
+    "remove": "Eliminar {name} de favoritos",
+    "filterLabel": "Mostrar solo favoritos",
+    "empty": "Aún no hay favoritos",
+    "emptyHint": "Toca el corazón en cualquier tarjeta para guardarlo aquí"
+  },
   "species": {
     "section": "Entrada del Pokédex",
     "genus": "Categoría",
