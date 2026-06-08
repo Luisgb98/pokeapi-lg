@@ -122,6 +122,35 @@ describe('findEvolutionChain', () => {
   });
 });
 
+describe('findSpeciesData', () => {
+  it('returns species data for the given id and locale', async () => {
+    const result = await repo.findSpeciesData(25, 'en');
+    expect(result.eggGroups).toEqual(['field', 'fairy']);
+    expect(result.captureRate).toBe(190);
+    expect(result.genderRate).toBe(4);
+  });
+
+  it('returns locale-specific genus', async () => {
+    const result = await repo.findSpeciesData(25, 'es');
+    expect(result.genus).toBe('Ratón Pokémon');
+  });
+});
+
+describe('findMoveLearnset', () => {
+  it('returns learned moves for a pokemon', async () => {
+    const result = await repo.findMoveLearnset(25);
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].move.name).toBe('thundershock');
+    expect(result[0].learnMethod).toBe('level-up');
+    expect(result[0].levelLearnedAt).toBe(1);
+  });
+
+  it('returns empty array for a pokemon with no moves', async () => {
+    const result = await repo.findMoveLearnset(172);
+    expect(result).toEqual([]);
+  });
+});
+
 describe('searchByNameWithEvolutions', () => {
   it('returns direct match + full evolution chain', async () => {
     const result = await repo.searchByNameWithEvolutions('pikachu');
@@ -147,5 +176,16 @@ describe('searchByNameWithEvolutions', () => {
     for (let i = 1; i < result.length; i++) {
       expect(result[i].id).toBeGreaterThan(result[i - 1].id);
     }
+  });
+
+  it('filters results by type when a types filter is provided', async () => {
+    const result = await repo.searchByNameWithEvolutions('pikachu', { types: ['electric'] });
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((p) => expect(p.types).toContain('electric'));
+  });
+
+  it('returns empty array when type filter excludes all chain members', async () => {
+    const result = await repo.searchByNameWithEvolutions('pikachu', { types: ['grass'] });
+    expect(result).toEqual([]);
   });
 });
