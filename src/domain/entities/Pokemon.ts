@@ -54,6 +54,7 @@ export interface PokemonSummary {
 
 export interface Pokemon extends PokemonSummary {
   readonly artwork: string;
+  readonly shinyArtwork: string;
   readonly stats: PokemonStats;
   readonly evolutionChainId: number;
 }
@@ -89,6 +90,11 @@ export function extractIdFromUrl(url: string): number {
 /** Returns official artwork URL for a given Pokémon ID (no extra API call). */
 export function getOfficialArtworkUrl(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+}
+
+/** Returns shiny official artwork URL for a given Pokémon ID (no extra API call). */
+export function getShinyArtworkUrl(id: number): string {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${id}.png`;
 }
 
 /** Returns default sprite URL for a given Pokémon ID. */

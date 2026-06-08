@@ -11,9 +11,11 @@ export const pikachuRaw: PokeApiPokemon = {
   name: 'pikachu',
   sprites: {
     front_default: 'https://sprites.pokemon.com/pikachu.png',
+    front_shiny: 'https://sprites.pokemon.com/shiny/pikachu.png',
     other: {
       'official-artwork': {
         front_default: 'https://artwork.pokemon.com/pikachu.png',
+        front_shiny: 'https://artwork.pokemon.com/shiny/pikachu.png',
       },
     },
   },
@@ -46,7 +48,8 @@ export const pichuRaw: PokeApiPokemon = {
   name: 'pichu',
   sprites: {
     front_default: 'https://sprites.pokemon.com/pichu.png',
-    other: { 'official-artwork': { front_default: null } },
+    front_shiny: null,
+    other: { 'official-artwork': { front_default: null, front_shiny: null } },
   },
   stats: [
     { base_stat: 20, stat: { name: 'hp', url: '' } },
@@ -65,7 +68,8 @@ export const raichuRaw: PokeApiPokemon = {
   name: 'raichu',
   sprites: {
     front_default: 'https://sprites.pokemon.com/raichu.png',
-    other: { 'official-artwork': { front_default: null } },
+    front_shiny: null,
+    other: { 'official-artwork': { front_default: null, front_shiny: null } },
   },
   stats: [
     { base_stat: 60, stat: { name: 'hp', url: '' } },
@@ -109,6 +113,12 @@ export const pikachuSpecies: PokeApiSpecies = {
   gender_rate: 4,
   capture_rate: 190,
   base_happiness: 70,
+  varieties: [
+    {
+      is_default: true,
+      pokemon: { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' },
+    },
+  ],
 };
 
 export const pichuSpecies: PokeApiSpecies = {
@@ -128,6 +138,9 @@ export const pichuSpecies: PokeApiSpecies = {
   gender_rate: 4,
   capture_rate: 190,
   base_happiness: 70,
+  varieties: [
+    { is_default: true, pokemon: { name: 'pichu', url: 'https://pokeapi.co/api/v2/pokemon/172/' } },
+  ],
 };
 
 export const pikachuChain: PokeApiEvolutionChain = {
@@ -194,7 +207,8 @@ export const bulbasaurRaw: PokeApiPokemon = {
   name: 'bulbasaur',
   sprites: {
     front_default: 'https://sprites.pokemon.com/bulbasaur.png',
-    other: { 'official-artwork': { front_default: null } },
+    front_shiny: null,
+    other: { 'official-artwork': { front_default: null, front_shiny: null } },
   },
   stats: [
     { base_stat: 45, stat: { name: 'hp', url: '' } },

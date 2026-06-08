@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { formatEggGroupName, getFemalePercent } from '../../domain/entities/PokemonSpecies';
+import {
+  formatEggGroupName,
+  formatVarietyDisplayName,
+  getFemalePercent,
+} from '../../domain/entities/PokemonSpecies';
 
 describe('getFemalePercent', () => {
   it('returns null for genderless (-1)', () => {
@@ -20,6 +24,28 @@ describe('getFemalePercent', () => {
 
   it('returns 100 for always female (8)', () => {
     expect(getFemalePercent(8)).toBe(100);
+  });
+});
+
+describe('formatVarietyDisplayName', () => {
+  it('returns "Default" when variety matches base name', () => {
+    expect(formatVarietyDisplayName('pikachu', 'pikachu')).toBe('Default');
+  });
+
+  it('strips base name prefix and title-cases the suffix', () => {
+    expect(formatVarietyDisplayName('charizard', 'charizard-mega-x')).toBe('Mega X');
+  });
+
+  it('handles single-word suffix', () => {
+    expect(formatVarietyDisplayName('giratina', 'giratina-origin')).toBe('Origin');
+  });
+
+  it('handles regional form names', () => {
+    expect(formatVarietyDisplayName('raichu', 'raichu-alola')).toBe('Alola');
+  });
+
+  it('uses full name when variety does not start with base prefix', () => {
+    expect(formatVarietyDisplayName('mewtwo', 'mewtwo-mega')).toBe('Mega');
   });
 });
 

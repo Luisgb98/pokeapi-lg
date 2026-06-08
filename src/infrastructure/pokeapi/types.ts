@@ -22,9 +22,11 @@ export interface PokeApiTypeSlot {
 
 export interface PokeApiSprites {
   front_default: string | null;
+  front_shiny: string | null;
   other: {
     'official-artwork': {
       front_default: string | null;
+      front_shiny: string | null;
     };
   };
 }
@@ -82,6 +84,10 @@ export interface PokeApiSpecies {
   gender_rate: number;
   capture_rate: number;
   base_happiness: number | null;
+  varieties: Array<{
+    is_default: boolean;
+    pokemon: PokeApiNamedResource;
+  }>;
 }
 
 export interface PokeApiEvolutionChainLink {

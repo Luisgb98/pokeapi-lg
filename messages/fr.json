@@ -144,6 +144,13 @@
     "male": "Mâle",
     "female": "Femelle"
   },
+  "forms": {
+    "shiny": "Chromatique",
+    "normalLabel": "Normal",
+    "selectForm": "Choisir une forme",
+    "toggleShiny": "Activer le mode chromatique",
+    "loadingForm": "Chargement de la forme…"
+  },
   "moves": {
     "section": "Capacités",
     "all": "Toutes",

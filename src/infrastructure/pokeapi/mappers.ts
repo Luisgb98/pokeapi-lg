@@ -3,6 +3,7 @@ import {
   formatPokemonName,
   getGenerationFromId,
   getOfficialArtworkUrl,
+  getShinyArtworkUrl,
   getSpriteUrl,
   type Pokemon,
   type PokemonStats,
@@ -11,7 +12,10 @@ import {
 } from '../../domain/entities/Pokemon';
 import type { EvolutionChain, EvolutionNode } from '../../domain/entities/EvolutionChain';
 import type { DamageClass, Move } from '../../domain/entities/Move';
-import type { PokemonSpecies } from '../../domain/entities/PokemonSpecies';
+import {
+  formatVarietyDisplayName,
+  type PokemonSpecies,
+} from '../../domain/entities/PokemonSpecies';
 import type {
   PokeApiEvolutionChain,
   PokeApiEvolutionChainLink,
@@ -58,6 +62,7 @@ export function mapPokemon(raw: PokeApiPokemon, evolutionChainId: number): Pokem
   return {
     ...mapPokemonSummary(raw),
     artwork: raw.sprites.other['official-artwork'].front_default ?? getOfficialArtworkUrl(raw.id),
+    shinyArtwork: raw.sprites.other['official-artwork'].front_shiny ?? getShinyArtworkUrl(raw.id),
     stats: mapStats(raw.stats),
     evolutionChainId,
   };
@@ -112,6 +117,13 @@ export function mapPokemonSpecies(raw: PokeApiSpecies, locale: string): PokemonS
     raw.genera.find((g) => g.language.name === lang) ??
     raw.genera.find((g) => g.language.name === 'en');
 
+  const varieties = raw.varieties.map((v) => ({
+    id: extractIdFromUrl(v.pokemon.url),
+    name: v.pokemon.name,
+    displayName: formatVarietyDisplayName(raw.name, v.pokemon.name),
+    isDefault: v.is_default,
+  }));
+
   return {
     genus: genusEntry?.genus ?? '',
     flavorText,
@@ -119,5 +131,6 @@ export function mapPokemonSpecies(raw: PokeApiSpecies, locale: string): PokemonS
     genderRate: raw.gender_rate,
     captureRate: raw.capture_rate,
     baseHappiness: raw.base_happiness ?? 0,
+    varieties,
   };
 }

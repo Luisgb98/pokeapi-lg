@@ -144,6 +144,13 @@
     "male": "Männlich",
     "female": "Weiblich"
   },
+  "forms": {
+    "shiny": "Shiny",
+    "normalLabel": "Normal",
+    "selectForm": "Form auswählen",
+    "toggleShiny": "Shiny-Modus umschalten",
+    "loadingForm": "Form wird geladen…"
+  },
   "moves": {
     "section": "Attacken",
     "all": "Alle",

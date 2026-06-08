@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
@@ -7,24 +8,42 @@ import { ArrowLeft } from 'lucide-react';
 import { FavoriteButton } from '@/presentation/components/atoms/FavoriteButton';
 import { GenerationBadge } from '@/presentation/components/atoms/GenerationBadge';
 import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
+import { ShinyFormSwitcher } from '@/presentation/components/molecules/ShinyFormSwitcher';
 import { useHydration } from '@/presentation/hooks/useHydration';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
 import { useFavoritesStore } from '@/presentation/store/favoritesStore';
+import { usePokemonFormById } from '@/presentation/queries/pokemonQueries';
 import type { Pokemon } from '@/domain/entities/Pokemon';
+import type { PokemonVariety } from '@/domain/entities/PokemonSpecies';
 
 interface PokemonDetailHeaderProps {
   pokemon: Pokemon;
   backTo?: string;
+  varieties?: readonly PokemonVariety[];
 }
 
-export function PokemonDetailHeader({ pokemon, backTo }: PokemonDetailHeaderProps) {
+export function PokemonDetailHeader({ pokemon, backTo, varieties = [] }: PokemonDetailHeaderProps) {
   const tNav = useTranslations('nav');
   const tTypes = useTranslations('types');
   const tFav = useTranslations('favorites');
-  const tc = getPrimaryTypeClasses(pokemon.types);
-  const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
+  const tForms = useTranslations('forms');
+
+  const [isShiny, setIsShiny] = useState(false);
+  const [selectedFormId, setSelectedFormId] = useState(pokemon.id);
+
   const hydrated = useHydration();
   const { isFavorite, toggle } = useFavoritesStore();
+
+  const isFormChanged = selectedFormId !== pokemon.id;
+  const { data: formData, isLoading: isFormLoading } = usePokemonFormById(
+    isFormChanged ? selectedFormId : null,
+  );
+
+  const currentPokemon = formData ?? pokemon;
+  const displayArtwork = isShiny ? currentPokemon.shinyArtwork : currentPokemon.artwork;
+
+  const tc = getPrimaryTypeClasses(currentPokemon.types);
+  const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
 
   const backHref = backTo === 'team' ? '/team' : '/';
   const backLabel = backTo === 'team' ? tNav('teamBuilder') : tNav('pokedex');
@@ -45,11 +64,11 @@ export function PokemonDetailHeader({ pokemon, backTo }: PokemonDetailHeaderProp
         <div className="mx-auto flex max-w-5xl flex-col items-center px-4 pt-4 sm:flex-row sm:items-end sm:gap-8 sm:px-6 lg:px-8">
           <div className="relative size-52 shrink-0 animate-float sm:size-64">
             <Image
-              src={pokemon.artwork}
-              alt={pokemon.displayName}
+              src={displayArtwork}
+              alt={currentPokemon.displayName}
               fill
               sizes="(max-width: 640px) 208px, 256px"
-              className="object-contain drop-shadow-lg"
+              className={`object-contain drop-shadow-lg transition-opacity duration-200 ${isFormLoading ? 'opacity-50' : 'opacity-100'}`}
               priority
             />
           </div>
@@ -60,7 +79,7 @@ export function PokemonDetailHeader({ pokemon, backTo }: PokemonDetailHeaderProp
             </p>
             <div className="mb-3 flex items-center justify-center gap-2 sm:justify-start">
               <h1 className="font-display text-4xl font-black tracking-tight text-stone-900 sm:text-5xl">
-                {pokemon.displayName}
+                {currentPokemon.displayName}
               </h1>
               {hydrated && (
                 <FavoriteButton
@@ -75,12 +94,26 @@ export function PokemonDetailHeader({ pokemon, backTo }: PokemonDetailHeaderProp
                 />
               )}
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
-              {pokemon.types.map((t) => (
+            <div className="mb-3 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+              {currentPokemon.types.map((t) => (
                 <TypeBadge key={t} type={t} label={tTypes(t)} />
               ))}
               <GenerationBadge generation={pokemon.generation} />
             </div>
+            <ShinyFormSwitcher
+              isShiny={isShiny}
+              onShinyToggle={() => setIsShiny((s) => !s)}
+              varieties={varieties}
+              selectedFormId={selectedFormId}
+              onFormChange={(id) => {
+                setSelectedFormId(id);
+                setIsShiny(false);
+              }}
+              labels={{
+                shiny: tForms('shiny'),
+                selectForm: tForms('selectForm'),
+              }}
+            />
           </div>
         </div>
 

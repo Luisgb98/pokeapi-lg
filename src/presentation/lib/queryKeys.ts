@@ -29,3 +29,7 @@ export function pokemonListQueryKey(params: PokemonListParams) {
 export function pokemonDetailQueryKey(id: number) {
   return ['pokemon', 'detail', id] as const;
 }
+
+export function pokemonFormQueryKey(id: number) {
+  return ['pokemon', 'form', id] as const;
+}
