@@ -162,6 +162,8 @@
     "physical": "Physisch",
     "special": "Spezial",
     "status": "Status",
-    "noMoves": "Keine Attacken gefunden"
+    "noMoves": "Keine Attacken gefunden",
+    "searchPlaceholder": "Attacken suchen…",
+    "noMovesSearch": "Keine Attacken für \"{query}\" gefunden"
   }
 }

@@ -162,6 +162,8 @@
     "physical": "Physical",
     "special": "Special",
     "status": "Status",
-    "noMoves": "No moves found"
+    "noMoves": "No moves found",
+    "searchPlaceholder": "Search moves…",
+    "noMovesSearch": "No moves match \"{query}\""
   }
 }

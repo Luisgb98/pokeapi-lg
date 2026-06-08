@@ -162,6 +162,8 @@
     "physical": "Físico",
     "special": "Especial",
     "status": "Estado",
-    "noMoves": "Nenhum golpe encontrado"
+    "noMoves": "Nenhum golpe encontrado",
+    "searchPlaceholder": "Buscar golpes…",
+    "noMovesSearch": "Nenhum golpe corresponde a \"{query}\""
   }
 }

@@ -37,9 +37,17 @@ export function MoveLearnsetTable({ learnset }: Props) {
 
   const [activeTab, setActiveTab] = useState<FilterTab>(defaultTab);
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>({ key: 'level', dir: 'asc' });
+  const [search, setSearch] = useState('');
+
+  const query = search.trim().toLowerCase();
+  const searchFiltered = query
+    ? learnset.filter((m) => m.move.displayName.toLowerCase().includes(query))
+    : learnset;
 
   const filtered =
-    activeTab === 'all' ? learnset : learnset.filter((m) => m.learnMethod === activeTab);
+    activeTab === 'all'
+      ? searchFiltered
+      : searchFiltered.filter((m) => m.learnMethod === activeTab);
 
   const sorted = [...filtered].sort((a, b) => {
     let cmp = 0;
@@ -91,15 +99,38 @@ export function MoveLearnsetTable({ learnset }: Props) {
   return (
     <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
       <div className="border-b border-stone-100 px-6 pb-0 pt-6">
-        <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
-          {t('section')}
-        </h2>
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
+            {t('section')}
+          </h2>
+          <div className="relative">
+            <svg
+              className="pointer-events-none absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-stone-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t('searchPlaceholder')}
+              className="h-7 rounded-lg border border-stone-200 bg-stone-50 pl-7 pr-3 text-xs text-stone-700 placeholder-stone-400 outline-none focus:border-stone-400 focus:bg-white"
+            />
+          </div>
+        </div>
         <div className="flex gap-1 overflow-x-auto pb-px">
           {tabs.map(({ key, label }) => {
             const count =
               key === 'all'
-                ? learnset.length
-                : learnset.filter((m) => m.learnMethod === key).length;
+                ? searchFiltered.length
+                : searchFiltered.filter((m) => m.learnMethod === key).length;
             return (
               <button
                 key={key}
@@ -122,7 +153,9 @@ export function MoveLearnsetTable({ learnset }: Props) {
 
       <div className="overflow-x-auto">
         {sorted.length === 0 ? (
-          <p className="px-6 py-8 text-center text-sm text-stone-400">{t('noMoves')}</p>
+          <p className="px-6 py-8 text-center text-sm text-stone-400">
+            {query ? t('noMovesSearch', { query: search.trim() }) : t('noMoves')}
+          </p>
         ) : (
           <table className="w-full min-w-[480px] text-sm">
             <thead>

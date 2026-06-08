@@ -162,6 +162,8 @@
     "physical": "Fisico",
     "special": "Speciale",
     "status": "Stato",
-    "noMoves": "Nessuna mossa trovata"
+    "noMoves": "Nessuna mossa trovata",
+    "searchPlaceholder": "Cerca mosse…",
+    "noMovesSearch": "Nessuna mossa corrisponde a \"{query}\""
   }
 }

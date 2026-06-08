@@ -162,6 +162,8 @@
     "physical": "Physique",
     "special": "Spécial",
     "status": "Statut",
-    "noMoves": "Aucune capacité trouvée"
+    "noMoves": "Aucune capacité trouvée",
+    "searchPlaceholder": "Rechercher des capacités…",
+    "noMovesSearch": "Aucune capacité ne correspond à \"{query}\""
   }
 }
