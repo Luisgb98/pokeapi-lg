@@ -70,7 +70,8 @@
   },
   "nav": {
     "pokedex": "Pokédex",
-    "teamBuilder": "Team Builder"
+    "teamBuilder": "Team Builder",
+    "compare": "Compare"
   },
   "teamBuilder": {
     "heading": "Team Builder",
@@ -115,6 +116,22 @@
     "filterLabel": "Show favorites only",
     "empty": "No favorites yet",
     "emptyHint": "Tap the heart on any Pokémon card to save it here"
+  },
+  "compare": {
+    "heading": "Compare",
+    "subtitle": "Select 2 or 3 Pokémon to compare stats side by side",
+    "slot": "Pokémon {slot}",
+    "add": "Add Pokémon",
+    "clear": "Remove",
+    "select": "Select",
+    "selectTwo": "Select at least 2 Pokémon to start comparing",
+    "radarSection": "Stat Radar",
+    "statsSection": "Base Stats",
+    "bst": "Total",
+    "searchPlaceholder": "Search Pokémon…",
+    "searchHint": "Type at least 2 characters to search",
+    "noResults": "No Pokémon found",
+    "clearAll": "Clear all"
   },
   "species": {
     "section": "Pokédex Entry",

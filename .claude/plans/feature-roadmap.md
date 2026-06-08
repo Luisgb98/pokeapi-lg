@@ -7,8 +7,8 @@
 | 1   | Species / Flavor Text                   | `feat/species-flavor-text` | done    |
 | 2   | Stats Radar Chart                       | `feat-stats-radar-chart`   | done    |
 | 3   | Dynamic OG Images                       | `feat-dynamic-og-images`   | done    |
-| 4   | Favorites / Bookmarks (Zustand persist) | —                          | pending |
-| 5   | Pokémon Comparison page                 | —                          | pending |
+| 4   | Favorites / Bookmarks (Zustand persist) | `feat-favorites`           | done    |
+| 5   | Pokémon Comparison page                 | `feat-comparison`          | done    |
 | 6   | Move Learnset Table                     | —                          | pending |
 | 7   | Shiny / Form Switcher                   | —                          | pending |
 | 8   | "Who's that Pokémon?" Mini-Game         | —                          | pending |

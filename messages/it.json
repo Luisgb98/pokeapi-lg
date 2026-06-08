@@ -70,7 +70,8 @@
   },
   "nav": {
     "pokedex": "Pokédex",
-    "teamBuilder": "Squadra"
+    "teamBuilder": "Squadra",
+    "compare": "Confronta"
   },
   "teamBuilder": {
     "heading": "Costruttore di squadra",
@@ -108,6 +109,22 @@
     "resistHalf": "½",
     "resistQuarter": "¼",
     "immune": "×0"
+  },
+  "compare": {
+    "heading": "Confronta",
+    "subtitle": "Seleziona 2 o 3 Pokémon per confrontare le loro statistiche",
+    "slot": "Pokémon {slot}",
+    "add": "Aggiungi Pokémon",
+    "clear": "Rimuovi",
+    "select": "Seleziona",
+    "selectTwo": "Seleziona almeno 2 Pokémon per confrontare",
+    "radarSection": "Radar statistiche",
+    "statsSection": "Statistiche base",
+    "bst": "Totale",
+    "searchPlaceholder": "Cerca Pokémon…",
+    "searchHint": "Digita almeno 2 caratteri",
+    "noResults": "Nessun Pokémon trovato",
+    "clearAll": "Cancella tutto"
   },
   "favorites": {
     "add": "Aggiungi {name} ai preferiti",
