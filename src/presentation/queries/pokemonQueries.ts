@@ -1,16 +1,27 @@
 'use client';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchPokemonPage } from '@/application/actions/pokemon';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { fetchPokemonById, fetchPokemonPage } from '@/application/actions/pokemon';
 import { POKEMON_PAGE_SIZE } from '@/application/usecases/getPokemonList';
 import type { PokemonPage } from '@/domain/ports/PokemonRepository';
 import {
   normalizePokemonParams,
+  pokemonDetailQueryKey,
   pokemonListQueryKey,
   type PokemonListParams,
 } from '@/presentation/lib/queryKeys';
 
 export { POKEMON_PAGE_SIZE, pokemonListQueryKey, type PokemonListParams };
+
+export function usePokemonById(id: number | null) {
+  return useQuery({
+    queryKey: pokemonDetailQueryKey(id ?? 0),
+    queryFn: () => fetchPokemonById(id!),
+    enabled: id !== null && id > 0,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+}
 
 export function usePokemonInfiniteList(params: PokemonListParams) {
   const normalized = normalizePokemonParams(params);

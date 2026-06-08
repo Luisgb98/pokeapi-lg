@@ -20,6 +20,7 @@ export function TopNav() {
       badge: hydrated && favCount > 0 ? favCount : null,
     },
     { href: '/team' as const, label: t('teamBuilder'), badge: null },
+    { href: '/compare' as const, label: t('compare'), badge: null },
   ];
 
   return (

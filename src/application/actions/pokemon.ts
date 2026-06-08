@@ -1,7 +1,14 @@
 'use server';
-import type { Generation, PokemonType } from '@/domain/entities/Pokemon';
+import type { Generation, Pokemon, PokemonType } from '@/domain/entities/Pokemon';
 import { getRepository } from '../container';
+import { getPokemonById } from '../usecases/getPokemonById';
 import { getPokemonList, POKEMON_PAGE_SIZE } from '../usecases/getPokemonList';
+
+export async function fetchPokemonById(id: number): Promise<Pokemon> {
+  const repository = getRepository();
+  const { pokemon } = await getPokemonById(repository, id);
+  return pokemon;
+}
 
 // Mirrors presentation/queries/pokemonQueries.ts PokemonListParams — structurally identical.
 export interface PokemonPageParams {

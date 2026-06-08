@@ -25,3 +25,7 @@ export function normalizePokemonParams(params: PokemonListParams): PokemonListPa
 export function pokemonListQueryKey(params: PokemonListParams) {
   return ['pokemon', 'list', normalizePokemonParams(params)] as const;
 }
+
+export function pokemonDetailQueryKey(id: number) {
+  return ['pokemon', 'detail', id] as const;
+}
