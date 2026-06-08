@@ -1,18 +1,19 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { ComparisonPicker } from '@/presentation/components/molecules/ComparisonPicker';
 import { ComparisonRadarChart } from '@/presentation/components/molecules/ComparisonRadarChart';
 import { usePokemonById } from '@/presentation/queries/pokemonQueries';
+import { useCompareStore } from '@/presentation/store/compareStore';
 import type { RadarEntry } from '@/presentation/components/molecules/ComparisonRadarChart';
+import type { CompareSlot } from '@/presentation/store/compareStore';
 
-type SlotKey = 'a' | 'b' | 'c';
+const SLOTS: CompareSlot[] = ['a', 'b', 'c'];
 
-const SLOTS: SlotKey[] = ['a', 'b', 'c'];
-
-const SLOT_COLORS: Record<SlotKey, { hex: string; border: string; bar: string }> = {
+const SLOT_COLORS: Record<CompareSlot, { hex: string; border: string; bar: string }> = {
   a: { hex: '#f97316', border: '#f97316', bar: 'bg-orange-500' },
   b: { hex: '#3b82f6', border: '#3b82f6', bar: 'bg-blue-500' },
   c: { hex: '#22c55e', border: '#22c55e', bar: 'bg-green-500' },
@@ -35,8 +36,33 @@ export function ComparisonPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const {
+    slots,
+    setSlot: storeSetSlot,
+    clearSlot: storeClearSlot,
+    clearAll: storeClearAll,
+  } = useCompareStore();
 
-  const ids: Record<SlotKey, number | null> = {
+  const hasRestored = useRef(false);
+
+  useEffect(() => {
+    if (hasRestored.current) return;
+    hasRestored.current = true;
+
+    const hasUrlParams = SLOTS.some((s) => searchParams.get(s) !== null);
+    if (hasUrlParams) return;
+
+    const restoredParams = new URLSearchParams();
+    SLOTS.forEach((slot) => {
+      const id = slots[slot];
+      if (id !== null) restoredParams.set(slot, String(id));
+    });
+    if (restoredParams.toString()) {
+      router.replace(`${pathname}?${restoredParams.toString()}`);
+    }
+  }, [searchParams, slots, router, pathname]);
+
+  const ids: Record<CompareSlot, number | null> = {
     a: parseId(searchParams.get('a')),
     b: parseId(searchParams.get('b')),
     c: parseId(searchParams.get('c')),
@@ -47,16 +73,23 @@ export function ComparisonPage() {
   const queryC = usePokemonById(ids.c);
   const queries = { a: queryA, b: queryB, c: queryC };
 
-  function setSlot(slot: SlotKey, id: number) {
+  function setSlot(slot: CompareSlot, id: number) {
+    storeSetSlot(slot, id);
     const params = new URLSearchParams(searchParams.toString());
     params.set(slot, String(id));
     router.replace(`${pathname}?${params.toString()}`);
   }
 
-  function clearSlot(slot: SlotKey) {
+  function clearSlot(slot: CompareSlot) {
+    storeClearSlot(slot);
     const params = new URLSearchParams(searchParams.toString());
     params.delete(slot);
     router.replace(`${pathname}?${params.toString()}`);
+  }
+
+  function clearAll() {
+    storeClearAll();
+    router.replace(pathname);
   }
 
   const filledEntries = SLOTS.flatMap((slot) => {
@@ -72,14 +105,26 @@ export function ComparisonPage() {
   }));
 
   const canCompare = filledEntries.length >= 2;
+  const hasAny = filledEntries.length > 0;
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-black tracking-tight text-stone-900">
-          {t('heading')}
-        </h1>
-        <p className="mt-1 text-sm text-stone-400">{t('subtitle')}</p>
+      <div className="mb-8 flex items-start justify-between">
+        <div>
+          <h1 className="font-display text-3xl font-black tracking-tight text-stone-900">
+            {t('heading')}
+          </h1>
+          <p className="mt-1 text-sm text-stone-400">{t('subtitle')}</p>
+        </div>
+        {hasAny && (
+          <button
+            type="button"
+            onClick={clearAll}
+            className="mt-1 text-xs font-medium text-stone-400 transition-colors hover:text-red-500"
+          >
+            {t('clearAll')}
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-3 gap-3 sm:gap-4">

@@ -130,7 +130,8 @@
     "bst": "Total",
     "searchPlaceholder": "Search Pokémon…",
     "searchHint": "Type at least 2 characters to search",
-    "noResults": "No Pokémon found"
+    "noResults": "No Pokémon found",
+    "clearAll": "Clear all"
   },
   "species": {
     "section": "Pokédex Entry",

@@ -123,7 +123,8 @@
     "bst": "Gesamt",
     "searchPlaceholder": "Pokémon suchen…",
     "searchHint": "Mindestens 2 Zeichen eingeben",
-    "noResults": "Keine Pokémon gefunden"
+    "noResults": "Keine Pokémon gefunden",
+    "clearAll": "Alle löschen"
   },
   "favorites": {
     "add": "{name} zu Favoriten hinzufügen",
