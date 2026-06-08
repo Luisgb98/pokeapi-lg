@@ -1,5 +1,6 @@
 import type {
   PokeApiEvolutionChain,
+  PokeApiMove,
   PokeApiPokemon,
   PokeApiSpecies,
   PokeApiTypeDetail,
@@ -26,6 +27,18 @@ export const pikachuRaw: PokeApiPokemon = {
   ],
   types: [{ slot: 1, type: { name: 'electric', url: '' } }],
   species: { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon-species/25/' },
+  moves: [
+    {
+      move: { name: 'thundershock', url: 'https://pokeapi.co/api/v2/move/84/' },
+      version_group_details: [
+        {
+          level_learned_at: 1,
+          move_learn_method: { name: 'level-up', url: '' },
+          version_group: { name: 'scarlet-violet', url: '' },
+        },
+      ],
+    },
+  ],
 };
 
 export const pichuRaw: PokeApiPokemon = {
@@ -163,6 +176,17 @@ export const allPokemonList = {
     { name: 'raichu', url: 'https://pokeapi.co/api/v2/pokemon/26/' },
     { name: 'pichu', url: 'https://pokeapi.co/api/v2/pokemon/172/' },
   ],
+};
+
+export const thundershockMove: PokeApiMove = {
+  id: 84,
+  name: 'thundershock',
+  accuracy: 100,
+  pp: 30,
+  power: 40,
+  damage_class: { name: 'special', url: '' },
+  type: { name: 'electric', url: '' },
+  names: [{ name: 'ThunderShock', language: { name: 'en', url: '' } }],
 };
 
 export const bulbasaurRaw: PokeApiPokemon = {

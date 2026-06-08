@@ -143,5 +143,27 @@
     "genderless": "Sin género",
     "male": "Macho",
     "female": "Hembra"
+  },
+  "moves": {
+    "section": "Movimientos",
+    "all": "Todos",
+    "levelUp": "Subida de nivel",
+    "machine": "MT / MO",
+    "egg": "Huevo",
+    "tutor": "Tutor",
+    "move": "Movimiento",
+    "type": "Tipo",
+    "category": "Cat.",
+    "power": "Potencia",
+    "accuracy": "Prec.",
+    "pp": "PP",
+    "level": "Nv.",
+    "method": "Método",
+    "physical": "Físico",
+    "special": "Especial",
+    "status": "Estado",
+    "noMoves": "No se encontraron movimientos",
+    "searchPlaceholder": "Buscar movimientos…",
+    "noMovesSearch": "Ningún movimiento coincide con \"{query}\""
   }
 }

@@ -10,6 +10,7 @@ import {
   pikachuRaw,
   pikachuSpecies,
   raichuRaw,
+  thundershockMove,
 } from './fixtures';
 
 const BASE = 'https://pokeapi.co/api/v2';
@@ -60,4 +61,6 @@ export const handlers = [
 
   http.get(`${BASE}/type/electric`, () => HttpResponse.json(electricTypeDetail)),
   http.get(`${BASE}/type/grass`, () => HttpResponse.json(grassTypeDetail)),
+
+  http.get(`${BASE}/move/84`, () => HttpResponse.json(thundershockMove)),
 ];

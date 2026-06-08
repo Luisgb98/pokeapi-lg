@@ -8,8 +8,10 @@ import { EvolutionChainView } from '@/presentation/components/organisms/Evolutio
 import { TypeMatchupTable } from '@/presentation/components/organisms/TypeMatchupTable';
 import { getRepository } from '@/application/container';
 import { getPokemonById, PokemonNotFoundError } from '@/application/usecases/getPokemonById';
+import { getMoveLearnset } from '@/application/usecases/getMoveLearnset';
 import { getSpeciesData } from '@/application/usecases/getSpeciesData';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
+import { MoveLearnsetTable } from '@/presentation/components/organisms/MoveLearnsetTable';
 import { SpeciesInfoSection } from '@/presentation/components/organisms/SpeciesInfoSection';
 import { routing } from '@/i18n/routing';
 
@@ -73,16 +75,18 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
   const tTypeChart = await getTranslations('typeChart');
   const tSpecies = await getTranslations('species');
 
-  let pokemon, evolutionChain, species;
+  let pokemon, evolutionChain, species, learnset;
   try {
     const repository = getRepository();
-    const [pokemonResult, speciesResult] = await Promise.all([
+    const [pokemonResult, speciesResult, learnsetResult] = await Promise.all([
       getPokemonById(repository, numericId),
       getSpeciesData(repository, numericId, locale),
+      getMoveLearnset(repository, numericId),
     ]);
     pokemon = pokemonResult.pokemon;
     evolutionChain = pokemonResult.evolutionChain;
     species = speciesResult;
+    learnset = learnsetResult;
   } catch (error) {
     if (error instanceof PokemonNotFoundError) {
       notFound();
@@ -145,6 +149,12 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
               }}
             />
           </div>
+
+          {learnset.length > 0 && (
+            <div className="lg:col-span-2">
+              <MoveLearnsetTable learnset={learnset} />
+            </div>
+          )}
         </div>
       </div>
     </div>

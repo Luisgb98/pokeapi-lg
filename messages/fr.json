@@ -143,5 +143,27 @@
     "genderless": "Asexué",
     "male": "Mâle",
     "female": "Femelle"
+  },
+  "moves": {
+    "section": "Capacités",
+    "all": "Toutes",
+    "levelUp": "Montée de niveau",
+    "machine": "CT / CS",
+    "egg": "Œuf",
+    "tutor": "Tuteur",
+    "move": "Capacité",
+    "type": "Type",
+    "category": "Cat.",
+    "power": "Puissance",
+    "accuracy": "Préc.",
+    "pp": "PP",
+    "level": "Nv.",
+    "method": "Méthode",
+    "physical": "Physique",
+    "special": "Spécial",
+    "status": "Statut",
+    "noMoves": "Aucune capacité trouvée",
+    "searchPlaceholder": "Rechercher des capacités…",
+    "noMovesSearch": "Aucune capacité ne correspond à \"{query}\""
   }
 }

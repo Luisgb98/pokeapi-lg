@@ -29,6 +29,17 @@ export interface PokeApiSprites {
   };
 }
 
+export interface PokeApiPokemonMoveDetail {
+  level_learned_at: number;
+  move_learn_method: PokeApiNamedResource;
+  version_group: PokeApiNamedResource;
+}
+
+export interface PokeApiPokemonMove {
+  move: PokeApiNamedResource;
+  version_group_details: PokeApiPokemonMoveDetail[];
+}
+
 export interface PokeApiPokemon {
   id: number;
   name: string;
@@ -36,6 +47,21 @@ export interface PokeApiPokemon {
   stats: PokeApiStatEntry[];
   types: PokeApiTypeSlot[];
   species: PokeApiNamedResource;
+  moves?: PokeApiPokemonMove[];
+}
+
+export interface PokeApiMove {
+  id: number;
+  name: string;
+  accuracy: number | null;
+  pp: number;
+  power: number | null;
+  damage_class: PokeApiNamedResource;
+  type: PokeApiNamedResource;
+  names: Array<{
+    language: PokeApiNamedResource;
+    name: string;
+  }>;
 }
 
 export interface PokeApiSpecies {

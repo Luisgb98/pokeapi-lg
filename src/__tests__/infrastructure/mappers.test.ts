@@ -1,11 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import {
   mapEvolutionChain,
+  mapMove,
   mapPokemon,
   mapPokemonSpecies,
   mapPokemonSummary,
 } from '../../infrastructure/pokeapi/mappers';
-import { bulbasaurRaw, pikachuChain, pikachuRaw, pikachuSpecies } from '../mocks/fixtures';
+import {
+  bulbasaurRaw,
+  pikachuChain,
+  pikachuRaw,
+  pikachuSpecies,
+  thundershockMove,
+} from '../mocks/fixtures';
 
 describe('mapPokemonSummary', () => {
   it('maps basic fields correctly', () => {
@@ -130,5 +137,25 @@ describe('mapPokemonSpecies', () => {
     expect(result.genderRate).toBe(4);
     expect(result.captureRate).toBe(190);
     expect(result.baseHappiness).toBe(70);
+  });
+});
+
+describe('mapMove', () => {
+  it('maps all fields correctly', () => {
+    const result = mapMove(thundershockMove);
+    expect(result.id).toBe(84);
+    expect(result.name).toBe('thundershock');
+    expect(result.displayName).toBe('ThunderShock');
+    expect(result.type).toBe('electric');
+    expect(result.damageClass).toBe('special');
+    expect(result.power).toBe(40);
+    expect(result.accuracy).toBe(100);
+    expect(result.pp).toBe(30);
+  });
+
+  it('falls back to formatted name when no English name entry exists', () => {
+    const noEnName = { ...thundershockMove, names: [] };
+    const result = mapMove(noEnName);
+    expect(result.displayName).toBe('Thundershock');
   });
 });
