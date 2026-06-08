@@ -24,23 +24,40 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-0.5 rounded-md border border-stone-200 bg-stone-50 p-0.5">
-      {routing.locales.map((l) => (
-        <button
-          key={l}
-          type="button"
-          onClick={() => handleChange(l)}
-          className={cn(
-            'rounded px-2 py-0.5 text-xs font-medium tracking-wide transition-colors',
-            locale === l
-              ? 'bg-white text-stone-800 shadow-sm'
-              : 'text-stone-400 hover:text-stone-600',
-          )}
-          aria-current={locale === l ? 'true' : undefined}
-        >
-          {LOCALE_LABELS[l]}
-        </button>
-      ))}
-    </div>
+    <>
+      {/* Mobile: native select */}
+      <select
+        value={locale}
+        onChange={(e) => handleChange(e.target.value as Locale)}
+        aria-label="Language"
+        className="rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-xs font-medium text-stone-700 focus:outline-none focus:ring-1 focus:ring-stone-400 sm:hidden"
+      >
+        {routing.locales.map((l) => (
+          <option key={l} value={l}>
+            {LOCALE_LABELS[l]}
+          </option>
+        ))}
+      </select>
+
+      {/* Desktop: pill buttons */}
+      <div className="hidden items-center gap-0.5 rounded-md border border-stone-200 bg-stone-50 p-0.5 sm:flex">
+        {routing.locales.map((l) => (
+          <button
+            key={l}
+            type="button"
+            onClick={() => handleChange(l)}
+            className={cn(
+              'rounded px-2 py-0.5 text-xs font-medium tracking-wide transition-colors',
+              locale === l
+                ? 'bg-white text-stone-800 shadow-sm'
+                : 'text-stone-400 hover:text-stone-600',
+            )}
+            aria-current={locale === l ? 'true' : undefined}
+          >
+            {LOCALE_LABELS[l]}
+          </button>
+        ))}
+      </div>
+    </>
   );
 }

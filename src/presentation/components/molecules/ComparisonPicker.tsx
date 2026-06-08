@@ -115,8 +115,9 @@ export function ComparisonPicker({
               inputRef.current?.focus();
             }}
             className={cn(
-              'fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2',
-              'flex max-h-[min(600px,85dvh)] flex-col rounded-2xl border border-stone-200 bg-white shadow-2xl',
+              'fixed inset-0 z-50 flex flex-col bg-white',
+              'sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2',
+              'sm:max-h-[min(600px,85dvh)] sm:rounded-2xl sm:border sm:border-stone-200 sm:shadow-2xl',
             )}
           >
             <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-5 py-4">

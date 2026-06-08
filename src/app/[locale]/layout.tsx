@@ -82,7 +82,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <TopNav />
-            {children}
+            <main className="pb-16 sm:pb-0">{children}</main>
           </QueryProvider>
         </NextIntlClientProvider>
       </body>

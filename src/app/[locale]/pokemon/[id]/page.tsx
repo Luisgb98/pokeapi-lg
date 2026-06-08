@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, unstable_rethrow } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { StatList } from '@/presentation/components/molecules/StatList';
 import { StatsRadarChart } from '@/presentation/components/molecules/StatsRadarChart';
@@ -62,18 +62,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PokemonDetailPage({ params, searchParams }: Props) {
-  const { locale, id } = await params;
-  const { from } = await searchParams;
+  const [{ locale, id }, { from }] = await Promise.all([params, searchParams]);
   const numericId = parseInt(id, 10);
 
   if (isNaN(numericId) || numericId < 1) {
     notFound();
   }
 
-  const t = await getTranslations('detail');
-  const tTypes = await getTranslations('types');
-  const tTypeChart = await getTranslations('typeChart');
-  const tSpecies = await getTranslations('species');
+  const [t, tTypes, tTypeChart, tSpecies] = await Promise.all([
+    getTranslations('detail'),
+    getTranslations('types'),
+    getTranslations('typeChart'),
+    getTranslations('species'),
+  ]);
 
   let pokemon, evolutionChain, species, learnset;
   try {
@@ -88,6 +89,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
     species = speciesResult;
     learnset = learnsetResult;
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof PokemonNotFoundError) {
       notFound();
     }
@@ -119,7 +121,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
             }}
           />
 
-          <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
               {t('baseStats')}
             </h2>
@@ -129,11 +131,11 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
             </div>
           </section>
 
-          <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
             <EvolutionChainView chain={evolutionChain} currentId={numericId} />
           </section>
 
-          <div className="lg:col-span-2">
+          <div className="min-w-0 lg:col-span-2">
             <TypeMatchupTable
               types={pokemon.types}
               typeLabels={typeLabels}
@@ -151,7 +153,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
           </div>
 
           {learnset.length > 0 && (
-            <div className="lg:col-span-2">
+            <div className="min-w-0 lg:col-span-2">
               <MoveLearnsetTable learnset={learnset} />
             </div>
           )}

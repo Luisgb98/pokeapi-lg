@@ -16,8 +16,8 @@ export function EvolutionChainView({ chain, currentId }: EvolutionChainViewProps
       <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
         {t('evolutionChain')}
       </h2>
-      <div className="overflow-x-auto">
-        <div className="flex min-w-max items-center gap-1 pb-2">
+      <div className="sm:overflow-x-auto">
+        <div className="flex flex-col items-center sm:min-w-max sm:flex-row sm:gap-1 sm:pb-2">
           <EvolutionNode node={chain.chain} currentId={currentId} isFirst />
         </div>
       </div>

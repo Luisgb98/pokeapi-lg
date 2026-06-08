@@ -72,7 +72,8 @@
     "pokedex": "Pokédex",
     "teamBuilder": "Equipo",
     "compare": "Comparar",
-    "game": "¿Quién es?"
+    "game": "¿Quién es?",
+    "tools": "Navigation"
   },
   "teamBuilder": {
     "heading": "Constructor de equipo",

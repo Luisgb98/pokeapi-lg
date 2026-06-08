@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const STAT_BG: Record<string, string> = {
   hp: 'bg-green-500',
@@ -27,25 +27,30 @@ interface StatBarProps {
 }
 
 export function StatBar({ statKey, value, max = 255 }: StatBarProps) {
-  const [animated, setAnimated] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setAnimated(true);
-      },
-      { threshold: 0.3 },
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const pct = Math.round((value / max) * 100);
   const label = STAT_LABELS[statKey] ?? statKey;
 
+  useEffect(() => {
+    const bar = barRef.current;
+    const container = containerRef.current;
+    if (!bar || !container) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          bar.style.setProperty('--bar-w', `${pct}%`);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 },
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [pct]);
+
   return (
-    <div ref={ref} className="flex items-center gap-3">
+    <div ref={containerRef} className="flex items-center gap-3">
       <span className="w-9 shrink-0 font-mono text-xs font-medium uppercase tracking-wider text-stone-400">
         {label}
       </span>
@@ -54,8 +59,8 @@ export function StatBar({ statKey, value, max = 255 }: StatBarProps) {
       </span>
       <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-stone-100">
         <div
-          className={`absolute inset-y-0 left-0 w-[var(--bar-w)] rounded-full transition-[width] duration-700 ease-out delay-100 ${STAT_BG[statKey] ?? 'bg-gray-400'}`}
-          style={{ '--bar-w': animated ? `${pct}%` : '0%' } as React.CSSProperties}
+          ref={barRef}
+          className={`absolute inset-y-0 left-0 w-[var(--bar-w,0%)] rounded-full transition-[width] duration-700 ease-out delay-100 ${STAT_BG[statKey] ?? 'bg-gray-400'}`}
         />
       </div>
     </div>
