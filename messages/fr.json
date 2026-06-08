@@ -1,0 +1,193 @@
+{
+  "metadata": {
+    "title": "Pokédex — Explorez le monde des Pokémon",
+    "titleTemplate": "%s — Pokédex",
+    "description": "Parcourez les 1 025 Pokémon avec recherche en temps réel, filtres par type et génération, statistiques et chaînes d'évolution.",
+    "siteTitle": "Pokédex"
+  },
+  "home": {
+    "heading": "Pokédex",
+    "subtitle": "Explorez, filtrez et découvrez les Pokémon de toutes les générations"
+  },
+  "filter": {
+    "searchPlaceholder": "Rechercher des Pokémon ou évolutions…",
+    "clearSearch": "Effacer la recherche",
+    "allTypes": "Tous les types",
+    "allGens": "Toutes les gén.",
+    "matchLabel": "Correspondance :",
+    "matchAny": "Au moins un",
+    "matchAll": "Tous",
+    "typeLabel": "Type :",
+    "typesLabel": "Types :",
+    "genLabel": "Gén. :",
+    "gensLabel": "Gén. :",
+    "typesCount": "{count} types",
+    "gensCount": "{count} gén.",
+    "typeMoreChar": "Tapez encore 1 caractère pour rechercher"
+  },
+  "grid": {
+    "matchingSearch": "correspondant à \"{query}\"",
+    "noResults": "Aucun Pokémon trouvé",
+    "noResultsHint": "Essayez d'ajuster votre recherche ou vos filtres",
+    "allLoaded": "Les {count} Pokémon sont tous chargés",
+    "errorTitle": "Une erreur s'est produite"
+  },
+  "detail": {
+    "backLink": "Pokédex",
+    "baseStats": "Statistiques de base",
+    "evolutionChain": "Chaîne d'évolution",
+    "metaDescription": "Consultez les statistiques de base, les compatibilités de type et la chaîne d'évolution de {name}."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "message": "La page que vous recherchez n'existe pas.",
+    "backLink": "Retour au Pokédex"
+  },
+  "error": {
+    "title": "Une erreur s'est produite",
+    "defaultMessage": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+    "retry": "Réessayer"
+  },
+  "types": {
+    "normal": "Normal",
+    "fire": "Feu",
+    "water": "Eau",
+    "electric": "Électrik",
+    "grass": "Plante",
+    "ice": "Glace",
+    "fighting": "Combat",
+    "poison": "Poison",
+    "ground": "Sol",
+    "flying": "Vol",
+    "psychic": "Psy",
+    "bug": "Insecte",
+    "rock": "Roche",
+    "ghost": "Spectre",
+    "dragon": "Dragon",
+    "dark": "Ténèbres",
+    "steel": "Acier",
+    "fairy": "Fée"
+  },
+  "nav": {
+    "pokedex": "Pokédex",
+    "teamBuilder": "Équipe",
+    "compare": "Comparer",
+    "game": "C'est qui ?"
+  },
+  "teamBuilder": {
+    "heading": "Constructeur d'équipe",
+    "subtitle": "Construisez votre équipe et analysez la couverture des types",
+    "searchPlaceholder": "Rechercher un Pokémon à ajouter…",
+    "clearSearch": "Effacer la recherche",
+    "emptySlot": "Emplacement vide",
+    "addToTeam": "Ajouter",
+    "removeFromTeam": "Retirer",
+    "clearTeam": "Vider l'équipe",
+    "teamFull": "Équipe complète",
+    "alreadyOnTeam": "Déjà dans l'équipe",
+    "noTeam": "Ajoutez des Pokémon pour voir la couverture",
+    "noResults": "Aucun Pokémon trouvé",
+    "teamCoverage": "Couverture de l'équipe",
+    "weakTo": "Faible contre",
+    "resists": "Résiste",
+    "immune": "Immunisé",
+    "fullTypeChart": "Tableau des types",
+    "fullTypeChartSubtitle": "Efficacité Attaque → Défense",
+    "attack": "ATT",
+    "defense": "DÉF",
+    "membersWeak": "{count} faible",
+    "membersResist": "{count} résiste",
+    "memberImmune": "{count} immun",
+    "pickerTitle": "Ajouter un Pokémon",
+    "searchHint": "Tapez au moins 2 caractères pour chercher"
+  },
+  "typeChart": {
+    "title": "Défenses de Type",
+    "weaknesses": "Faiblesses",
+    "resistances": "Résistances",
+    "weakX4": "×4",
+    "weakX2": "×2",
+    "resistHalf": "½",
+    "resistQuarter": "¼",
+    "immune": "×0"
+  },
+  "compare": {
+    "heading": "Comparer",
+    "subtitle": "Sélectionne 2 ou 3 Pokémon pour comparer leurs statistiques",
+    "slot": "Pokémon {slot}",
+    "add": "Ajouter un Pokémon",
+    "clear": "Retirer",
+    "select": "Sélectionner",
+    "selectTwo": "Sélectionne au moins 2 Pokémon pour comparer",
+    "radarSection": "Radar des stats",
+    "statsSection": "Statistiques de base",
+    "bst": "Total",
+    "searchPlaceholder": "Rechercher un Pokémon…",
+    "searchHint": "Tape au moins 2 caractères",
+    "noResults": "Aucun Pokémon trouvé",
+    "clearAll": "Tout effacer"
+  },
+  "favorites": {
+    "add": "Ajouter {name} aux favoris",
+    "remove": "Retirer {name} des favoris",
+    "filterLabel": "Afficher les favoris uniquement",
+    "empty": "Aucun favori pour l'instant",
+    "emptyHint": "Appuyez sur le cœur d'une carte Pokémon pour le sauvegarder ici"
+  },
+  "species": {
+    "section": "Entrée Pokédex",
+    "genus": "Catégorie",
+    "eggGroups": "Groupes Œuf",
+    "captureRate": "Taux de Capture",
+    "baseHappiness": "Bonheur de base",
+    "genderRatio": "Genre",
+    "genderless": "Asexué",
+    "male": "Mâle",
+    "female": "Femelle"
+  },
+  "forms": {
+    "shiny": "Chromatique",
+    "normalLabel": "Normal",
+    "selectForm": "Choisir une forme",
+    "toggleShiny": "Activer le mode chromatique",
+    "loadingForm": "Chargement de la forme…"
+  },
+  "moves": {
+    "section": "Capacités",
+    "all": "Toutes",
+    "levelUp": "Montée de niveau",
+    "machine": "CT / CS",
+    "egg": "Œuf",
+    "tutor": "Tuteur",
+    "move": "Capacité",
+    "type": "Type",
+    "category": "Cat.",
+    "power": "Puissance",
+    "accuracy": "Préc.",
+    "pp": "PP",
+    "level": "Nv.",
+    "method": "Méthode",
+    "physical": "Physique",
+    "special": "Spécial",
+    "status": "Statut",
+    "noMoves": "Aucune capacité trouvée",
+    "searchPlaceholder": "Rechercher des capacités…",
+    "noMovesSearch": "Aucune capacité ne correspond à \"{query}\""
+  },
+  "game": {
+    "heading": "C'est qui ce Pokémon ?",
+    "subtitle": "Défi quotidien — saurez-vous identifier la silhouette ?",
+    "daily": "Défi quotidien",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "Correct !",
+    "wrong": "Raté ! C'était {name}",
+    "timeout": "Temps écoulé ! C'était {name}",
+    "nextRound": "Tour suivant",
+    "loading": "Chargement…",
+    "roundOf": "Tour {current}/{total}",
+    "gameOver": "Défi terminé !",
+    "gameOverSubtitle": "Revenez demain pour un nouveau défi"
+  }
+}

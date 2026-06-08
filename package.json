@@ -1,26 +1,52 @@
 {
-  "name": "binpar-pokeapi",
+  "name": "pokeapi-lg",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "ci": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@tanstack/react-query": "^5.101.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.17.0",
     "next": "16.2.7",
+    "next-intl": "^4.13.0",
+    "radix-ui": "^1.4.3",
     "react": "19.2.7",
-    "react-dom": "19.2.7"
+    "react-dom": "19.2.7",
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.4.3",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^25",
+    "@types/node": "^25.9.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^4.1.8",
     "eslint": "^10",
     "eslint-config-next": "16.2.7",
+    "eslint-config-prettier": "^10.1.8",
+    "msw": "^2.14.6",
+    "prettier": "^3.8.3",
     "tailwindcss": "^4",
-    "typescript": "^6"
+    "typescript": "^6",
+    "vitest": "^4.1.8"
   }
 }

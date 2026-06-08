@@ -1,0 +1,193 @@
+{
+  "metadata": {
+    "title": "Pokédex — Entdecke die Welt der Pokémon",
+    "titleTemplate": "%s — Pokédex",
+    "description": "Durchsuche alle 1.025 Pokémon mit Echtzeit-Suche, Typ- und Generationsfiltern, Statuswerten und Entwicklungsketten.",
+    "siteTitle": "Pokédex"
+  },
+  "home": {
+    "heading": "Pokédex",
+    "subtitle": "Entdecke, filtere und erkunde Pokémon aller Generationen"
+  },
+  "filter": {
+    "searchPlaceholder": "Pokémon oder Entwicklungen suchen…",
+    "clearSearch": "Suche löschen",
+    "allTypes": "Alle Typen",
+    "allGens": "Alle Gen.",
+    "matchLabel": "Übereinstimmung:",
+    "matchAny": "Beliebig",
+    "matchAll": "Alle",
+    "typeLabel": "Typ:",
+    "typesLabel": "Typen:",
+    "genLabel": "Gen.:",
+    "gensLabel": "Gen.:",
+    "typesCount": "{count} Typen",
+    "gensCount": "{count} Gen.",
+    "typeMoreChar": "Noch 1 Zeichen eingeben, um zu suchen"
+  },
+  "grid": {
+    "matchingSearch": "passend zu \"{query}\"",
+    "noResults": "Keine Pokémon gefunden",
+    "noResultsHint": "Versuche, die Suche oder Filter anzupassen",
+    "allLoaded": "Alle {count} Pokémon geladen",
+    "errorTitle": "Etwas ist schiefgelaufen"
+  },
+  "detail": {
+    "backLink": "Pokédex",
+    "baseStats": "Basiswerte",
+    "evolutionChain": "Entwicklungskette",
+    "metaDescription": "Sieh dir die Basiswerte, Typkompatibilitäten und Entwicklungskette von {name} an."
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "message": "Die gesuchte Seite existiert nicht.",
+    "backLink": "Zurück zum Pokédex"
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "defaultMessage": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.",
+    "retry": "Erneut versuchen"
+  },
+  "types": {
+    "normal": "Normal",
+    "fire": "Feuer",
+    "water": "Wasser",
+    "electric": "Elektro",
+    "grass": "Pflanze",
+    "ice": "Eis",
+    "fighting": "Kampf",
+    "poison": "Gift",
+    "ground": "Boden",
+    "flying": "Flug",
+    "psychic": "Psycho",
+    "bug": "Käfer",
+    "rock": "Gestein",
+    "ghost": "Geist",
+    "dragon": "Drache",
+    "dark": "Unlicht",
+    "steel": "Stahl",
+    "fairy": "Fee"
+  },
+  "nav": {
+    "pokedex": "Pokédex",
+    "teamBuilder": "Team",
+    "compare": "Vergleichen",
+    "game": "Wer ist das?"
+  },
+  "teamBuilder": {
+    "heading": "Team-Builder",
+    "subtitle": "Stelle dein Team zusammen und analysiere die Typenabdeckung",
+    "searchPlaceholder": "Pokémon suchen und hinzufügen…",
+    "clearSearch": "Suche löschen",
+    "emptySlot": "Leerer Platz",
+    "addToTeam": "Hinzufügen",
+    "removeFromTeam": "Entfernen",
+    "clearTeam": "Team leeren",
+    "teamFull": "Team ist voll",
+    "alreadyOnTeam": "Bereits im Team",
+    "noTeam": "Füge Pokémon zu deinem Team hinzu, um die Abdeckung zu sehen",
+    "noResults": "Keine Pokémon gefunden",
+    "teamCoverage": "Team-Abdeckung",
+    "weakTo": "Schwach gegen",
+    "resists": "Resistent",
+    "immune": "Immun",
+    "fullTypeChart": "Typentabelle",
+    "fullTypeChartSubtitle": "Angriff → Verteidigung Effektivität",
+    "attack": "ANR",
+    "defense": "VER",
+    "membersWeak": "{count} schwach",
+    "membersResist": "{count} resistent",
+    "memberImmune": "{count} immun",
+    "pickerTitle": "Pokémon hinzufügen",
+    "searchHint": "Mindestens 2 Zeichen eingeben"
+  },
+  "typeChart": {
+    "title": "Typ-Verteidigung",
+    "weaknesses": "Schwächen",
+    "resistances": "Resistenzen",
+    "weakX4": "×4",
+    "weakX2": "×2",
+    "resistHalf": "½",
+    "resistQuarter": "¼",
+    "immune": "×0"
+  },
+  "compare": {
+    "heading": "Vergleichen",
+    "subtitle": "Wähle 2 oder 3 Pokémon, um ihre Werte zu vergleichen",
+    "slot": "Pokémon {slot}",
+    "add": "Pokémon hinzufügen",
+    "clear": "Entfernen",
+    "select": "Auswählen",
+    "selectTwo": "Wähle mindestens 2 Pokémon zum Vergleichen",
+    "radarSection": "Statistik-Radar",
+    "statsSection": "Basiswerte",
+    "bst": "Gesamt",
+    "searchPlaceholder": "Pokémon suchen…",
+    "searchHint": "Mindestens 2 Zeichen eingeben",
+    "noResults": "Keine Pokémon gefunden",
+    "clearAll": "Alle löschen"
+  },
+  "favorites": {
+    "add": "{name} zu Favoriten hinzufügen",
+    "remove": "{name} aus Favoriten entfernen",
+    "filterLabel": "Nur Favoriten anzeigen",
+    "empty": "Noch keine Favoriten",
+    "emptyHint": "Tippe auf das Herz einer Pokémon-Karte, um es hier zu speichern"
+  },
+  "species": {
+    "section": "Pokédex-Eintrag",
+    "genus": "Kategorie",
+    "eggGroups": "Ei-Gruppen",
+    "captureRate": "Fangrate",
+    "baseHappiness": "Basis-Freundschaft",
+    "genderRatio": "Geschlecht",
+    "genderless": "Geschlechtslos",
+    "male": "Männlich",
+    "female": "Weiblich"
+  },
+  "forms": {
+    "shiny": "Shiny",
+    "normalLabel": "Normal",
+    "selectForm": "Form auswählen",
+    "toggleShiny": "Shiny-Modus umschalten",
+    "loadingForm": "Form wird geladen…"
+  },
+  "moves": {
+    "section": "Attacken",
+    "all": "Alle",
+    "levelUp": "Level-Up",
+    "machine": "TM / VM",
+    "egg": "Ei",
+    "tutor": "Lehrer",
+    "move": "Attacke",
+    "type": "Typ",
+    "category": "Kat.",
+    "power": "Stärke",
+    "accuracy": "Gen.",
+    "pp": "AP",
+    "level": "Lv.",
+    "method": "Methode",
+    "physical": "Physisch",
+    "special": "Spezial",
+    "status": "Status",
+    "noMoves": "Keine Attacken gefunden",
+    "searchPlaceholder": "Attacken suchen…",
+    "noMovesSearch": "Keine Attacken für \"{query}\" gefunden"
+  },
+  "game": {
+    "heading": "Wer ist dieses Pokémon?",
+    "subtitle": "Tägliche Herausforderung — erkennst du die Silhouette?",
+    "daily": "Tägliche Herausforderung",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "Richtig!",
+    "wrong": "Falsch! Es war {name}",
+    "timeout": "Zeit abgelaufen! Es war {name}",
+    "nextRound": "Nächste Runde",
+    "loading": "Lädt…",
+    "roundOf": "Runde {current}/{total}",
+    "gameOver": "Herausforderung abgeschlossen!",
+    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück"
+  }
+}

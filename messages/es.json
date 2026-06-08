@@ -1,0 +1,193 @@
+{
+  "metadata": {
+    "title": "Pokédex — Explora el mundo Pokémon",
+    "titleTemplate": "%s — Pokédex",
+    "description": "Explora los 1.025 Pokémon con búsqueda en tiempo real, filtros por tipo y generación, estadísticas y cadenas evolutivas.",
+    "siteTitle": "Pokédex"
+  },
+  "home": {
+    "heading": "Pokédex",
+    "subtitle": "Explora, filtra y descubre Pokémon de todas las generaciones"
+  },
+  "filter": {
+    "searchPlaceholder": "Buscar Pokémon o evoluciones…",
+    "clearSearch": "Limpiar búsqueda",
+    "allTypes": "Todos los tipos",
+    "allGens": "Todas las gen.",
+    "matchLabel": "Coincidencia:",
+    "matchAny": "Cualquiera",
+    "matchAll": "Todos",
+    "typeLabel": "Tipo:",
+    "typesLabel": "Tipos:",
+    "genLabel": "Gen.:",
+    "gensLabel": "Gen.:",
+    "typesCount": "{count} tipos",
+    "gensCount": "{count} gen.",
+    "typeMoreChar": "Escribe 1 carácter más para buscar"
+  },
+  "grid": {
+    "matchingSearch": "que coinciden con \"{query}\"",
+    "noResults": "No se encontraron Pokémon",
+    "noResultsHint": "Intenta ajustar tu búsqueda o filtros",
+    "allLoaded": "Los {count} Pokémon están cargados",
+    "errorTitle": "Algo salió mal"
+  },
+  "detail": {
+    "backLink": "Pokédex",
+    "baseStats": "Estadísticas Base",
+    "evolutionChain": "Cadena Evolutiva",
+    "metaDescription": "Consulta las estadísticas base, compatibilidades de tipo y cadena evolutiva de {name}."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "message": "La página que buscas no existe.",
+    "backLink": "Volver al Pokédex"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "defaultMessage": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
+    "retry": "Intentar de nuevo"
+  },
+  "types": {
+    "normal": "Normal",
+    "fire": "Fuego",
+    "water": "Agua",
+    "electric": "Eléctrico",
+    "grass": "Planta",
+    "ice": "Hielo",
+    "fighting": "Lucha",
+    "poison": "Veneno",
+    "ground": "Tierra",
+    "flying": "Volador",
+    "psychic": "Psíquico",
+    "bug": "Bicho",
+    "rock": "Roca",
+    "ghost": "Fantasma",
+    "dragon": "Dragón",
+    "dark": "Siniestro",
+    "steel": "Acero",
+    "fairy": "Hada"
+  },
+  "nav": {
+    "pokedex": "Pokédex",
+    "teamBuilder": "Equipo",
+    "compare": "Comparar",
+    "game": "¿Quién es?"
+  },
+  "teamBuilder": {
+    "heading": "Constructor de equipo",
+    "subtitle": "Crea tu equipo y analiza la cobertura de tipos",
+    "searchPlaceholder": "Busca un Pokémon para añadir…",
+    "clearSearch": "Borrar búsqueda",
+    "emptySlot": "Hueco vacío",
+    "addToTeam": "Añadir",
+    "removeFromTeam": "Quitar",
+    "clearTeam": "Vaciar equipo",
+    "teamFull": "Equipo completo",
+    "alreadyOnTeam": "Ya está en el equipo",
+    "noTeam": "Añade Pokémon a tu equipo para ver la cobertura",
+    "noResults": "No se encontraron Pokémon",
+    "teamCoverage": "Cobertura del equipo",
+    "weakTo": "Débil contra",
+    "resists": "Resiste",
+    "immune": "Inmune",
+    "fullTypeChart": "Tabla de tipos",
+    "fullTypeChartSubtitle": "Efectividad Ataque → Defensa",
+    "attack": "ATQ",
+    "defense": "DEF",
+    "membersWeak": "{count} débil",
+    "membersResist": "{count} resiste",
+    "memberImmune": "{count} inmune",
+    "pickerTitle": "Añadir Pokémon",
+    "searchHint": "Escribe al menos 2 caracteres para buscar"
+  },
+  "typeChart": {
+    "title": "Defensa de Tipos",
+    "weaknesses": "Debilidades",
+    "resistances": "Resistencias",
+    "weakX4": "×4",
+    "weakX2": "×2",
+    "resistHalf": "½",
+    "resistQuarter": "¼",
+    "immune": "×0"
+  },
+  "compare": {
+    "heading": "Comparar",
+    "subtitle": "Selecciona 2 o 3 Pokémon para comparar sus estadísticas",
+    "slot": "Pokémon {slot}",
+    "add": "Añadir Pokémon",
+    "clear": "Quitar",
+    "select": "Seleccionar",
+    "selectTwo": "Selecciona al menos 2 Pokémon para comparar",
+    "radarSection": "Radar de estadísticas",
+    "statsSection": "Estadísticas base",
+    "bst": "Total",
+    "searchPlaceholder": "Buscar Pokémon…",
+    "searchHint": "Escribe al menos 2 caracteres",
+    "noResults": "No se encontraron Pokémon",
+    "clearAll": "Borrar todo"
+  },
+  "favorites": {
+    "add": "Añadir {name} a favoritos",
+    "remove": "Eliminar {name} de favoritos",
+    "filterLabel": "Mostrar solo favoritos",
+    "empty": "Aún no hay favoritos",
+    "emptyHint": "Toca el corazón en cualquier tarjeta para guardarlo aquí"
+  },
+  "species": {
+    "section": "Entrada del Pokédex",
+    "genus": "Categoría",
+    "eggGroups": "Grupos Huevo",
+    "captureRate": "Tasa de Captura",
+    "baseHappiness": "Felicidad Base",
+    "genderRatio": "Género",
+    "genderless": "Sin género",
+    "male": "Macho",
+    "female": "Hembra"
+  },
+  "forms": {
+    "shiny": "Variocolor",
+    "normalLabel": "Normal",
+    "selectForm": "Seleccionar forma",
+    "toggleShiny": "Activar modo variocolor",
+    "loadingForm": "Cargando forma…"
+  },
+  "moves": {
+    "section": "Movimientos",
+    "all": "Todos",
+    "levelUp": "Subida de nivel",
+    "machine": "MT / MO",
+    "egg": "Huevo",
+    "tutor": "Tutor",
+    "move": "Movimiento",
+    "type": "Tipo",
+    "category": "Cat.",
+    "power": "Potencia",
+    "accuracy": "Prec.",
+    "pp": "PP",
+    "level": "Nv.",
+    "method": "Método",
+    "physical": "Físico",
+    "special": "Especial",
+    "status": "Estado",
+    "noMoves": "No se encontraron movimientos",
+    "searchPlaceholder": "Buscar movimientos…",
+    "noMovesSearch": "Ningún movimiento coincide con \"{query}\""
+  },
+  "game": {
+    "heading": "¿Quién es ese Pokémon?",
+    "subtitle": "Reto diario — ¿puedes adivinar la silueta?",
+    "daily": "Reto diario",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "¡Correcto!",
+    "wrong": "¡Incorrecto! Era {name}",
+    "timeout": "¡Tiempo! Era {name}",
+    "nextRound": "Siguiente ronda",
+    "loading": "Cargando…",
+    "roundOf": "Ronda {current}/{total}",
+    "gameOver": "¡Reto completado!",
+    "gameOverSubtitle": "Vuelve mañana para un nuevo reto"
+  }
+}
