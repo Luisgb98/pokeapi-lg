@@ -39,7 +39,7 @@ export function ShinyFormSwitcher({
         <Select value={String(selectedFormId)} onValueChange={(v) => onFormChange(Number(v))}>
           <SelectTrigger
             size="sm"
-            className="h-8 rounded-xl border-white/30 bg-white/20 text-xs font-medium text-stone-700 backdrop-blur-sm hover:bg-white/40 focus:ring-stone-900/20"
+            className="h-8 rounded-xl border-stone-200 bg-white text-xs font-medium text-stone-700 shadow-sm hover:bg-stone-50 focus:ring-stone-900/20"
           >
             <SelectValue placeholder={labels.selectForm} />
           </SelectTrigger>
@@ -61,8 +61,8 @@ export function ShinyFormSwitcher({
         className={cn(
           'flex h-8 items-center gap-1.5 rounded-xl px-3 text-xs font-medium transition-all',
           isShiny
-            ? 'bg-amber-400/90 text-amber-900 shadow-sm'
-            : 'bg-white/20 text-stone-600 backdrop-blur-sm hover:bg-white/40',
+            ? 'border border-amber-400 bg-amber-400 text-amber-950 shadow-sm'
+            : 'border border-stone-200 bg-white text-stone-600 shadow-sm hover:bg-stone-50',
         )}
       >
         <Sparkles className={cn('size-3.5', isShiny && 'animate-pulse')} />

@@ -68,9 +68,37 @@ export function PokemonDetailHeader({ pokemon, backTo, varieties = [] }: Pokemon
               alt={currentPokemon.displayName}
               fill
               sizes="(max-width: 640px) 208px, 256px"
-              className={`object-contain drop-shadow-lg transition-opacity duration-200 ${isFormLoading ? 'opacity-50' : 'opacity-100'}`}
+              className={`object-contain transition-all duration-300 ${isShiny ? 'drop-shadow-[0_0_22px_rgba(251,191,36,0.55)]' : 'drop-shadow-lg'} ${isFormLoading ? 'opacity-50' : 'opacity-100'}`}
               priority
             />
+            {isShiny && (
+              <>
+                <span
+                  style={{ '--sparkle-delay': '0ms' } as React.CSSProperties}
+                  className="animate-sparkle-rise pointer-events-none absolute right-5 top-3 select-none text-lg text-amber-400"
+                >
+                  ✦
+                </span>
+                <span
+                  style={{ '--sparkle-delay': '600ms' } as React.CSSProperties}
+                  className="animate-sparkle-rise pointer-events-none absolute left-4 top-10 select-none text-sm text-yellow-300"
+                >
+                  ★
+                </span>
+                <span
+                  style={{ '--sparkle-delay': '1200ms' } as React.CSSProperties}
+                  className="animate-sparkle-rise pointer-events-none absolute bottom-14 right-3 select-none text-xs text-amber-300"
+                >
+                  ✦
+                </span>
+                <span
+                  style={{ '--sparkle-delay': '300ms' } as React.CSSProperties}
+                  className="animate-sparkle-rise pointer-events-none absolute bottom-10 left-5 select-none text-base text-yellow-400"
+                >
+                  ★
+                </span>
+              </>
+            )}
           </div>
 
           <div className="mt-4 text-center sm:mt-0 sm:pb-4 sm:text-left">

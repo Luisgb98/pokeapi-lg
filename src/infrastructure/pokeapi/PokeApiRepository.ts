@@ -176,10 +176,9 @@ export class PokeApiRepository implements PokemonRepository {
 
   async findById(id: number): Promise<Pokemon | null> {
     try {
-      const [rawPokemon, species] = await Promise.all([
-        this.fetchPokemon(id),
-        this.fetchSpecies(id),
-      ]);
+      const rawPokemon = await this.fetchPokemon(id);
+      const speciesId = extractIdFromUrl(rawPokemon.species.url);
+      const species = await this.fetchSpecies(speciesId);
       const chainId = extractIdFromUrl(species.evolution_chain.url);
       return mapPokemon(rawPokemon, chainId);
     } catch {
