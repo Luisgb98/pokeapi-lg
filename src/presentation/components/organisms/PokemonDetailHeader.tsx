@@ -69,8 +69,13 @@ export function PokemonDetailHeader({ pokemon, backTo, varieties = [] }: Pokemon
     const img = new window.Image();
     img.src = displayArtwork;
     if (img.complete) {
-      setCommittedArtwork(displayArtwork);
-      return;
+      let cancelled = false;
+      queueMicrotask(() => {
+        if (!cancelled) setCommittedArtwork(displayArtwork);
+      });
+      return () => {
+        cancelled = true;
+      };
     }
     const settle = () => setCommittedArtwork(displayArtwork);
     img.addEventListener('load', settle);
