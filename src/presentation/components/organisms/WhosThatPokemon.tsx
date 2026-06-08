@@ -39,10 +39,12 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
   } = useGameStore();
 
   useEffect(() => {
-    void useGameStore.persist.rehydrate();
-    initOrRestore(initialChallenge);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsReady(true);
+    const init = async () => {
+      await useGameStore.persist.rehydrate();
+      initOrRestore(initialChallenge);
+      setIsReady(true);
+    };
+    void init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -73,7 +73,7 @@ export const useGameStore = create<GameStore>()(
       },
     }),
     {
-      name: 'pokemon-game',
+      name: 'pokemon-game-v2',
       skipHydration: true,
     },
   ),
