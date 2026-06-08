@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
@@ -10,9 +11,12 @@ import { GenerationBadge } from '@/presentation/components/atoms/GenerationBadge
 import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
 import { ShinyFormSwitcher } from '@/presentation/components/molecules/ShinyFormSwitcher';
 import { useHydration } from '@/presentation/hooks/useHydration';
+import { getOfficialArtworkUrl, getShinyArtworkUrl } from '@/domain/entities/Pokemon';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
 import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import { usePokemonFormById } from '@/presentation/queries/pokemonQueries';
+import { fetchPokemonFormById } from '@/application/actions/pokemon';
+import { pokemonFormQueryKey } from '@/presentation/lib/queryKeys';
 import type { Pokemon } from '@/domain/entities/Pokemon';
 import type { PokemonVariety } from '@/domain/entities/PokemonSpecies';
 
@@ -33,14 +37,49 @@ export function PokemonDetailHeader({ pokemon, backTo, varieties = [] }: Pokemon
 
   const hydrated = useHydration();
   const { isFavorite, toggle } = useFavoritesStore();
+  const queryClient = useQueryClient();
 
   const isFormChanged = selectedFormId !== pokemon.id;
-  const { data: formData, isLoading: isFormLoading } = usePokemonFormById(
-    isFormChanged ? selectedFormId : null,
-  );
+  const { data: formData } = usePokemonFormById(isFormChanged ? selectedFormId : null);
 
   const currentPokemon = formData ?? pokemon;
   const displayArtwork = isShiny ? currentPokemon.shinyArtwork : currentPokemon.artwork;
+
+  // Prefetch all alternate-form data and preload their artwork images on mount
+  // so form + shiny switching is instant with no blank-frame flash.
+  useEffect(() => {
+    const altForms = varieties.filter((v) => v.id !== pokemon.id);
+    for (const variety of altForms) {
+      void queryClient.prefetchQuery({
+        queryKey: pokemonFormQueryKey(variety.id),
+        queryFn: () => fetchPokemonFormById(variety.id),
+        staleTime: Infinity,
+      });
+      new window.Image().src = getOfficialArtworkUrl(variety.id);
+      new window.Image().src = getShinyArtworkUrl(variety.id);
+    }
+    new window.Image().src = getShinyArtworkUrl(pokemon.id);
+  }, [varieties, pokemon.id, queryClient]);
+
+  // Only commit the new src once the browser has finished loading the image,
+  // so the displayed image never goes through a blank state mid-transition.
+  const [committedArtwork, setCommittedArtwork] = useState(displayArtwork);
+  useEffect(() => {
+    if (displayArtwork === committedArtwork) return;
+    const img = new window.Image();
+    img.src = displayArtwork;
+    if (img.complete) {
+      setCommittedArtwork(displayArtwork);
+      return;
+    }
+    const settle = () => setCommittedArtwork(displayArtwork);
+    img.addEventListener('load', settle);
+    img.addEventListener('error', settle);
+    return () => {
+      img.removeEventListener('load', settle);
+      img.removeEventListener('error', settle);
+    };
+  }, [displayArtwork, committedArtwork]);
 
   const tc = getPrimaryTypeClasses(currentPokemon.types);
   const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
@@ -64,11 +103,12 @@ export function PokemonDetailHeader({ pokemon, backTo, varieties = [] }: Pokemon
         <div className="mx-auto flex max-w-5xl flex-col items-center px-4 pt-4 sm:flex-row sm:items-end sm:gap-8 sm:px-6 lg:px-8">
           <div className="relative size-52 shrink-0 animate-float sm:size-64">
             <Image
-              src={displayArtwork}
+              key={committedArtwork}
+              src={committedArtwork}
               alt={currentPokemon.displayName}
               fill
               sizes="(max-width: 640px) 208px, 256px"
-              className={`object-contain transition-all duration-300 ${isShiny ? 'drop-shadow-[0_0_22px_rgba(251,191,36,0.55)]' : 'drop-shadow-lg'} ${isFormLoading ? 'opacity-50' : 'opacity-100'}`}
+              className={`animate-fade-in object-contain transition-[filter] duration-300 ${isShiny ? 'drop-shadow-[0_0_22px_rgba(251,191,36,0.55)]' : 'drop-shadow-lg'}`}
               priority
             />
             {isShiny && (
