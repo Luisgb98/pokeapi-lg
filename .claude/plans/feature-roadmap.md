@@ -9,8 +9,8 @@
 | 3   | Dynamic OG Images                       | `feat-dynamic-og-images`   | done    |
 | 4   | Favorites / Bookmarks (Zustand persist) | `feat-favorites`           | done    |
 | 5   | Pokémon Comparison page                 | `feat-comparison`          | done    |
-| 6   | Move Learnset Table                     | —                          | pending |
-| 7   | Shiny / Form Switcher                   | —                          | pending |
+| 6   | Move Learnset Table                     | `feat-move-learnset`       | done    |
+| 7   | Shiny / Form Switcher                   | `feat-shiny-form-switcher` | done    |
 | 8   | "Who's that Pokémon?" Mini-Game         | —                          | pending |
 
 ---
