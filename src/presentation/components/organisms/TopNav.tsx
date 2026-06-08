@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
+import { LayoutGrid, Users, Scale, Gamepad2 } from 'lucide-react';
 import { LanguageSwitcher } from '@/presentation/components/atoms/LanguageSwitcher';
 import { useHydration } from '@/presentation/hooks/useHydration';
 import { useFavoritesStore } from '@/presentation/store/favoritesStore';
@@ -17,49 +18,99 @@ export function TopNav() {
     {
       href: '/' as const,
       label: t('pokedex'),
+      icon: LayoutGrid,
       badge: hydrated && favCount > 0 ? favCount : null,
     },
-    { href: '/team' as const, label: t('teamBuilder'), badge: null },
-    { href: '/compare' as const, label: t('compare'), badge: null },
-    { href: '/game' as const, label: t('game'), badge: null },
+    { href: '/team' as const, label: t('teamBuilder'), icon: Users, badge: null },
+    { href: '/compare' as const, label: t('compare'), icon: Scale, badge: null },
+    { href: '/game' as const, label: t('game'), icon: Gamepad2, badge: null },
   ];
 
   return (
-    <nav className="sticky top-0 z-30 border-b border-stone-200 bg-white/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-1">
-          <span
-            className="mr-3 select-none font-display text-xl font-black text-stone-900"
-            aria-hidden="true"
-          >
-            ◉
-          </span>
-          <div className="flex items-center gap-0.5" role="tablist" aria-label="Tools">
-            {tabs.map((tab) => (
+    <>
+      {/* Top bar */}
+      <nav className="sticky top-0 z-30 border-b border-stone-200 bg-white/90 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-1">
+            <span
+              className="mr-3 select-none font-display text-xl font-black text-stone-900"
+              aria-hidden="true"
+            >
+              ◉
+            </span>
+            {/* Desktop tab list — hidden on mobile */}
+            <div
+              className="hidden items-center gap-0.5 sm:flex"
+              role="tablist"
+              aria-label={t('tools')}
+            >
+              {tabs.map((tab) => (
+                <Link
+                  key={tab.href}
+                  href={tab.href}
+                  role="tab"
+                  aria-selected={pathname === tab.href}
+                  className={cn(
+                    'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
+                    pathname === tab.href
+                      ? 'bg-stone-900 text-white'
+                      : 'text-stone-500 hover:bg-stone-100 hover:text-stone-900',
+                  )}
+                >
+                  {tab.label}
+                  {tab.badge !== null && (
+                    <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 font-mono text-[10px] font-bold text-white">
+                      {tab.badge}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
+          <LanguageSwitcher />
+        </div>
+      </nav>
+
+      {/* Bottom nav — mobile only */}
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-30 border-t border-stone-200 bg-white/95 backdrop-blur-sm sm:hidden"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        aria-label={t('tools')}
+      >
+        <div className="flex items-stretch">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = pathname === tab.href;
+            return (
               <Link
                 key={tab.href}
                 href={tab.href}
-                role="tab"
-                aria-selected={pathname === tab.href}
+                aria-current={isActive ? 'page' : undefined}
                 className={cn(
-                  'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
-                  pathname === tab.href
-                    ? 'bg-stone-900 text-white'
-                    : 'text-stone-500 hover:bg-stone-100 hover:text-stone-900',
+                  'relative flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-center text-[10px] font-medium leading-tight transition-colors',
+                  isActive ? 'text-stone-900' : 'text-stone-400',
                 )}
               >
-                {tab.label}
-                {tab.badge !== null && (
-                  <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 font-mono text-[10px] font-bold text-white">
-                    {tab.badge}
-                  </span>
+                <div className="relative">
+                  <Icon
+                    className={cn('size-5', isActive ? 'stroke-[2.5]' : 'stroke-[1.5]')}
+                    aria-hidden="true"
+                  />
+                  {tab.badge !== null && (
+                    <span className="absolute -right-1.5 -top-1.5 flex h-3.5 min-w-[0.875rem] items-center justify-center rounded-full bg-rose-500 px-0.5 font-mono text-[9px] font-bold text-white">
+                      {tab.badge}
+                    </span>
+                  )}
+                </div>
+                <span className="max-w-[5rem] truncate px-0.5">{tab.label}</span>
+                {isActive && (
+                  <span className="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-8 rounded-full bg-stone-900" />
                 )}
               </Link>
-            ))}
-          </div>
+            );
+          })}
         </div>
-        <LanguageSwitcher />
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }

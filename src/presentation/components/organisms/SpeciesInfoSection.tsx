@@ -38,7 +38,7 @@ export function SpeciesInfoSection({ species, labels }: Props) {
   const malePercent = femalePercent !== null ? 100 - femalePercent : null;
 
   return (
-    <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm lg:col-span-2">
+    <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm lg:col-span-2">
       <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
         {labels.section}
       </h2>
