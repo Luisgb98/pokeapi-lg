@@ -52,9 +52,9 @@ export function PokemonGrid() {
 
   const sentinelRef = useInfiniteScroll(handleFetchNext, !!hasNextPage && !isFetchingNextPage);
 
-  const handleCardClick = useCallback(() => {
+  const handleCardClick = () => {
     setNavState(window.scrollY, pokemon.length);
-  }, [setNavState, pokemon.length]);
+  };
 
   useEffect(() => {
     if (scrollY <= 0) return;
