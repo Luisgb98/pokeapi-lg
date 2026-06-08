@@ -185,6 +185,9 @@
     "wrong": "Raté ! C'était {name}",
     "timeout": "Temps écoulé ! C'était {name}",
     "nextRound": "Tour suivant",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "roundOf": "Tour {current}/{total}",
+    "gameOver": "Défi terminé !",
+    "gameOverSubtitle": "Revenez demain pour un nouveau défi"
   }
 }

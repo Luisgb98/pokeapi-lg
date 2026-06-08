@@ -185,6 +185,9 @@
     "wrong": "¡Incorrecto! Era {name}",
     "timeout": "¡Tiempo! Era {name}",
     "nextRound": "Siguiente ronda",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "roundOf": "Ronda {current}/{total}",
+    "gameOver": "¡Reto completado!",
+    "gameOverSubtitle": "Vuelve mañana para un nuevo reto"
   }
 }

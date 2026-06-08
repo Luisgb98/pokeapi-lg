@@ -185,6 +185,9 @@
     "wrong": "Errado! Era {name}",
     "timeout": "Tempo esgotado! Era {name}",
     "nextRound": "Próxima rodada",
-    "loading": "Carregando…"
+    "loading": "Carregando…",
+    "roundOf": "Rodada {current}/{total}",
+    "gameOver": "Desafio concluído!",
+    "gameOverSubtitle": "Volte amanhã para um novo desafio"
   }
 }

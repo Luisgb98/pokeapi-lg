@@ -185,6 +185,9 @@
     "wrong": "Sbagliato! Era {name}",
     "timeout": "Tempo scaduto! Era {name}",
     "nextRound": "Prossimo turno",
-    "loading": "Caricamento…"
+    "loading": "Caricamento…",
+    "roundOf": "Round {current}/{total}",
+    "gameOver": "Sfida completata!",
+    "gameOverSubtitle": "Torna domani per una nuova sfida"
   }
 }

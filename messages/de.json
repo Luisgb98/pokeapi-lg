@@ -185,6 +185,9 @@
     "wrong": "Falsch! Es war {name}",
     "timeout": "Zeit abgelaufen! Es war {name}",
     "nextRound": "Nächste Runde",
-    "loading": "Lädt…"
+    "loading": "Lädt…",
+    "roundOf": "Runde {current}/{total}",
+    "gameOver": "Herausforderung abgeschlossen!",
+    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück"
   }
 }
