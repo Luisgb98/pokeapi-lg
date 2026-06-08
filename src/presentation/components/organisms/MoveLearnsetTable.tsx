@@ -49,7 +49,7 @@ export function MoveLearnsetTable({ learnset }: Props) {
       ? searchFiltered
       : searchFiltered.filter((m) => m.learnMethod === activeTab);
 
-  const sorted = [...filtered].sort((a, b) => {
+  const sorted = filtered.toSorted((a, b) => {
     let cmp = 0;
     switch (sort.key) {
       case 'level':
@@ -87,10 +87,9 @@ export function MoveLearnsetTable({ learnset }: Props) {
 
   const tabs: Array<{ key: FilterTab; label: string }> = [
     { key: 'all', label: t('all') },
-    ...LEARN_METHODS.filter((m) => availableMethods.has(m)).map((m) => ({
-      key: m as FilterTab,
-      label: methodLabel(m, t),
-    })),
+    ...LEARN_METHODS.flatMap((m) =>
+      availableMethods.has(m) ? [{ key: m as FilterTab, label: methodLabel(m, t) }] : [],
+    ),
   ];
 
   const showLevel = activeTab === 'level-up' || activeTab === 'all';

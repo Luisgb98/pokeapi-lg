@@ -5,12 +5,12 @@ interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-export function Spinner({ className, size = 'md' }: SpinnerProps) {
-  const sizeMap = { sm: 'size-4', md: 'size-6', lg: 'size-10' };
+const SIZE_MAP = { sm: 'size-4', md: 'size-6', lg: 'size-10' } as const;
 
+export function Spinner({ className, size = 'md' }: SpinnerProps) {
   return (
     <svg
-      className={cn('animate-spin text-stone-400', sizeMap[size], className)}
+      className={cn('animate-spin text-stone-400', SIZE_MAP[size], className)}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

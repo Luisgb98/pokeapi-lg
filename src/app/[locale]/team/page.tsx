@@ -1,16 +1,25 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import type { Metadata } from 'next';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations } from 'next-intl/server';
 import { TeamBuilder } from '@/presentation/components/organisms/TeamBuilder';
 import { getRepository } from '@/application/container';
 import { getPokemonList, POKEMON_PAGE_SIZE } from '@/application/usecases/getPokemonList';
 import { pokemonListQueryKey } from '@/presentation/lib/queryKeys';
+import { getQueryClient } from '@/presentation/lib/getQueryClient';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import type { PokemonType } from '@/domain/entities/Pokemon';
 
-export default async function TeamBuilderPage() {
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('teamBuilder');
-  const tTypes = await getTranslations('types');
-  const queryClient = new QueryClient();
+  return {
+    title: t('heading'),
+    description: t('subtitle'),
+  };
+}
+
+export default async function TeamBuilderPage() {
+  const [t, tTypes] = await Promise.all([getTranslations('teamBuilder'), getTranslations('types')]);
+  const queryClient = getQueryClient();
   const repository = getRepository();
 
   const firstPage = await getPokemonList(repository, {

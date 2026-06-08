@@ -12,12 +12,12 @@ export interface PokemonListParams {
 export function normalizePokemonParams(params: PokemonListParams): PokemonListParams {
   const out: PokemonListParams = {};
   if (params.types?.length) {
-    out.types = [...params.types].sort();
+    out.types = params.types.toSorted();
     if (params.types.length >= 2 && params.typeMatchMode === 'all') {
       out.typeMatchMode = 'all';
     }
   }
-  if (params.generations?.length) out.generations = [...params.generations].sort();
+  if (params.generations?.length) out.generations = params.generations.toSorted();
   if (params.search?.trim()) out.search = params.search.trim();
   return out;
 }

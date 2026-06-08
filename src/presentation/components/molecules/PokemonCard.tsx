@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { FavoriteButton } from '@/presentation/components/atoms/FavoriteButton';
 import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
-import { cardVariants } from '@/presentation/components/ui/card';
+import { cardVariants } from '@/presentation/components/ui/card-variants';
 import { useHydration } from '@/presentation/hooks/useHydration';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
 import { cn } from '@/presentation/lib/utils';

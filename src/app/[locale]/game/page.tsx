@@ -19,8 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function GamePage() {
   const repository = getRepository();
   const seed = getDailySeed();
-  const challenge = await getGameChallenge(repository, seed);
-  const t = await getTranslations('game');
+  const [challenge, t] = await Promise.all([
+    getGameChallenge(repository, seed),
+    getTranslations('game'),
+  ]);
 
   return (
     <div className="min-h-dvh">

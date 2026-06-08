@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import type { Metadata } from 'next';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations } from 'next-intl/server';
 import { FilterBar } from '@/presentation/components/organisms/FilterBar';
 import { PokemonGrid } from '@/presentation/components/organisms/PokemonGrid';
@@ -7,6 +8,15 @@ import { SkeletonCard } from '@/presentation/components/atoms/SkeletonCard';
 import { getRepository } from '@/application/container';
 import { getPokemonList, POKEMON_PAGE_SIZE } from '@/application/usecases/getPokemonList';
 import { pokemonListQueryKey } from '@/presentation/lib/queryKeys';
+import { getQueryClient } from '@/presentation/lib/getQueryClient';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('metadata');
+  return {
+    title: { absolute: t('title') },
+    description: t('description'),
+  };
+}
 
 function PokemonGridSkeleton() {
   return (
@@ -23,7 +33,7 @@ function PokemonGridSkeleton() {
 
 export default async function HomePage() {
   const t = await getTranslations('home');
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   const repository = getRepository();
 
   const firstPage = await getPokemonList(repository, {
