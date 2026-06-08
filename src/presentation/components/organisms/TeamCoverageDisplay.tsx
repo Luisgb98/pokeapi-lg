@@ -77,7 +77,7 @@ export function TeamCoverageDisplay({ teamTypes, typeLabels, title }: TeamCovera
 
   const sorted = useMemo(
     () =>
-      [...coverage].sort((a, b) => {
+      coverage.toSorted((a, b) => {
         const danger = dangerScore(b) - dangerScore(a);
         if (danger !== 0) return danger;
         return coverageScore(b) - coverageScore(a);

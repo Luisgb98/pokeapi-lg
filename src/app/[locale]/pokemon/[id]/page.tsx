@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, unstable_rethrow } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { StatList } from '@/presentation/components/molecules/StatList';
 import { StatsRadarChart } from '@/presentation/components/molecules/StatsRadarChart';
@@ -62,18 +62,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PokemonDetailPage({ params, searchParams }: Props) {
-  const { locale, id } = await params;
-  const { from } = await searchParams;
+  const [{ locale, id }, { from }] = await Promise.all([params, searchParams]);
   const numericId = parseInt(id, 10);
 
   if (isNaN(numericId) || numericId < 1) {
     notFound();
   }
 
-  const t = await getTranslations('detail');
-  const tTypes = await getTranslations('types');
-  const tTypeChart = await getTranslations('typeChart');
-  const tSpecies = await getTranslations('species');
+  const [t, tTypes, tTypeChart, tSpecies] = await Promise.all([
+    getTranslations('detail'),
+    getTranslations('types'),
+    getTranslations('typeChart'),
+    getTranslations('species'),
+  ]);
 
   let pokemon, evolutionChain, species, learnset;
   try {
@@ -88,6 +89,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
     species = speciesResult;
     learnset = learnsetResult;
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof PokemonNotFoundError) {
       notFound();
     }

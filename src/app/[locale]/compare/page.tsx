@@ -1,11 +1,12 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { ComparisonPage } from '@/presentation/components/organisms/ComparisonPage';
 import { getRepository } from '@/application/container';
 import { getPokemonById } from '@/application/usecases/getPokemonById';
 import { pokemonDetailQueryKey } from '@/presentation/lib/queryKeys';
+import { getQueryClient } from '@/presentation/lib/getQueryClient';
 
 export const revalidate = 3600;
 
@@ -25,7 +26,7 @@ export default async function ComparePage({ searchParams }: Props) {
 
   const rawIds = [a, b, c].map((s) => parseInt(s ?? '', 10)).filter((n) => !isNaN(n) && n > 0);
 
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   const repository = getRepository();
 
   await Promise.all(

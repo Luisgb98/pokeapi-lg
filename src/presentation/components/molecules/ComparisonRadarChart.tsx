@@ -118,8 +118,8 @@ export function ComparisonRadarChart({ entries }: { entries: RadarEntry[] }) {
       </svg>
 
       <div className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1">
-        {entries.map((entry, i) => (
-          <div key={i} className="flex items-center gap-1.5">
+        {entries.map((entry) => (
+          <div key={entry.name} className="flex items-center gap-1.5">
             <span
               className="inline-block size-2.5 rounded-full"
               style={{ backgroundColor: entry.color }}

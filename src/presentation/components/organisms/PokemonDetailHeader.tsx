@@ -20,13 +20,19 @@ import { pokemonFormQueryKey } from '@/presentation/lib/queryKeys';
 import type { Pokemon } from '@/domain/entities/Pokemon';
 import type { PokemonVariety } from '@/domain/entities/PokemonSpecies';
 
+const EMPTY_VARIETIES: readonly PokemonVariety[] = [];
+
 interface PokemonDetailHeaderProps {
   pokemon: Pokemon;
   backTo?: string;
   varieties?: readonly PokemonVariety[];
 }
 
-export function PokemonDetailHeader({ pokemon, backTo, varieties = [] }: PokemonDetailHeaderProps) {
+export function PokemonDetailHeader({
+  pokemon,
+  backTo,
+  varieties = EMPTY_VARIETIES,
+}: PokemonDetailHeaderProps) {
   const tNav = useTranslations('nav');
   const tTypes = useTranslations('types');
   const tFav = useTranslations('favorites');

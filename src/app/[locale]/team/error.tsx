@@ -21,6 +21,7 @@ export default function TeamError({ error, reset }: ErrorProps) {
       <h1 className="mb-2 font-display text-2xl font-bold text-stone-900">{t('title')}</h1>
       <p className="mb-6 text-sm text-stone-500">{error.message || t('defaultMessage')}</p>
       <button
+        type="button"
         onClick={reset}
         className="rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-stone-700"
       >
