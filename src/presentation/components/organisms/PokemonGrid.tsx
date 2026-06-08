@@ -3,7 +3,9 @@
 import { useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useDebounce } from '@/presentation/hooks/useDebounce';
+import { useHydration } from '@/presentation/hooks/useHydration';
 import { useInfiniteScroll } from '@/presentation/hooks/useInfiniteScroll';
+import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import { usePokemonStore } from '@/presentation/store/pokemonStore';
 import { usePokemonInfiniteList } from '@/presentation/queries/pokemonQueries';
 import { PokemonCard } from '@/presentation/components/molecules/PokemonCard';
@@ -13,8 +15,19 @@ import type { PokemonType, Generation } from '@/domain/entities/Pokemon';
 
 export function PokemonGrid() {
   const t = useTranslations('grid');
-  const { search, types, generations, typeMatchMode, scrollY, restoreCount, setNavState } =
-    usePokemonStore();
+  const tFav = useTranslations('favorites');
+  const {
+    search,
+    types,
+    generations,
+    typeMatchMode,
+    showFavoritesOnly,
+    scrollY,
+    restoreCount,
+    setNavState,
+  } = usePokemonStore();
+  const hydrated = useHydration();
+  const favoriteIds = useFavoritesStore((s) => s.ids);
   const debouncedSearch = useDebounce(search, 320);
 
   const params = {
@@ -30,15 +43,18 @@ export function PokemonGrid() {
   const pokemon = data?.pages.flatMap((p) => p.items) ?? [];
   const total = data?.pages.at(-1)?.total ?? 0;
 
+  const visiblePokemon =
+    hydrated && showFavoritesOnly ? pokemon.filter((p) => favoriteIds.includes(p.id)) : pokemon;
+
   const handleFetchNext = useCallback(() => {
     void fetchNextPage();
   }, [fetchNextPage]);
 
   const sentinelRef = useInfiniteScroll(handleFetchNext, !!hasNextPage && !isFetchingNextPage);
 
-  const handleCardClick = useCallback(() => {
+  const handleCardClick = () => {
     setNavState(window.scrollY, pokemon.length);
-  }, [setNavState, pokemon.length]);
+  };
 
   useEffect(() => {
     if (scrollY <= 0) return;
@@ -82,6 +98,12 @@ export function PokemonGrid() {
             <SkeletonCard key={i} />
           ))}
         </div>
+      ) : hydrated && showFavoritesOnly && visiblePokemon.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <span className="mb-3 text-5xl">♡</span>
+          <p className="text-base font-semibold text-stone-700">{tFav('empty')}</p>
+          <p className="mt-1 text-sm text-stone-400">{tFav('emptyHint')}</p>
+        </div>
       ) : pokemon.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <span className="mb-3 text-5xl">🔍</span>
@@ -91,7 +113,7 @@ export function PokemonGrid() {
       ) : (
         <>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-            {pokemon.map((p, i) => (
+            {visiblePokemon.map((p, i) => (
               <PokemonCard
                 key={p.id}
                 pokemon={p}

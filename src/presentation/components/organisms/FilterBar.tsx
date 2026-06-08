@@ -1,11 +1,13 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { SlidersHorizontal } from 'lucide-react';
+import { Heart, SlidersHorizontal } from 'lucide-react';
 import { SearchInput } from '@/presentation/components/molecules/SearchInput';
 import { MultiSelect } from '@/presentation/components/molecules/MultiSelect';
 import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
+import { useHydration } from '@/presentation/hooks/useHydration';
 import { usePokemonStore } from '@/presentation/store/pokemonStore';
+import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import { GENERATION_OPTIONS } from '@/presentation/lib/generationLabels';
 import { cn } from '@/presentation/lib/utils';
@@ -14,23 +16,29 @@ import type { PokemonType, Generation } from '@/domain/entities/Pokemon';
 export function FilterBar() {
   const t = useTranslations('filter');
   const tTypes = useTranslations('types');
+  const tFav = useTranslations('favorites');
+  const hydrated = useHydration();
   const {
     search,
     types,
     generations,
     typeMatchMode,
+    showFavoritesOnly,
     setSearch,
     setTypes,
     setGenerations,
     setTypeMatchMode,
+    setShowFavoritesOnly,
   } = usePokemonStore();
+  const favCount = useFavoritesStore((s) => s.count());
 
   const TYPE_OPTIONS = POKEMON_TYPES.map((type) => ({
     value: type,
     label: tTypes(type),
   }));
 
-  const hasActiveFilters = types.length > 0 || generations.length > 0 || search.length === 1;
+  const hasActiveFilters =
+    types.length > 0 || generations.length > 0 || search.length === 1 || showFavoritesOnly;
 
   const typeMatchToggle = (
     <div className="flex items-center gap-1.5">
@@ -95,6 +103,29 @@ export function FilterBar() {
               placeholder={t('allGens')}
               className="w-36"
             />
+
+            {hydrated && (
+              <button
+                type="button"
+                onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                aria-pressed={showFavoritesOnly}
+                aria-label={tFav('filterLabel')}
+                className={cn(
+                  'flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors',
+                  showFavoritesOnly
+                    ? 'border-rose-200 bg-rose-50 text-rose-600'
+                    : 'border-stone-200 text-stone-500 hover:border-stone-300 hover:text-stone-700',
+                )}
+              >
+                <Heart
+                  className={cn(
+                    'size-3.5',
+                    showFavoritesOnly ? 'fill-rose-500 stroke-rose-500' : '',
+                  )}
+                />
+                {favCount > 0 && <span>{favCount}</span>}
+              </button>
+            )}
           </div>
         </div>
 

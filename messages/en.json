@@ -109,6 +109,13 @@
     "resistQuarter": "¼",
     "immune": "×0"
   },
+  "favorites": {
+    "add": "Add {name} to favorites",
+    "remove": "Remove {name} from favorites",
+    "filterLabel": "Show favorites only",
+    "empty": "No favorites yet",
+    "emptyHint": "Tap the heart on any Pokémon card to save it here"
+  },
   "species": {
     "section": "Pokédex Entry",
     "genus": "Category",

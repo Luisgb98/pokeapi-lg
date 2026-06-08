@@ -4,9 +4,12 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft } from 'lucide-react';
-import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
+import { FavoriteButton } from '@/presentation/components/atoms/FavoriteButton';
 import { GenerationBadge } from '@/presentation/components/atoms/GenerationBadge';
+import { TypeBadge } from '@/presentation/components/atoms/TypeBadge';
+import { useHydration } from '@/presentation/hooks/useHydration';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
+import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import type { Pokemon } from '@/domain/entities/Pokemon';
 
 interface PokemonDetailHeaderProps {
@@ -17,8 +20,11 @@ interface PokemonDetailHeaderProps {
 export function PokemonDetailHeader({ pokemon, backTo }: PokemonDetailHeaderProps) {
   const tNav = useTranslations('nav');
   const tTypes = useTranslations('types');
+  const tFav = useTranslations('favorites');
   const tc = getPrimaryTypeClasses(pokemon.types);
   const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
+  const hydrated = useHydration();
+  const { isFavorite, toggle } = useFavoritesStore();
 
   const backHref = backTo === 'team' ? '/team' : '/';
   const backLabel = backTo === 'team' ? tNav('teamBuilder') : tNav('pokedex');
@@ -52,9 +58,23 @@ export function PokemonDetailHeader({ pokemon, backTo }: PokemonDetailHeaderProp
             <p className="mb-1 font-mono text-sm font-medium tracking-widest text-stone-400">
               {formattedId}
             </p>
-            <h1 className="mb-3 font-display text-4xl font-black tracking-tight text-stone-900 sm:text-5xl">
-              {pokemon.displayName}
-            </h1>
+            <div className="mb-3 flex items-center justify-center gap-2 sm:justify-start">
+              <h1 className="font-display text-4xl font-black tracking-tight text-stone-900 sm:text-5xl">
+                {pokemon.displayName}
+              </h1>
+              {hydrated && (
+                <FavoriteButton
+                  isFavorite={isFavorite(pokemon.id)}
+                  label={
+                    isFavorite(pokemon.id)
+                      ? tFav('remove', { name: pokemon.displayName })
+                      : tFav('add', { name: pokemon.displayName })
+                  }
+                  onToggle={() => toggle(pokemon.id)}
+                  className="shrink-0"
+                />
+              )}
+            </div>
             <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
               {pokemon.types.map((t) => (
                 <TypeBadge key={t} type={t} label={tTypes(t)} />

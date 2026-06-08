@@ -3,15 +3,23 @@
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LanguageSwitcher } from '@/presentation/components/atoms/LanguageSwitcher';
+import { useHydration } from '@/presentation/hooks/useHydration';
+import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import { cn } from '@/presentation/lib/utils';
 
 export function TopNav() {
   const t = useTranslations('nav');
   const pathname = usePathname();
+  const hydrated = useHydration();
+  const favCount = useFavoritesStore((s) => s.count());
 
   const tabs = [
-    { href: '/' as const, label: t('pokedex') },
-    { href: '/team' as const, label: t('teamBuilder') },
+    {
+      href: '/' as const,
+      label: t('pokedex'),
+      badge: hydrated && favCount > 0 ? favCount : null,
+    },
+    { href: '/team' as const, label: t('teamBuilder'), badge: null },
   ];
 
   return (
@@ -39,6 +47,11 @@ export function TopNav() {
                 )}
               >
                 {tab.label}
+                {tab.badge !== null && (
+                  <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 font-mono text-[10px] font-bold text-white">
+                    {tab.badge}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
