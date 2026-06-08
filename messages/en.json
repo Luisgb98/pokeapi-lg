@@ -71,7 +71,8 @@
   "nav": {
     "pokedex": "Pokédex",
     "teamBuilder": "Team Builder",
-    "compare": "Compare"
+    "compare": "Compare",
+    "game": "Who's That?"
   },
   "teamBuilder": {
     "heading": "Team Builder",
@@ -172,5 +173,18 @@
     "noMoves": "No moves found",
     "searchPlaceholder": "Search moves…",
     "noMovesSearch": "No moves match \"{query}\""
+  },
+  "game": {
+    "heading": "Who's that Pokémon?",
+    "subtitle": "Daily challenge — can you guess the silhouette?",
+    "daily": "Daily Challenge",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "Correct!",
+    "wrong": "Wrong! It was {name}",
+    "timeout": "Time's up! It was {name}",
+    "nextRound": "Next Round",
+    "loading": "Loading…"
   }
 }

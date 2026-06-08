@@ -71,7 +71,8 @@
   "nav": {
     "pokedex": "Pokédex",
     "teamBuilder": "Equipo",
-    "compare": "Comparar"
+    "compare": "Comparar",
+    "game": "¿Quién es?"
   },
   "teamBuilder": {
     "heading": "Constructor de equipo",
@@ -172,5 +173,18 @@
     "noMoves": "No se encontraron movimientos",
     "searchPlaceholder": "Buscar movimientos…",
     "noMovesSearch": "Ningún movimiento coincide con \"{query}\""
+  },
+  "game": {
+    "heading": "¿Quién es ese Pokémon?",
+    "subtitle": "Reto diario — ¿puedes adivinar la silueta?",
+    "daily": "Reto diario",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "¡Correcto!",
+    "wrong": "¡Incorrecto! Era {name}",
+    "timeout": "¡Tiempo! Era {name}",
+    "nextRound": "Siguiente ronda",
+    "loading": "Cargando…"
   }
 }

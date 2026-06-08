@@ -71,7 +71,8 @@
   "nav": {
     "pokedex": "Pokédex",
     "teamBuilder": "Team",
-    "compare": "Vergleichen"
+    "compare": "Vergleichen",
+    "game": "Wer ist das?"
   },
   "teamBuilder": {
     "heading": "Team-Builder",
@@ -172,5 +173,18 @@
     "noMoves": "Keine Attacken gefunden",
     "searchPlaceholder": "Attacken suchen…",
     "noMovesSearch": "Keine Attacken für \"{query}\" gefunden"
+  },
+  "game": {
+    "heading": "Wer ist dieses Pokémon?",
+    "subtitle": "Tägliche Herausforderung — erkennst du die Silhouette?",
+    "daily": "Tägliche Herausforderung",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "Richtig!",
+    "wrong": "Falsch! Es war {name}",
+    "timeout": "Zeit abgelaufen! Es war {name}",
+    "nextRound": "Nächste Runde",
+    "loading": "Lädt…"
   }
 }

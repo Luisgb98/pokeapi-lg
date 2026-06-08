@@ -71,7 +71,8 @@
   "nav": {
     "pokedex": "Pokédex",
     "teamBuilder": "Équipe",
-    "compare": "Comparer"
+    "compare": "Comparer",
+    "game": "C'est qui ?"
   },
   "teamBuilder": {
     "heading": "Constructeur d'équipe",
@@ -172,5 +173,18 @@
     "noMoves": "Aucune capacité trouvée",
     "searchPlaceholder": "Rechercher des capacités…",
     "noMovesSearch": "Aucune capacité ne correspond à \"{query}\""
+  },
+  "game": {
+    "heading": "C'est qui ce Pokémon ?",
+    "subtitle": "Défi quotidien — saurez-vous identifier la silhouette ?",
+    "daily": "Défi quotidien",
+    "score": "{correct}/{total}",
+    "timer": "{seconds}s",
+    "mystery": "???",
+    "correct": "Correct !",
+    "wrong": "Raté ! C'était {name}",
+    "timeout": "Temps écoulé ! C'était {name}",
+    "nextRound": "Tour suivant",
+    "loading": "Chargement…"
   }
 }

@@ -21,6 +21,7 @@ export function TopNav() {
     },
     { href: '/team' as const, label: t('teamBuilder'), badge: null },
     { href: '/compare' as const, label: t('compare'), badge: null },
+    { href: '/game' as const, label: t('game'), badge: null },
   ];
 
   return (
