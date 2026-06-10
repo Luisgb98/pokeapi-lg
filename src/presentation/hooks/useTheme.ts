@@ -1,8 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 
 type Theme = 'light' | 'dark';
+
+// Module-level listener set so toggle() can notify useSyncExternalStore
+// without a storage event (which browsers only fire on *other* tabs).
+const themeListeners = new Set<() => void>();
+
+function subscribeTheme(callback: () => void): () => void {
+  themeListeners.add(callback);
+  return () => themeListeners.delete(callback);
+}
 
 function getStoredTheme(): Theme {
   const stored = localStorage.getItem('theme') as Theme | null;
@@ -11,20 +20,14 @@ function getStoredTheme(): Theme {
 }
 
 export function useTheme() {
-  // Always start with 'light' so server and client first renders agree.
-  // The real value is synced from localStorage in the effect below.
-  const [theme, setTheme] = useState<Theme>('light');
+  // useSyncExternalStore returns 'light' on the server (third arg = server snapshot)
+  // and the real stored preference on the client, avoiding the SSR/client mismatch.
+  const theme = useSyncExternalStore(subscribeTheme, getStoredTheme, () => 'light' as Theme);
 
-  // Skip the very first classList apply so the server-set dark class on <html>
-  // is not removed during hydration before the real theme is loaded.
+  // Skip the very first classList apply (theme = server-snapshot 'light') so the
+  // server-set dark class on <html> is not disturbed during hydration.
   const skipFirst = useRef(true);
 
-  // Sync real preference from storage once on mount.
-  useEffect(() => {
-    setTheme(getStoredTheme());
-  }, []);
-
-  // Apply classList + persist on change; skip the initial 'light' default run.
   useEffect(() => {
     if (skipFirst.current) {
       skipFirst.current = false;
@@ -40,7 +43,11 @@ export function useTheme() {
     document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
   }, [theme]);
 
-  const toggle = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+  const toggle = () => {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    themeListeners.forEach((cb) => cb());
+  };
 
   return { theme, toggle };
 }
