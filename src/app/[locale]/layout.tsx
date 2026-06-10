@@ -85,7 +85,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}${isDark ? ' dark' : ''}`}
       suppressHydrationWarning
     >
-      <body className="min-h-dvh antialiased dark:bg-stone-950">
+      <body className="min-h-dvh antialiased dark:bg-stone-950" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <TopNav />
