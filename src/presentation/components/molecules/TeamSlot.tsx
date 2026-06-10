@@ -119,11 +119,11 @@ function FilledSlot({
         />
       </div>
 
-      <p className="relative mt-1 px-1 text-center font-display text-[10px] font-bold leading-tight tracking-tight text-stone-800 dark:text-stone-200">
+      <p className="relative mt-1 px-1 text-center font-display text-sm font-bold leading-tight tracking-tight text-stone-800 dark:text-stone-200">
         {member.displayName}
       </p>
 
-      <div className="relative mt-1 flex flex-wrap justify-center gap-0.5 px-1">
+      <div className="relative mt-1 flex flex-wrap justify-center gap-1 px-1">
         {member.types.map((t) => (
           <TypeBadge key={t} type={t} size="sm" label={typeLabels[t]} />
         ))}

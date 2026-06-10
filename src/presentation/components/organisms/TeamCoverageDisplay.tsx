@@ -50,20 +50,20 @@ function CoverageCell({ entry, typeLabels }: CoverageCellProps) {
 
       <div className="flex flex-wrap gap-1">
         {weakCount > 0 && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-red-50 px-1.5 py-0.5 text-[10px] font-semibold text-red-600 dark:bg-red-950 dark:text-red-400">
-            <span className="size-1.5 rounded-full bg-red-400" aria-hidden="true" />
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-600 dark:bg-red-950 dark:text-red-400">
+            <span className="size-2 rounded-full bg-red-400" aria-hidden="true" />
             {t('membersWeak', { count: weakCount })}
           </span>
         )}
         {resistCount > 0 && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-semibold text-sky-600 dark:bg-sky-950 dark:text-sky-400">
-            <span className="size-1.5 rounded-full bg-sky-400" aria-hidden="true" />
+          <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-2 py-0.5 text-xs font-semibold text-sky-600 dark:bg-sky-950 dark:text-sky-400">
+            <span className="size-2 rounded-full bg-sky-400" aria-hidden="true" />
             {t('membersResist', { count: resistCount })}
           </span>
         )}
         {entry.immuneCount > 0 && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-stone-100 px-1.5 py-0.5 text-[10px] font-semibold text-stone-500 dark:bg-stone-700 dark:text-stone-400">
-            <span className="size-1.5 rounded-full bg-stone-400" aria-hidden="true" />
+          <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-2 py-0.5 text-xs font-semibold text-stone-500 dark:bg-stone-700 dark:text-stone-400">
+            <span className="size-2 rounded-full bg-stone-400" aria-hidden="true" />
             {t('memberImmune', { count: entry.immuneCount })}
           </span>
         )}
