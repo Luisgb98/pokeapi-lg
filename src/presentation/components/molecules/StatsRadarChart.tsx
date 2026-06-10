@@ -59,13 +59,23 @@ export function StatsRadarChart({ stats }: { stats: PokemonStats }) {
     >
       {/* Background grid rings */}
       {GRID_RINGS.map((pts, i) => (
-        <polygon key={i} points={pts} fill="none" stroke="#e7e5e4" strokeWidth="1" />
+        <polygon key={i} points={pts} fill="none" className="stroke-border" strokeWidth="1" />
       ))}
 
       {/* Axis lines */}
       {STAT_CONFIG.map(({ angle }) => {
         const { x, y } = polarToXY(angle, RADAR_R);
-        return <line key={angle} x1={CX} y1={CY} x2={x} y2={y} stroke="#e7e5e4" strokeWidth="1" />;
+        return (
+          <line
+            key={angle}
+            x1={CX}
+            y1={CY}
+            x2={x}
+            y2={y}
+            className="stroke-border"
+            strokeWidth="1"
+          />
+        );
       })}
 
       {/* Data polygon — scale from center on mount */}
@@ -79,11 +89,10 @@ export function StatsRadarChart({ stats }: { stats: PokemonStats }) {
       >
         <polygon
           points={polygon}
-          fill="#818cf8"
           fillOpacity={0.2}
-          stroke="#6366f1"
           strokeWidth="2"
           strokeLinejoin="round"
+          className="fill-chart-radar-fill stroke-chart-radar-stroke"
         />
       </g>
 
@@ -102,11 +111,18 @@ export function StatsRadarChart({ stats }: { stats: PokemonStats }) {
               fontSize="8.5"
               fontWeight="600"
               letterSpacing="0.8"
-              fill="#a8a29e"
+              className="fill-chart-label"
             >
               {label}
             </text>
-            <text x={x} y={y + 9} textAnchor={anchor} fontSize="11" fontWeight="700" fill="#44403c">
+            <text
+              x={x}
+              y={y + 9}
+              textAnchor={anchor}
+              fontSize="11"
+              fontWeight="700"
+              className="fill-chart-value"
+            >
               {value}
             </text>
           </g>

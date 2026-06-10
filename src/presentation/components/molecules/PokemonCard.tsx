@@ -33,7 +33,7 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
       onClick={onClick}
       className={cn(
         cardVariants({ variant: 'pokemon' }),
-        'group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900',
+        'group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900 dark:focus-visible:ring-stone-400',
         animate && 'animate-fade-in-up',
       )}
       style={
@@ -47,7 +47,7 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
       />
 
       <div className="relative flex flex-1 flex-col items-center px-4 pb-4 pt-5">
-        <span className="absolute left-3 top-3 font-mono text-xs font-medium tracking-wider text-stone-400">
+        <span className="absolute left-3 top-3 font-mono text-xs font-medium tracking-wider text-stone-400 dark:text-stone-500">
           {formattedId}
         </span>
 
@@ -81,7 +81,7 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
           />
         </div>
 
-        <h3 className="mb-2 text-center font-display text-base font-bold tracking-tight text-stone-900">
+        <h3 className="mb-2 text-center font-display text-base font-bold tracking-tight text-stone-900 dark:text-stone-50">
           {pokemon.displayName}
         </h3>
 

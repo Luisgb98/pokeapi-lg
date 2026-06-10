@@ -67,21 +67,21 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
             inputRef.current?.focus();
           }}
           className={cn(
-            'fixed inset-0 z-50 flex flex-col bg-white',
+            'fixed inset-0 z-50 flex flex-col bg-white dark:bg-stone-900',
             'sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2',
-            'sm:max-h-[min(600px,85dvh)] sm:rounded-2xl sm:border sm:border-stone-200 sm:shadow-2xl',
+            'sm:max-h-[min(600px,85dvh)] sm:rounded-2xl sm:border sm:border-stone-200 sm:shadow-2xl dark:sm:border-stone-700',
           )}
         >
           {/* Header */}
-          <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-5 py-4">
-            <Dialog.Title className="font-display text-base font-black text-stone-900">
+          <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-5 py-4 dark:border-stone-800">
+            <Dialog.Title className="font-display text-base font-black text-stone-900 dark:text-stone-50">
               {t('pickerTitle')}
             </Dialog.Title>
             <button
               type="button"
               onClick={handleClose}
               aria-label="Close"
-              className="flex size-7 items-center justify-center rounded-lg text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600"
+              className="flex size-7 items-center justify-center rounded-lg text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600 dark:hover:bg-stone-800 dark:hover:text-stone-300"
             >
               <svg
                 className="size-4"
@@ -122,6 +122,7 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
                 className={cn(
                   'w-full rounded-xl border border-stone-200 bg-stone-50 py-2.5 pl-9 pr-4 text-sm text-stone-900 outline-none transition-colors placeholder:text-stone-400',
                   'focus:border-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-200',
+                  'dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-500 dark:focus:bg-stone-800 dark:focus:ring-stone-700',
                 )}
               />
               {search && (
@@ -147,10 +148,7 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
           </div>
 
           {/* Results */}
-          <div
-            className="min-h-0 flex-1 overflow-y-auto"
-            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-          >
+          <div className="min-h-0 flex-1 overflow-y-auto pb-[env(safe-area-inset-bottom)]">
             {!hasSearch ? (
               <p className="px-5 py-8 text-center text-sm text-stone-400">{t('searchHint')}</p>
             ) : isLoading ? (
@@ -160,7 +158,7 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
             ) : results.length === 0 ? (
               <p className="px-5 py-8 text-center text-sm text-stone-400">{t('noResults')}</p>
             ) : (
-              <ul className="divide-y divide-stone-100 pb-2">
+              <ul className="divide-y divide-stone-100 pb-2 dark:divide-stone-800">
                 {results.map((p) => {
                   const onTeam = team.some((m) => m.id === p.id);
                   return (
@@ -174,7 +172,7 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
                         className="shrink-0 object-contain drop-shadow-sm"
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-display text-sm font-bold text-stone-900">
+                        <p className="truncate font-display text-sm font-bold text-stone-900 dark:text-stone-50">
                           {p.displayName}
                         </p>
                         <div className="mt-0.5 flex flex-wrap gap-0.5">
@@ -190,10 +188,10 @@ export function PokemonPickerModal({ open, onClose }: PokemonPickerModalProps) {
                         className={cn(
                           'shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors',
                           onTeam
-                            ? 'cursor-default bg-stone-100 text-stone-400'
+                            ? 'cursor-default bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500'
                             : isFull
-                              ? 'cursor-not-allowed bg-stone-100 text-stone-300'
-                              : 'bg-stone-900 text-white hover:bg-stone-700',
+                              ? 'cursor-not-allowed bg-stone-100 text-stone-300 dark:bg-stone-800 dark:text-stone-600'
+                              : 'bg-stone-900 text-white hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200',
                         )}
                       >
                         {onTeam ? t('alreadyOnTeam') : t('addToTeam')}

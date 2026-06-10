@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { DM_Sans, JetBrains_Mono, Syne } from 'next/font/google';
+import { cookies } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -75,10 +76,16 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   const messages = await getMessages();
+  const cookieStore = await cookies();
+  const isDark = cookieStore.get('theme')?.value === 'dark';
 
   return (
-    <html lang={locale} className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-dvh antialiased">
+    <html
+      lang={locale}
+      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}${isDark ? ' dark' : ''}`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-dvh antialiased dark:bg-stone-950">
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <TopNav />

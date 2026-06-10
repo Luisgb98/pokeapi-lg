@@ -15,14 +15,16 @@ interface Props {
 }
 
 const DAMAGE_CLASS_COLORS = {
-  physical: 'bg-orange-100 text-orange-700',
-  special: 'bg-blue-100 text-blue-700',
-  status: 'bg-stone-100 text-stone-500',
+  physical: 'bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-300',
+  special: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
+  status: 'bg-stone-100 text-stone-500 dark:bg-stone-700 dark:text-stone-400',
 } as const;
 
 function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
   return (
-    <span className={`ml-0.5 text-[10px] ${active ? 'text-stone-900' : 'text-stone-300'}`}>
+    <span
+      className={`ml-0.5 text-[10px] ${active ? 'text-stone-900 dark:text-stone-100' : 'text-stone-300 dark:text-stone-500'}`}
+    >
       {!active || dir === 'asc' ? '↑' : '↓'}
     </span>
   );
@@ -96,10 +98,10 @@ export function MoveLearnsetTable({ learnset }: Props) {
   const showMethod = activeTab === 'all';
 
   return (
-    <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
+    <section className="rounded-2xl border border-stone-200 bg-white shadow-sm dark:border-stone-700 dark:bg-stone-900">
       <div className="border-b border-stone-100 px-6 pb-0 pt-6">
         <div className="mb-4 flex items-center justify-between gap-4">
-          <h2 className="font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400 dark:text-stone-500">
             {t('section')}
           </h2>
           <div className="relative">
@@ -120,7 +122,7 @@ export function MoveLearnsetTable({ learnset }: Props) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="h-7 rounded-lg border border-stone-200 bg-stone-50 pl-7 pr-3 text-xs text-stone-700 placeholder-stone-400 outline-none focus:border-stone-400 focus:bg-white"
+              className="h-7 rounded-lg border border-stone-200 bg-stone-50 pl-7 pr-3 text-xs text-stone-700 placeholder-stone-400 outline-none focus:border-stone-400 focus:bg-white dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200 dark:placeholder:text-stone-500"
             />
           </div>
         </div>
@@ -138,8 +140,8 @@ export function MoveLearnsetTable({ learnset }: Props) {
                 className={[
                   'shrink-0 rounded-t-lg px-3 py-2 text-xs font-semibold transition-colors',
                   activeTab === key
-                    ? 'border-b-2 border-stone-900 text-stone-900'
-                    : 'text-stone-400 hover:text-stone-600',
+                    ? 'border-b-2 border-stone-900 text-stone-900 dark:border-stone-300 dark:text-stone-100'
+                    : 'text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300',
                 ].join(' ')}
               >
                 {label}
@@ -158,13 +160,13 @@ export function MoveLearnsetTable({ learnset }: Props) {
         ) : (
           <table className="w-full min-w-[480px] text-sm">
             <thead>
-              <tr className="border-b border-stone-100 bg-stone-50">
+              <tr className="border-b border-stone-100 bg-stone-50 dark:border-stone-800 dark:bg-stone-800">
                 {showLevel && (
                   <th className="w-12 px-4 py-3 text-left">
                     <button
                       type="button"
                       onClick={() => toggleSort('level')}
-                      className="font-mono text-xs font-semibold text-stone-400 hover:text-stone-700"
+                      className="font-mono text-xs font-semibold text-stone-400 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
                     >
                       {t('level')}
                       <SortIcon active={sort.key === 'level'} dir={sort.dir} />
@@ -180,7 +182,7 @@ export function MoveLearnsetTable({ learnset }: Props) {
                   <button
                     type="button"
                     onClick={() => toggleSort('name')}
-                    className="text-xs font-semibold text-stone-400 hover:text-stone-700"
+                    className="text-xs font-semibold text-stone-400 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
                   >
                     {t('move')}
                     <SortIcon active={sort.key === 'name'} dir={sort.dir} />
@@ -190,7 +192,7 @@ export function MoveLearnsetTable({ learnset }: Props) {
                   <button
                     type="button"
                     onClick={() => toggleSort('type')}
-                    className="text-xs font-semibold text-stone-400 hover:text-stone-700"
+                    className="text-xs font-semibold text-stone-400 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
                   >
                     {t('type')}
                     <SortIcon active={sort.key === 'type'} dir={sort.dir} />
@@ -203,7 +205,7 @@ export function MoveLearnsetTable({ learnset }: Props) {
                   <button
                     type="button"
                     onClick={() => toggleSort('power')}
-                    className="text-xs font-semibold text-stone-400 hover:text-stone-700"
+                    className="text-xs font-semibold text-stone-400 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
                   >
                     {t('power')}
                     <SortIcon active={sort.key === 'power'} dir={sort.dir} />
@@ -213,7 +215,7 @@ export function MoveLearnsetTable({ learnset }: Props) {
                   <button
                     type="button"
                     onClick={() => toggleSort('accuracy')}
-                    className="text-xs font-semibold text-stone-400 hover:text-stone-700"
+                    className="text-xs font-semibold text-stone-400 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
                   >
                     {t('accuracy')}
                     <SortIcon active={sort.key === 'accuracy'} dir={sort.dir} />
@@ -223,7 +225,7 @@ export function MoveLearnsetTable({ learnset }: Props) {
                   <button
                     type="button"
                     onClick={() => toggleSort('pp')}
-                    className="text-xs font-semibold text-stone-400 hover:text-stone-700"
+                    className="text-xs font-semibold text-stone-400 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
                   >
                     {t('pp')}
                     <SortIcon active={sort.key === 'pp'} dir={sort.dir} />
@@ -231,14 +233,14 @@ export function MoveLearnsetTable({ learnset }: Props) {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-50">
+            <tbody className="divide-y divide-stone-50 dark:divide-stone-800">
               {sorted.map((entry, i) => (
                 <tr
                   key={`${entry.move.id}-${entry.learnMethod}-${i}`}
-                  className="hover:bg-stone-50"
+                  className="hover:bg-stone-50 dark:hover:bg-stone-800"
                 >
                   {showLevel && (
-                    <td className="px-4 py-2.5 text-center font-mono text-xs text-stone-400">
+                    <td className="px-4 py-2.5 text-center font-mono text-xs text-stone-400 dark:text-stone-500">
                       {entry.learnMethod === 'level-up' && entry.levelLearnedAt > 0
                         ? entry.levelLearnedAt
                         : '—'}
@@ -246,12 +248,12 @@ export function MoveLearnsetTable({ learnset }: Props) {
                   )}
                   {showMethod && (
                     <td className="px-4 py-2.5">
-                      <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-medium text-stone-500">
+                      <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-medium text-stone-500 dark:bg-stone-700 dark:text-stone-300">
                         {methodLabel(entry.learnMethod, t)}
                       </span>
                     </td>
                   )}
-                  <td className="px-4 py-2.5 font-display text-xs font-bold text-stone-800">
+                  <td className="px-4 py-2.5 font-display text-xs font-bold text-stone-800 dark:text-stone-100">
                     {entry.move.displayName}
                   </td>
                   <td className="px-4 py-2.5">
@@ -264,13 +266,13 @@ export function MoveLearnsetTable({ learnset }: Props) {
                       {t(entry.move.damageClass)}
                     </span>
                   </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-xs text-stone-700">
+                  <td className="px-4 py-2.5 text-right font-mono text-xs text-stone-700 dark:text-stone-300">
                     {entry.move.power ?? '—'}
                   </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-xs text-stone-700">
+                  <td className="px-4 py-2.5 text-right font-mono text-xs text-stone-700 dark:text-stone-300">
                     {entry.move.accuracy != null ? `${entry.move.accuracy}%` : '—'}
                   </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-xs text-stone-700">
+                  <td className="px-4 py-2.5 text-right font-mono text-xs text-stone-700 dark:text-stone-300">
                     {entry.move.pp}
                   </td>
                 </tr>

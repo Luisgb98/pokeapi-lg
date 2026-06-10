@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
 function PokemonGridSkeleton() {
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
-      <div className="mb-5 h-5 w-24 animate-pulse rounded-full bg-stone-100" />
+      <div className="mb-5 h-5 w-24 animate-pulse rounded-full bg-stone-100 dark:bg-stone-800" />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {Array.from({ length: 24 }).map((_, i) => (
           <SkeletonCard key={i} />
@@ -49,10 +49,10 @@ export default async function HomePage() {
   return (
     <div className="min-h-dvh">
       <header className="mx-auto max-w-7xl px-4 pb-4 pt-8 sm:px-6 lg:px-8">
-        <h1 className="font-display text-3xl font-black tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="font-display text-3xl font-black tracking-tight text-stone-900 sm:text-4xl dark:text-stone-50">
           {t('heading')}
         </h1>
-        <p className="mt-1 text-sm text-stone-500">{t('subtitle')}</p>
+        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">{t('subtitle')}</p>
       </header>
 
       <HydrationBoundary state={dehydrate(queryClient)}>

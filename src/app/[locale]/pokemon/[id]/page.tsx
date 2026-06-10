@@ -101,7 +101,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
   ) as Record<(typeof POKEMON_TYPES)[number], string>;
 
   return (
-    <div className="min-h-dvh bg-stone-50">
+    <div className="min-h-dvh bg-stone-50 dark:bg-stone-950">
       <PokemonDetailHeader pokemon={pokemon} backTo={from} varieties={species.varieties} />
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -121,8 +121,8 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
             }}
           />
 
-          <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
+          <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-stone-900">
+            <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400 dark:text-stone-500">
               {t('baseStats')}
             </h2>
             <StatsRadarChart stats={pokemon.stats} />
@@ -131,7 +131,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
             </div>
           </section>
 
-          <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-stone-900">
             <EvolutionChainView chain={evolutionChain} currentId={numericId} />
           </section>
 

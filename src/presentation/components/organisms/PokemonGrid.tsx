@@ -74,8 +74,12 @@ export function PokemonGrid() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-lg font-semibold text-stone-700">{t('errorTitle')}</p>
-        <p className="mt-1 text-sm text-stone-400">{(error as Error).message}</p>
+        <p className="text-lg font-semibold text-stone-700 dark:text-stone-300">
+          {t('errorTitle')}
+        </p>
+        <p className="mt-1 text-sm text-stone-400 dark:text-stone-500">
+          {(error as Error).message}
+        </p>
       </div>
     );
   }
@@ -83,10 +87,10 @@ export function PokemonGrid() {
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
       <div className="mb-5 flex items-center gap-2">
-        <span className="font-mono text-sm font-medium text-stone-900">
+        <span className="font-mono text-sm font-medium text-stone-900 dark:text-stone-100">
           {isLoading ? '—' : total.toLocaleString()}
         </span>
-        <span className="text-sm text-stone-400">
+        <span className="text-sm text-stone-400 dark:text-stone-500">
           Pokémon
           {debouncedSearch && ` ${t('matchingSearch', { query: debouncedSearch })}`}
         </span>
@@ -101,13 +105,17 @@ export function PokemonGrid() {
       ) : hydrated && showFavoritesOnly && visiblePokemon.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <span className="mb-3 text-5xl">♡</span>
-          <p className="text-base font-semibold text-stone-700">{tFav('empty')}</p>
+          <p className="text-base font-semibold text-stone-700 dark:text-stone-300">
+            {tFav('empty')}
+          </p>
           <p className="mt-1 text-sm text-stone-400">{tFav('emptyHint')}</p>
         </div>
       ) : pokemon.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <span className="mb-3 text-5xl">🔍</span>
-          <p className="text-base font-semibold text-stone-700">{t('noResults')}</p>
+          <p className="text-base font-semibold text-stone-700 dark:text-stone-300">
+            {t('noResults')}
+          </p>
           <p className="mt-1 text-sm text-stone-400">{t('noResultsHint')}</p>
         </div>
       ) : (

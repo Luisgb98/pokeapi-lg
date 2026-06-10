@@ -27,8 +27,8 @@ export function FavoriteButton({
         'flex items-center justify-center rounded-full transition-all duration-200',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400',
         size === 'sm'
-          ? 'size-7 hover:bg-rose-50 active:scale-90'
-          : 'size-10 hover:bg-rose-50 active:scale-90',
+          ? 'size-7 hover:bg-rose-50 active:scale-90 dark:hover:bg-rose-950'
+          : 'size-10 hover:bg-rose-50 active:scale-90 dark:hover:bg-rose-950',
         className,
       )}
     >
@@ -39,7 +39,7 @@ export function FavoriteButton({
           size === 'sm' ? 'size-4' : 'size-5',
           isFavorite
             ? 'fill-rose-500 stroke-rose-500'
-            : 'fill-none stroke-stone-400 hover:stroke-rose-400',
+            : 'fill-none stroke-stone-400 hover:stroke-rose-400 dark:stroke-stone-500',
         )}
         strokeWidth={2}
         strokeLinecap="round"

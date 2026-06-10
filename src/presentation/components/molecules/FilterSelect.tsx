@@ -36,8 +36,8 @@ export function FilterSelect({
     >
       <SelectTrigger
         className={cn(
-          'h-10 rounded-xl border-stone-200 bg-white text-sm text-stone-700 focus:ring-stone-900/20',
-          !value && 'text-stone-400',
+          'h-10 rounded-xl border-stone-200 bg-white text-sm text-stone-700 focus:ring-stone-900/20 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:focus:ring-stone-400/20',
+          !value && 'text-stone-400 dark:text-stone-500',
           className,
         )}
       >

@@ -1,7 +1,10 @@
 @import 'tailwindcss';
 
+/* Class-based dark mode — .dark on <html> triggers dark: variants */
+@variant dark (&:where(.dark, .dark *));
+
 /* ─── Design tokens ─────────────────────────────────────────────────────────── */
-@theme inline {
+@theme {
   /* Neutral palette */
   --color-background: #fafaf9;
   --color-foreground: #0c0a09;
@@ -39,6 +42,43 @@
   /* Shadows */
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  /* Chart / radar visualization */
+  --color-chart-radar-fill: #818cf8;
+  --color-chart-radar-stroke: #6366f1;
+  --color-chart-label: #a8a29e;
+  --color-chart-value: #44403c;
+
+  /* Comparison tool slots */
+  --color-compare-a: #f97316;
+  --color-compare-b: #3b82f6;
+  --color-compare-c: #22c55e;
+}
+
+/* ─── Dark mode token overrides ─────────────────────────────────────────────── */
+.dark {
+  --color-background: #0c0a09;
+  --color-foreground: #fafaf9;
+  --color-card: #1c1917;
+  --color-card-foreground: #fafaf9;
+  --color-popover: #1c1917;
+  --color-popover-foreground: #fafaf9;
+  --color-primary: #fafaf9;
+  --color-primary-foreground: #0c0a09;
+  --color-secondary: #292524;
+  --color-secondary-foreground: #fafaf9;
+  --color-muted: #292524;
+  --color-muted-foreground: #a8a29e;
+  --color-accent: #292524;
+  --color-accent-foreground: #fafaf9;
+  --color-destructive: #f87171;
+  --color-border: #44403c;
+  --color-input: #57534e;
+  --color-ring: #d6d3d1;
+  --color-chart-label: #78716c;
+  --color-chart-value: #d6d3d1;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────────── */
@@ -54,10 +94,15 @@ html {
 }
 
 body {
-  background-color: #fafaf9;
-  color: #0c0a09;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   min-height: 100dvh;
+}
+
+.dark body {
+  background-color: #0c0a09;
+  color: #fafaf9;
 }
 
 /* ─── Keyframes ─────────────────────────────────────────────────────────────── */
@@ -166,9 +211,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
+  background: var(--color-input);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a29e;
+  background: var(--color-chart-label);
 }

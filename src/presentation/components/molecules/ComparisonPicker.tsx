@@ -54,7 +54,7 @@ export function ComparisonPicker({
 
   if (isLoading) {
     return (
-      <div className="flex h-40 items-center justify-center rounded-2xl border border-stone-200 bg-stone-50">
+      <div className="flex h-40 items-center justify-center rounded-2xl border border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-900">
         <Spinner size="sm" />
       </div>
     );
@@ -63,14 +63,14 @@ export function ComparisonPicker({
   if (pokemon) {
     return (
       <div
-        className="relative flex flex-col items-center gap-2 rounded-2xl border-2 bg-white px-3 pb-4 pt-3 shadow-sm"
-        style={{ borderColor }}
+        className="relative flex flex-col items-center gap-2 rounded-2xl border-2 bg-white px-3 pb-4 pt-3 shadow-sm border-[var(--picker-border)] dark:bg-stone-900"
+        style={{ '--picker-border': borderColor } as React.CSSProperties}
       >
         <button
           type="button"
           onClick={onClear}
           aria-label={t('clear')}
-          className="absolute right-2 top-2 flex size-6 items-center justify-center rounded-full text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600"
+          className="absolute right-2 top-2 flex size-6 items-center justify-center rounded-full text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600 dark:hover:bg-stone-800 dark:hover:text-stone-300"
         >
           <X className="size-3.5" />
         </button>
@@ -83,7 +83,7 @@ export function ComparisonPicker({
             className="object-contain drop-shadow-sm"
           />
         </div>
-        <p className="text-center font-display text-sm font-bold text-stone-900">
+        <p className="text-center font-display text-sm font-bold text-stone-900 dark:text-stone-50">
           {pokemon.displayName}
         </p>
         <div className="flex flex-wrap justify-center gap-1">
@@ -100,7 +100,7 @@ export function ComparisonPicker({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex h-40 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-stone-200 bg-stone-50 text-stone-400 transition-colors hover:border-stone-300 hover:bg-white hover:text-stone-600"
+        className="flex h-40 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-stone-200 bg-stone-50 text-stone-400 transition-colors hover:border-stone-300 hover:bg-white hover:text-stone-600 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-500 dark:hover:border-stone-600 dark:hover:bg-stone-800 dark:hover:text-stone-400"
       >
         <span className="text-2xl font-light leading-none">+</span>
         <span className="text-xs font-medium">{label}</span>
@@ -115,13 +115,13 @@ export function ComparisonPicker({
               inputRef.current?.focus();
             }}
             className={cn(
-              'fixed inset-0 z-50 flex flex-col bg-white',
+              'fixed inset-0 z-50 flex flex-col bg-white dark:bg-stone-900',
               'sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2',
-              'sm:max-h-[min(600px,85dvh)] sm:rounded-2xl sm:border sm:border-stone-200 sm:shadow-2xl',
+              'sm:max-h-[min(600px,85dvh)] sm:rounded-2xl sm:border sm:border-stone-200 sm:shadow-2xl dark:sm:border-stone-700',
             )}
           >
-            <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-5 py-4">
-              <Dialog.Title className="font-display text-base font-black text-stone-900">
+            <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-5 py-4 dark:border-stone-800">
+              <Dialog.Title className="font-display text-base font-black text-stone-900 dark:text-stone-50">
                 {t('add')}
               </Dialog.Title>
               <button
@@ -156,7 +156,7 @@ export function ComparisonPicker({
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t('searchPlaceholder')}
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-2.5 pl-9 pr-4 text-sm text-stone-900 outline-none transition-colors placeholder:text-stone-400 focus:border-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-200"
+                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-2.5 pl-9 pr-4 text-sm text-stone-900 outline-none transition-colors placeholder:text-stone-400 focus:border-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-200 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-500 dark:focus:bg-stone-800 dark:focus:ring-stone-700"
                 />
               </div>
             </div>
@@ -171,7 +171,7 @@ export function ComparisonPicker({
               ) : results.length === 0 ? (
                 <p className="px-5 py-8 text-center text-sm text-stone-400">{t('noResults')}</p>
               ) : (
-                <ul className="divide-y divide-stone-100 pb-2">
+                <ul className="divide-y divide-stone-100 pb-2 dark:divide-stone-800">
                   {results.map((p) => (
                     <li key={p.id} className="flex items-center gap-3 px-5 py-3">
                       <Image
@@ -183,7 +183,7 @@ export function ComparisonPicker({
                         className="shrink-0 object-contain drop-shadow-sm"
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-display text-sm font-bold text-stone-900">
+                        <p className="truncate font-display text-sm font-bold text-stone-900 dark:text-stone-50">
                           {p.displayName}
                         </p>
                         <div className="mt-0.5 flex flex-wrap gap-0.5">
@@ -195,7 +195,7 @@ export function ComparisonPicker({
                       <button
                         type="button"
                         onClick={() => handleSelect(p.id)}
-                        className="shrink-0 rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-stone-700"
+                        className="shrink-0 rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
                       >
                         {t('select')}
                       </button>

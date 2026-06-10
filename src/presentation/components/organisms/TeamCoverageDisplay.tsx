@@ -33,36 +33,36 @@ function CoverageCell({ entry, typeLabels }: CoverageCellProps) {
 
   const borderColor =
     entry.x4Count > 0
-      ? 'border-red-300'
+      ? 'border-red-300 dark:border-red-900'
       : entry.x2Count >= 2
-        ? 'border-orange-200'
+        ? 'border-orange-200 dark:border-orange-900'
         : weakCount > 0
-          ? 'border-stone-200'
+          ? 'border-stone-200 dark:border-stone-700'
           : entry.immuneCount > 0 || resistCount >= 2
-            ? 'border-sky-200'
-            : 'border-stone-200';
+            ? 'border-sky-200 dark:border-sky-900'
+            : 'border-stone-200 dark:border-stone-700';
 
   return (
     <div
-      className={`flex flex-col gap-1.5 rounded-xl border bg-white p-3 shadow-sm ${borderColor}`}
+      className={`flex flex-col gap-1.5 rounded-xl border bg-white p-3 shadow-sm dark:bg-stone-800 ${borderColor}`}
     >
       <TypeBadge type={entry.attackingType} size="sm" label={typeLabels[entry.attackingType]} />
 
       <div className="flex flex-wrap gap-1">
         {weakCount > 0 && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-red-50 px-1.5 py-0.5 text-[10px] font-semibold text-red-600">
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-red-50 px-1.5 py-0.5 text-[10px] font-semibold text-red-600 dark:bg-red-950 dark:text-red-400">
             <span className="size-1.5 rounded-full bg-red-400" aria-hidden="true" />
             {t('membersWeak', { count: weakCount })}
           </span>
         )}
         {resistCount > 0 && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-semibold text-sky-600">
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-semibold text-sky-600 dark:bg-sky-950 dark:text-sky-400">
             <span className="size-1.5 rounded-full bg-sky-400" aria-hidden="true" />
             {t('membersResist', { count: resistCount })}
           </span>
         )}
         {entry.immuneCount > 0 && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-stone-100 px-1.5 py-0.5 text-[10px] font-semibold text-stone-500">
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-stone-100 px-1.5 py-0.5 text-[10px] font-semibold text-stone-500 dark:bg-stone-700 dark:text-stone-400">
             <span className="size-1.5 rounded-full bg-stone-400" aria-hidden="true" />
             {t('memberImmune', { count: entry.immuneCount })}
           </span>
@@ -86,8 +86,8 @@ export function TeamCoverageDisplay({ teamTypes, typeLabels, title }: TeamCovera
   );
 
   return (
-    <section className="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-6">
-      <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
+    <section className="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-6 dark:border-stone-700 dark:bg-stone-900">
+      <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400 dark:text-stone-500">
         {title}
       </h2>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
