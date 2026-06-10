@@ -100,7 +100,7 @@ export function TeamBuilder({ typeLabels }: TeamBuilderProps) {
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={team.map((m) => m.id)} strategy={rectSortingStrategy}>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-6">
               {slots.map((member, i) =>
                 member ? (
                   <SortableTeamSlot
