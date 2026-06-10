@@ -50,15 +50,15 @@ export function FullTypeChart({
       </div>
 
       <div className="overflow-x-auto">
-        <p className="mb-1 text-right text-[10px] text-stone-300 sm:hidden">scroll →</p>
-        <table className="border-collapse text-[10px]" aria-label={title}>
+        <p className="mb-1 text-right text-xs text-stone-300 sm:hidden">scroll →</p>
+        <table className="border-collapse text-xs" aria-label={title}>
           <thead>
             <tr>
               <th
                 scope="col"
                 className="sticky left-0 z-10 min-w-[80px] bg-white pb-2 pr-2 text-right align-bottom dark:bg-stone-900"
               >
-                <span className="block text-[9px] font-semibold uppercase tracking-wider text-stone-400">
+                <span className="block text-[10px] font-semibold uppercase tracking-wider text-stone-400">
                   {attackLabel} ↓ / {defenseLabel} →
                 </span>
               </th>
@@ -71,7 +71,7 @@ export function FullTypeChart({
                 >
                   <div className="flex flex-col items-center gap-0.5">
                     <span
-                      className={`inline-block size-3 rounded-full ${TYPE_CLASSES[defType].accentBg}`}
+                      className={`inline-block size-3.5 rounded-full ${TYPE_CLASSES[defType].accentBg}`}
                       aria-hidden="true"
                     />
                     <span className="block whitespace-nowrap font-medium text-stone-500 [writing-mode:vertical-rl] [transform:rotate(180deg)] dark:text-stone-400">
@@ -92,7 +92,7 @@ export function FullTypeChart({
                   <div className="flex items-center justify-end gap-1.5 py-0.5">
                     <span className="whitespace-nowrap">{typeLabels[atkType]}</span>
                     <span
-                      className={`inline-block size-2.5 shrink-0 rounded-full ${TYPE_CLASSES[atkType].accentBg}`}
+                      className={`inline-block size-3 shrink-0 rounded-full ${TYPE_CLASSES[atkType].accentBg}`}
                       aria-hidden="true"
                     />
                   </div>

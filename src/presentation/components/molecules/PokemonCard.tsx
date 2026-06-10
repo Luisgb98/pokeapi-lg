@@ -85,7 +85,7 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
           {pokemon.displayName}
         </h3>
 
-        <div className="mt-auto flex flex-wrap justify-center gap-1 pt-2 min-h-[2.75rem] content-start">
+        <div className="mt-auto flex flex-wrap justify-center gap-1.5 pt-2 min-h-[2rem] content-start">
           {pokemon.types.map((t) => (
             <TypeBadge key={t} type={t} size="sm" label={tTypes(t)} />
           ))}
