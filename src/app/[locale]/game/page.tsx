@@ -27,10 +27,10 @@ export default async function GamePage() {
   return (
     <div className="min-h-dvh">
       <header className="mx-auto max-w-sm px-4 pb-4 pt-8">
-        <h1 className="font-display text-3xl font-black tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="font-display text-3xl font-black tracking-tight text-stone-900 sm:text-4xl dark:text-stone-50">
           {t('heading')}
         </h1>
-        <p className="mt-1 text-sm text-stone-500">{t('subtitle')}</p>
+        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">{t('subtitle')}</p>
       </header>
 
       <div className="mx-auto max-w-sm px-4 pb-16 pt-4">

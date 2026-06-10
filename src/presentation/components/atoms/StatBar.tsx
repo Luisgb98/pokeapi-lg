@@ -51,13 +51,13 @@ export function StatBar({ statKey, value, max = 255 }: StatBarProps) {
 
   return (
     <div ref={containerRef} className="flex items-center gap-3">
-      <span className="w-9 shrink-0 font-mono text-xs font-medium uppercase tracking-wider text-stone-400">
+      <span className="w-9 shrink-0 font-mono text-xs font-medium uppercase tracking-wider text-stone-400 dark:text-stone-500">
         {label}
       </span>
-      <span className="w-8 shrink-0 text-right font-mono text-sm font-semibold text-stone-700">
+      <span className="w-8 shrink-0 text-right font-mono text-sm font-semibold text-stone-700 dark:text-stone-200">
         {value}
       </span>
-      <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-stone-100">
+      <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800">
         <div
           ref={barRef}
           className={`absolute inset-y-0 left-0 w-[var(--bar-w,0%)] rounded-full transition-[width] duration-700 ease-out delay-100 ${STAT_BG[statKey] ?? 'bg-gray-400'}`}

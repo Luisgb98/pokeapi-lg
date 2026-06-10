@@ -91,8 +91,8 @@ export function TypeMatchupTable({ types, typeLabels, labels }: TypeMatchupTable
     {
       key: 'immune',
       symbol: '×0',
-      symbolBg: 'bg-stone-100',
-      symbolText: 'text-stone-500',
+      symbolBg: 'bg-stone-100 dark:bg-stone-800',
+      symbolText: 'text-stone-500 dark:text-stone-400',
       label: labels.immune,
     },
   ];
@@ -103,12 +103,12 @@ export function TypeMatchupTable({ types, typeLabels, labels }: TypeMatchupTable
   if (visibleWeaknesses.length === 0 && visibleResistances.length === 0) return null;
 
   return (
-    <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-      <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
+    <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-stone-900">
+      <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400 dark:text-stone-500">
         {labels.title}
       </h2>
 
-      <div className="divide-y divide-stone-100">
+      <div className="divide-y divide-stone-100 dark:divide-stone-800">
         {visibleWeaknesses.length > 0 && (
           <div className="pb-3">
             <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-red-400">

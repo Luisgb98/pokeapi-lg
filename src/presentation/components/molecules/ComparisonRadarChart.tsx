@@ -63,13 +63,21 @@ export function ComparisonRadarChart({ entries }: { entries: RadarEntry[] }) {
         className="mx-auto w-full max-w-[280px] select-none"
       >
         {GRID_RINGS.map((pts, i) => (
-          <polygon key={i} points={pts} fill="none" stroke="#e7e5e4" strokeWidth="1" />
+          <polygon key={i} points={pts} fill="none" className="stroke-border" strokeWidth="1" />
         ))}
 
         {STAT_CONFIG.map(({ angle }) => {
           const { x, y } = polarToXY(angle, RADAR_R);
           return (
-            <line key={angle} x1={CX} y1={CY} x2={x} y2={y} stroke="#e7e5e4" strokeWidth="1" />
+            <line
+              key={angle}
+              x1={CX}
+              y1={CY}
+              x2={x}
+              y2={y}
+              className="stroke-border"
+              strokeWidth="1"
+            />
           );
         })}
 
@@ -109,7 +117,7 @@ export function ComparisonRadarChart({ entries }: { entries: RadarEntry[] }) {
               fontSize="9"
               fontWeight="600"
               letterSpacing="0.8"
-              fill="#a8a29e"
+              className="fill-chart-label"
             >
               {label}
             </text>
@@ -121,10 +129,12 @@ export function ComparisonRadarChart({ entries }: { entries: RadarEntry[] }) {
         {entries.map((entry) => (
           <div key={entry.name} className="flex items-center gap-1.5">
             <span
-              className="inline-block size-2.5 rounded-full"
-              style={{ backgroundColor: entry.color }}
+              className="inline-block size-2.5 rounded-full bg-[var(--dot-color)]"
+              style={{ '--dot-color': entry.color } as React.CSSProperties}
             />
-            <span className="text-xs font-medium text-stone-600">{entry.name}</span>
+            <span className="text-xs font-medium text-stone-600 dark:text-stone-300">
+              {entry.name}
+            </span>
           </div>
         ))}
       </div>

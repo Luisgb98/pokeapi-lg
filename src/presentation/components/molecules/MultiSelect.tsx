@@ -75,8 +75,8 @@ export function MultiSelect({
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
         className={cn(
-          'flex h-10 w-full items-center justify-between gap-1 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-stone-900/20',
-          hasValues ? 'text-stone-700' : 'text-stone-400',
+          'flex h-10 w-full items-center justify-between gap-1 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-stone-900/20 dark:border-stone-700 dark:bg-stone-900 dark:focus:ring-stone-400/20',
+          hasValues ? 'text-stone-700 dark:text-stone-200' : 'text-stone-400 dark:text-stone-500',
         )}
       >
         <span className="truncate">{label ?? placeholder}</span>
@@ -101,9 +101,9 @@ export function MultiSelect({
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-30 mt-1 w-full min-w-[10rem] rounded-xl border border-stone-200 bg-white shadow-lg">
+        <div className="absolute left-0 top-full z-30 mt-1 w-full min-w-[10rem] rounded-xl border border-stone-200 bg-white shadow-lg dark:border-stone-700 dark:bg-stone-900">
           {headerSlot && (
-            <div className="sticky top-0 rounded-t-xl border-b border-stone-100 bg-white px-3 py-2">
+            <div className="sticky top-0 rounded-t-xl border-b border-stone-100 bg-white px-3 py-2 dark:border-stone-700 dark:bg-stone-900">
               {headerSlot}
             </div>
           )}
@@ -116,14 +116,14 @@ export function MultiSelect({
                   role="option"
                   aria-selected={selected}
                   onClick={() => toggle(opt.value)}
-                  className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-stone-700 hover:bg-stone-50"
+                  className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-stone-700 hover:bg-stone-50 dark:text-stone-200 dark:hover:bg-stone-800"
                 >
                   <span
                     className={cn(
                       'flex size-4 shrink-0 items-center justify-center rounded border',
                       selected
-                        ? 'border-stone-900 bg-stone-900 text-white'
-                        : 'border-stone-300 bg-white',
+                        ? 'border-stone-900 bg-stone-900 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900'
+                        : 'border-stone-300 bg-white dark:border-stone-600 dark:bg-stone-800',
                     )}
                   >
                     {selected && <Check className="size-3" />}

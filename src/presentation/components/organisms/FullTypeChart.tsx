@@ -12,12 +12,14 @@ interface FullTypeChartProps {
 }
 
 function cellStyle(multiplier: number): string {
-  if (multiplier === 0) return 'bg-stone-200 text-stone-500';
-  if (multiplier === 0.25) return 'bg-indigo-200 text-indigo-800';
-  if (multiplier === 0.5) return 'bg-sky-200 text-sky-800';
-  if (multiplier === 2) return 'bg-orange-300 text-orange-900';
-  if (multiplier === 4) return 'bg-red-400 text-white';
-  return 'bg-stone-50 text-stone-300';
+  if (multiplier === 0) return 'bg-stone-200 text-stone-500 dark:bg-stone-700 dark:text-stone-300';
+  if (multiplier === 0.25)
+    return 'bg-indigo-200 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300';
+  if (multiplier === 0.5) return 'bg-sky-200 text-sky-800 dark:bg-sky-950 dark:text-sky-300';
+  if (multiplier === 2)
+    return 'bg-orange-300 text-orange-900 dark:bg-orange-950 dark:text-orange-300';
+  if (multiplier === 4) return 'bg-red-400 text-white dark:bg-red-900 dark:text-red-200';
+  return 'bg-stone-50 text-stone-300 dark:bg-stone-800 dark:text-stone-600';
 }
 
 function cellText(multiplier: number): string {
@@ -39,12 +41,12 @@ export function FullTypeChart({
   defenseLabel,
 }: FullTypeChartProps) {
   return (
-    <section className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm sm:p-6">
+    <section className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm sm:p-6 dark:border-stone-700 dark:bg-stone-900">
       <div className="mb-4">
-        <h2 className="font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400">
+        <h2 className="font-display text-sm font-bold uppercase tracking-[0.15em] text-stone-400 dark:text-stone-500">
           {title}
         </h2>
-        <p className="mt-0.5 text-xs text-stone-400">{subtitle}</p>
+        <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">{subtitle}</p>
       </div>
 
       <div className="overflow-x-auto">
@@ -54,7 +56,7 @@ export function FullTypeChart({
             <tr>
               <th
                 scope="col"
-                className="sticky left-0 z-10 min-w-[80px] bg-white pb-2 pr-2 text-right align-bottom"
+                className="sticky left-0 z-10 min-w-[80px] bg-white pb-2 pr-2 text-right align-bottom dark:bg-stone-900"
               >
                 <span className="block text-[9px] font-semibold uppercase tracking-wider text-stone-400">
                   {attackLabel} ↓ / {defenseLabel} →
@@ -72,7 +74,7 @@ export function FullTypeChart({
                       className={`inline-block size-3 rounded-full ${TYPE_CLASSES[defType].accentBg}`}
                       aria-hidden="true"
                     />
-                    <span className="block whitespace-nowrap font-medium text-stone-500 [writing-mode:vertical-rl] [transform:rotate(180deg)]">
+                    <span className="block whitespace-nowrap font-medium text-stone-500 [writing-mode:vertical-rl] [transform:rotate(180deg)] dark:text-stone-400">
                       {typeLabels[defType]}
                     </span>
                   </div>
@@ -82,10 +84,10 @@ export function FullTypeChart({
           </thead>
           <tbody>
             {POKEMON_TYPES.map((atkType) => (
-              <tr key={atkType} className="hover:bg-stone-50">
+              <tr key={atkType} className="hover:bg-stone-50 dark:hover:bg-stone-800">
                 <th
                   scope="row"
-                  className="sticky left-0 z-10 bg-white pr-2 text-right font-medium text-stone-600"
+                  className="sticky left-0 z-10 bg-white pr-2 text-right font-medium text-stone-600 dark:bg-stone-900 dark:text-stone-400"
                 >
                   <div className="flex items-center justify-end gap-1.5 py-0.5">
                     <span className="whitespace-nowrap">{typeLabels[atkType]}</span>

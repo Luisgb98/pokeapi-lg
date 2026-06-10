@@ -18,7 +18,7 @@ function EmptySlot({ label, onAdd }: EmptySlotProps) {
       type="button"
       onClick={onAdd}
       aria-label={label}
-      className="flex aspect-square w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-200 bg-stone-50 text-stone-300 transition-colors hover:border-stone-400 hover:bg-stone-100 hover:text-stone-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
+      className="flex aspect-square w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-200 bg-stone-50 text-stone-300 transition-colors hover:border-stone-400 hover:bg-stone-100 hover:text-stone-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-600 dark:hover:border-stone-500 dark:hover:bg-stone-800 dark:hover:text-stone-500"
     >
       <svg
         className="size-8"
@@ -55,7 +55,7 @@ function FilledSlot({
 
   return (
     <div
-      className={`group relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-[shadow,opacity] ${
+      className={`group relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-[shadow,opacity] dark:border-stone-700 dark:bg-stone-900 ${
         isDragging ? 'opacity-40' : 'hover:shadow-md'
       }`}
     >
@@ -119,7 +119,7 @@ function FilledSlot({
         />
       </div>
 
-      <p className="relative mt-1 px-1 text-center font-display text-[10px] font-bold leading-tight tracking-tight text-stone-800">
+      <p className="relative mt-1 px-1 text-center font-display text-[10px] font-bold leading-tight tracking-tight text-stone-800 dark:text-stone-200">
         {member.displayName}
       </p>
 

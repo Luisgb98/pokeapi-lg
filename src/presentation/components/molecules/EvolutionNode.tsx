@@ -17,7 +17,7 @@ export function EvolutionNode({ node, currentId, isFirst = false }: EvolutionNod
       {!isFirst && (
         <div className="flex flex-col items-center gap-0.5 px-1">
           <svg
-            className="size-5 shrink-0 rotate-90 text-stone-300 sm:rotate-0"
+            className="size-5 shrink-0 rotate-90 text-stone-300 dark:text-stone-600 sm:rotate-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -33,8 +33,8 @@ export function EvolutionNode({ node, currentId, isFirst = false }: EvolutionNod
         className={cn(
           'group flex flex-col items-center gap-1.5 rounded-2xl border-2 p-3 transition-all duration-200',
           isCurrent
-            ? 'border-stone-900 bg-stone-50 shadow-md'
-            : 'border-transparent hover:border-stone-200 hover:bg-stone-50',
+            ? 'border-stone-900 bg-stone-50 shadow-md dark:border-stone-300 dark:bg-stone-800'
+            : 'border-transparent hover:border-stone-200 hover:bg-stone-50 dark:hover:border-stone-700 dark:hover:bg-stone-800',
         )}
         aria-current={isCurrent ? 'page' : undefined}
       >
@@ -55,13 +55,15 @@ export function EvolutionNode({ node, currentId, isFirst = false }: EvolutionNod
         <span
           className={cn(
             'text-xs font-semibold tracking-tight',
-            isCurrent ? 'font-display text-stone-900' : 'text-stone-500 group-hover:text-stone-700',
+            isCurrent
+              ? 'font-display text-stone-900 dark:text-stone-50'
+              : 'text-stone-500 group-hover:text-stone-700 dark:text-stone-400 dark:group-hover:text-stone-200',
           )}
         >
           {node.displayName}
         </span>
         {isCurrent && (
-          <span className="rounded-full bg-stone-900 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white">
+          <span className="rounded-full bg-stone-900 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-stone-100 dark:text-stone-900">
             Current
           </span>
         )}

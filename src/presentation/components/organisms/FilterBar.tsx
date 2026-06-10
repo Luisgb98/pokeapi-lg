@@ -43,15 +43,15 @@ export function FilterBar() {
   const typeMatchToggle = (
     <div className="flex items-center gap-1.5">
       <span className="text-xs text-stone-400">{t('matchLabel')}</span>
-      <span className="flex items-center gap-0.5 rounded-md border border-stone-200 bg-stone-50 p-0.5">
+      <span className="flex items-center gap-0.5 rounded-md border border-stone-200 bg-stone-50 p-0.5 dark:border-stone-700 dark:bg-stone-900">
         <button
           type="button"
           onClick={() => setTypeMatchMode('any')}
           className={cn(
             'rounded px-2 py-0.5 text-xs font-medium transition-colors',
             typeMatchMode === 'any'
-              ? 'bg-white text-stone-800 shadow-sm'
-              : 'text-stone-400 hover:text-stone-600',
+              ? 'bg-white text-stone-800 shadow-sm dark:bg-stone-700 dark:text-stone-100'
+              : 'text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300',
           )}
         >
           {t('matchAny')}
@@ -62,8 +62,8 @@ export function FilterBar() {
           className={cn(
             'rounded px-2 py-0.5 text-xs font-medium transition-colors',
             typeMatchMode === 'all'
-              ? 'bg-white text-stone-800 shadow-sm'
-              : 'text-stone-400 hover:text-stone-600',
+              ? 'bg-white text-stone-800 shadow-sm dark:bg-stone-700 dark:text-stone-100'
+              : 'text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300',
           )}
         >
           {t('matchAll')}
@@ -73,7 +73,7 @@ export function FilterBar() {
   );
 
   return (
-    <div className="sticky top-0 z-20 border-b border-stone-200 bg-white/80 backdrop-blur-md">
+    <div className="sticky top-0 z-20 border-b border-stone-200 bg-white/80 backdrop-blur-md dark:border-stone-800 dark:bg-stone-950/80">
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <SearchInput
@@ -115,7 +115,7 @@ export function FilterBar() {
                   'flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors',
                   showFavoritesOnly
                     ? 'border-rose-200 bg-rose-50 text-rose-600'
-                    : 'border-stone-200 text-stone-500 hover:border-stone-300 hover:text-stone-700',
+                    : 'border-stone-200 text-stone-500 hover:border-stone-300 hover:text-stone-700 dark:border-stone-700 dark:text-stone-400 dark:hover:border-stone-600 dark:hover:text-stone-200',
                 )}
               >
                 <Heart
@@ -142,7 +142,7 @@ export function FilterBar() {
                     <TypeBadge key={type} type={type} size="sm" label={tTypes(type)} />
                   ))
                 ) : (
-                  <span className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600">
+                  <span className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300">
                     {t('typesCount', { count: types.length })}
                   </span>
                 )}
@@ -160,14 +160,14 @@ export function FilterBar() {
                     return (
                       <span
                         key={g}
-                        className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600"
+                        className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
                       >
                         {label}
                       </span>
                     );
                   })
                 ) : (
-                  <span className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600">
+                  <span className="inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs font-medium text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300">
                     {t('gensCount', { count: generations.length })}
                   </span>
                 )}

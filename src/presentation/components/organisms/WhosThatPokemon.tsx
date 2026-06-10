@@ -62,20 +62,23 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
 
   if (!isReady || !challenge) {
     return (
-      <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-        <div className="flex items-center justify-between border-b border-stone-100 px-5 py-3">
-          <div className="h-4 w-24 animate-pulse rounded-full bg-stone-100" />
-          <div className="h-4 w-16 animate-pulse rounded-full bg-stone-100" />
+      <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm dark:border-stone-700 dark:bg-stone-900">
+        <div className="flex items-center justify-between border-b border-stone-100 px-5 py-3 dark:border-stone-800">
+          <div className="h-4 w-24 animate-pulse rounded-full bg-stone-100 dark:bg-stone-800" />
+          <div className="h-4 w-16 animate-pulse rounded-full bg-stone-100 dark:bg-stone-800" />
         </div>
-        <div className="h-1.5 animate-pulse bg-stone-100" />
+        <div className="h-1.5 animate-pulse bg-stone-100 dark:bg-stone-800" />
         <div className="p-5">
           <div className="mb-3 h-6" />
           <div className="mx-auto flex h-56 w-56 items-center justify-center">
-            <div className="h-48 w-48 animate-pulse rounded-full bg-stone-100" />
+            <div className="h-48 w-48 animate-pulse rounded-full bg-stone-100 dark:bg-stone-800" />
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2.5">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-12 animate-pulse rounded-xl bg-stone-100" />
+              <div
+                key={i}
+                className="h-12 animate-pulse rounded-xl bg-stone-100 dark:bg-stone-800"
+              />
             ))}
           </div>
         </div>
@@ -106,11 +109,11 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm dark:border-stone-700 dark:bg-stone-900">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-stone-100 px-5 py-3">
-        <span className="text-sm font-medium text-stone-500">{t('daily')}</span>
-        <span className="font-display text-sm font-bold text-stone-900">
+      <div className="flex items-center justify-between border-b border-stone-100 px-5 py-3 dark:border-stone-800">
+        <span className="text-sm font-medium text-stone-500 dark:text-stone-400">{t('daily')}</span>
+        <span className="font-display text-sm font-bold text-stone-900 dark:text-stone-50">
           {isGameOver
             ? t('score', { correct: score.correct, total: MAX_ROUNDS })
             : t('roundOf', { current: currentRound, total: MAX_ROUNDS })}
@@ -118,7 +121,7 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
       </div>
 
       {/* Timer bar — only transitions during play, snaps to 0 on reveal */}
-      <div className="h-1.5 bg-stone-100">
+      <div className="h-1.5 bg-stone-100 dark:bg-stone-800">
         {!isGameOver && (
           <div
             style={{ '--bar-w': `${timerPct}%` } as CSSProperties}
@@ -162,7 +165,7 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
         </div>
 
         {isRevealed && (
-          <p className="mb-3 text-center font-display text-xl font-black tracking-tight text-stone-900">
+          <p className="mb-3 text-center font-display text-xl font-black tracking-tight text-stone-900 dark:text-stone-50">
             {challenge.correct.displayName}
           </p>
         )}
@@ -182,16 +185,18 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
                 className={cn(
                   'flex items-center gap-2 rounded-xl border-2 px-3 py-2.5 text-left text-sm font-semibold transition-colors',
                   !isRevealed &&
-                    'border-stone-200 bg-white text-stone-800 hover:border-stone-400 hover:bg-stone-50 active:scale-[0.98]',
-                  isRevealed && isThisCorrect && 'border-green-400 bg-green-50 text-green-900',
+                    'border-stone-200 bg-white text-stone-800 hover:border-stone-400 hover:bg-stone-50 active:scale-[0.98] dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200 dark:hover:border-stone-500 dark:hover:bg-stone-700',
+                  isRevealed &&
+                    isThisCorrect &&
+                    'border-green-400 bg-green-50 text-green-900 dark:border-green-700 dark:bg-green-950 dark:text-green-300',
                   isRevealed &&
                     isThisSelected &&
                     !isThisCorrect &&
-                    'border-red-400 bg-red-50 text-red-900',
+                    'border-red-400 bg-red-50 text-red-900 dark:border-red-700 dark:bg-red-950 dark:text-red-300',
                   isRevealed &&
                     !isThisCorrect &&
                     !isThisSelected &&
-                    'border-stone-100 bg-stone-50 text-stone-400',
+                    'border-stone-100 bg-stone-50 text-stone-400 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-600',
                 )}
               >
                 {isRevealed && (
@@ -220,13 +225,19 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
         {isRevealed && (
           <div className="mt-5">
             {isGameOver ? (
-              <div className="rounded-xl bg-stone-50 px-5 py-5 text-center">
-                <p className="font-display text-lg font-bold text-stone-900">{t('gameOver')}</p>
-                <p className="mt-1 font-display text-5xl font-black text-stone-900">
-                  {score.correct}
-                  <span className="text-xl font-bold text-stone-400">/{MAX_ROUNDS}</span>
+              <div className="rounded-xl bg-stone-50 px-5 py-5 text-center dark:bg-stone-800">
+                <p className="font-display text-lg font-bold text-stone-900 dark:text-stone-50">
+                  {t('gameOver')}
                 </p>
-                <p className="mt-2 text-sm text-stone-500">{t('gameOverSubtitle')}</p>
+                <p className="mt-1 font-display text-5xl font-black text-stone-900 dark:text-stone-50">
+                  {score.correct}
+                  <span className="text-xl font-bold text-stone-400 dark:text-stone-500">
+                    /{MAX_ROUNDS}
+                  </span>
+                </p>
+                <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+                  {t('gameOverSubtitle')}
+                </p>
               </div>
             ) : (
               <div className="flex items-center justify-between">

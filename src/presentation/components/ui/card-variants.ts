@@ -6,9 +6,10 @@ export const cardVariants = cva('rounded-2xl border', {
       default: 'bg-card shadow-sm',
       pokemon: [
         'relative cursor-pointer overflow-hidden bg-white border-stone-200',
+        'dark:bg-stone-900 dark:border-stone-700',
         'shadow-[var(--shadow-card)]',
         'transition-[transform,box-shadow,border-color] duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
-        'hover:-translate-y-1.5 hover:shadow-[var(--shadow-card-hover)] hover:border-stone-300',
+        'hover:-translate-y-1.5 hover:shadow-[var(--shadow-card-hover)] hover:border-stone-300 dark:hover:border-stone-600',
       ].join(' '),
     },
   },

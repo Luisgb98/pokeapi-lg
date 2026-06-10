@@ -36,7 +36,7 @@ interface TeamBuilderProps {
 function DragOverlayCard({ member }: { member: TeamMember }) {
   const tc = getPrimaryTypeClasses(member.types);
   return (
-    <div className="flex aspect-square flex-col items-center justify-center overflow-hidden rounded-2xl border border-stone-300 bg-white shadow-2xl ring-2 ring-stone-900/10">
+    <div className="flex aspect-square flex-col items-center justify-center overflow-hidden rounded-2xl border border-stone-300 bg-white shadow-2xl ring-2 ring-stone-900/10 dark:border-stone-600 dark:bg-stone-900 dark:ring-stone-400/10">
       <div className={`absolute inset-0 opacity-30 ${tc.gradientBg}`} />
       <div className="relative size-16 sm:size-20">
         <Image
@@ -47,7 +47,7 @@ function DragOverlayCard({ member }: { member: TeamMember }) {
           className="object-contain drop-shadow-sm"
         />
       </div>
-      <p className="relative mt-1 px-1 text-center font-display text-[10px] font-bold leading-tight tracking-tight text-stone-800">
+      <p className="relative mt-1 px-1 text-center font-display text-[10px] font-bold leading-tight tracking-tight text-stone-800 dark:text-stone-200">
         {member.displayName}
       </p>
     </div>
@@ -154,8 +154,8 @@ export function TeamBuilder({ typeLabels }: TeamBuilderProps) {
           title={t('teamCoverage')}
         />
       ) : (
-        <div className="rounded-2xl border border-dashed border-stone-200 py-12 text-center">
-          <p className="text-sm text-stone-400">{t('noTeam')}</p>
+        <div className="rounded-2xl border border-dashed border-stone-200 py-12 text-center dark:border-stone-700">
+          <p className="text-sm text-stone-400 dark:text-stone-500">{t('noTeam')}</p>
         </div>
       )}
 

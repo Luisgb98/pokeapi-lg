@@ -14,9 +14,9 @@ import type { CompareSlot } from '@/presentation/store/compareStore';
 const SLOTS: CompareSlot[] = ['a', 'b', 'c'];
 
 const SLOT_COLORS: Record<CompareSlot, { hex: string; border: string; bar: string }> = {
-  a: { hex: '#f97316', border: '#f97316', bar: 'bg-orange-500' },
-  b: { hex: '#3b82f6', border: '#3b82f6', bar: 'bg-blue-500' },
-  c: { hex: '#22c55e', border: '#22c55e', bar: 'bg-green-500' },
+  a: { hex: 'var(--color-compare-a)', border: 'var(--color-compare-a)', bar: 'bg-compare-a' },
+  b: { hex: 'var(--color-compare-b)', border: 'var(--color-compare-b)', bar: 'bg-compare-b' },
+  c: { hex: 'var(--color-compare-c)', border: 'var(--color-compare-c)', bar: 'bg-compare-c' },
 };
 
 const STAT_ROWS = [
@@ -111,10 +111,10 @@ export function ComparisonPage() {
     <div className="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
       <div className="mb-8 flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h1 className="font-display text-3xl font-black tracking-tight text-stone-900">
+          <h1 className="font-display text-3xl font-black tracking-tight text-stone-900 dark:text-stone-50">
             {t('heading')}
           </h1>
-          <p className="mt-1 text-sm text-stone-400">{t('subtitle')}</p>
+          <p className="mt-1 text-sm text-stone-400 dark:text-stone-500">{t('subtitle')}</p>
         </div>
         {hasAny && (
           <button
@@ -149,14 +149,14 @@ export function ComparisonPage() {
       ) : (
         <div className="mt-10 space-y-10">
           <section>
-            <h2 className="mb-5 font-display text-lg font-black tracking-tight text-stone-800">
+            <h2 className="mb-5 font-display text-lg font-black tracking-tight text-stone-800 dark:text-stone-100">
               {t('radarSection')}
             </h2>
             <ComparisonRadarChart entries={radarEntries} />
           </section>
 
           <section>
-            <h2 className="mb-5 font-display text-lg font-black tracking-tight text-stone-800">
+            <h2 className="mb-5 font-display text-lg font-black tracking-tight text-stone-800 dark:text-stone-100">
               {t('statsSection')}
             </h2>
             <div className="space-y-3">
@@ -173,7 +173,7 @@ export function ComparisonPage() {
                         const val = pokemon.stats[key];
                         return (
                           <div key={slot} className="flex items-center gap-2">
-                            <div className="h-2 flex-1 overflow-hidden rounded-full bg-stone-100">
+                            <div className="h-2 flex-1 overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800">
                               <div
                                 className={`h-full rounded-full transition-[width] duration-700 ${color.bar}`}
                                 style={
@@ -185,7 +185,7 @@ export function ComparisonPage() {
                               />
                             </div>
                             <span
-                              className={`w-7 text-right font-mono text-xs font-bold ${val === maxVal ? 'text-stone-900' : 'text-stone-400'}`}
+                              className={`w-7 text-right font-mono text-xs font-bold ${val === maxVal ? 'text-stone-900 dark:text-stone-50' : 'text-stone-400 dark:text-stone-500'}`}
                             >
                               {val}
                             </span>
@@ -197,8 +197,8 @@ export function ComparisonPage() {
                 );
               })}
 
-              <div className="grid grid-cols-[3rem_1fr] items-start gap-x-3 border-t border-stone-100 pt-3">
-                <span className="pt-1 text-right font-mono text-xs font-semibold text-stone-500">
+              <div className="grid grid-cols-[3rem_1fr] items-start gap-x-3 border-t border-stone-100 pt-3 dark:border-stone-800">
+                <span className="pt-1 text-right font-mono text-xs font-semibold text-stone-500 dark:text-stone-400">
                   {t('bst')}
                 </span>
                 <div className="space-y-1.5">
@@ -211,7 +211,7 @@ export function ComparisonPage() {
                     );
                     return (
                       <div key={slot} className="flex items-center gap-2">
-                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-stone-100">
+                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800">
                           <div
                             className={`h-full rounded-full transition-[width] duration-700 ${color.bar}`}
                             style={
@@ -221,7 +221,7 @@ export function ComparisonPage() {
                           />
                         </div>
                         <span
-                          className={`w-8 text-right font-mono text-xs font-bold ${bst === maxBst ? 'text-stone-900' : 'text-stone-400'}`}
+                          className={`w-8 text-right font-mono text-xs font-bold ${bst === maxBst ? 'text-stone-900 dark:text-stone-50' : 'text-stone-400 dark:text-stone-500'}`}
                         >
                           {bst}
                         </span>

@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LayoutGrid, Users, Scale, Gamepad2 } from 'lucide-react';
 import { LanguageSwitcher } from '@/presentation/components/atoms/LanguageSwitcher';
+import { ThemeToggle } from '@/presentation/components/atoms/ThemeToggle';
 import { useHydration } from '@/presentation/hooks/useHydration';
 import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import { cn } from '@/presentation/lib/utils';
@@ -29,11 +30,11 @@ export function TopNav() {
   return (
     <>
       {/* Top bar */}
-      <nav className="sticky top-0 z-30 border-b border-stone-200 bg-white/90 backdrop-blur-sm">
+      <nav className="sticky top-0 z-30 border-b border-stone-200 bg-white/90 backdrop-blur-sm dark:border-stone-800 dark:bg-stone-950/90">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
           <div className="flex items-center gap-1">
             <span
-              className="mr-3 select-none font-display text-xl font-black text-stone-900"
+              className="mr-3 select-none font-display text-xl font-black text-stone-900 dark:text-stone-50"
               aria-hidden="true"
             >
               ◉
@@ -53,8 +54,8 @@ export function TopNav() {
                   className={cn(
                     'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
                     pathname === tab.href
-                      ? 'bg-stone-900 text-white'
-                      : 'text-stone-500 hover:bg-stone-100 hover:text-stone-900',
+                      ? 'bg-stone-900 text-white dark:bg-stone-50 dark:text-stone-900'
+                      : 'text-stone-500 hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-100',
                   )}
                 >
                   {tab.label}
@@ -67,14 +68,16 @@ export function TopNav() {
               ))}
             </div>
           </div>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-1">
+            <ThemeToggle />
+            <LanguageSwitcher />
+          </div>
         </div>
       </nav>
 
       {/* Bottom nav — mobile only */}
       <nav
-        className="fixed bottom-0 left-0 right-0 z-30 border-t border-stone-200 bg-white/95 backdrop-blur-sm sm:hidden"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        className="fixed bottom-0 left-0 right-0 z-30 border-t border-stone-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm dark:border-stone-800 dark:bg-stone-950/95 sm:hidden"
         aria-label={t('tools')}
       >
         <div className="flex items-stretch">
@@ -88,7 +91,9 @@ export function TopNav() {
                 aria-current={isActive ? 'page' : undefined}
                 className={cn(
                   'relative flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-center text-[10px] font-medium leading-tight transition-colors',
-                  isActive ? 'text-stone-900' : 'text-stone-400',
+                  isActive
+                    ? 'text-stone-900 dark:text-stone-50'
+                    : 'text-stone-400 dark:text-stone-500',
                 )}
               >
                 <div className="relative">
@@ -104,7 +109,7 @@ export function TopNav() {
                 </div>
                 <span className="max-w-[5rem] truncate px-0.5">{tab.label}</span>
                 {isActive && (
-                  <span className="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-8 rounded-full bg-stone-900" />
+                  <span className="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-8 rounded-full bg-stone-900 dark:bg-stone-50" />
                 )}
               </Link>
             );

@@ -30,7 +30,7 @@ export function LanguageSwitcher() {
         value={locale}
         onChange={(e) => handleChange(e.target.value as Locale)}
         aria-label="Language"
-        className="rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-xs font-medium text-stone-700 focus:outline-none focus:ring-1 focus:ring-stone-400 sm:hidden"
+        className="rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-xs font-medium text-stone-700 focus:outline-none focus:ring-1 focus:ring-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 sm:hidden"
       >
         {routing.locales.map((l) => (
           <option key={l} value={l}>
@@ -40,7 +40,7 @@ export function LanguageSwitcher() {
       </select>
 
       {/* Desktop: pill buttons */}
-      <div className="hidden items-center gap-0.5 rounded-md border border-stone-200 bg-stone-50 p-0.5 sm:flex">
+      <div className="hidden items-center gap-0.5 rounded-md border border-stone-200 bg-stone-50 p-0.5 dark:border-stone-700 dark:bg-stone-800 sm:flex">
         {routing.locales.map((l) => (
           <button
             key={l}
@@ -49,8 +49,8 @@ export function LanguageSwitcher() {
             className={cn(
               'rounded px-2 py-0.5 text-xs font-medium tracking-wide transition-colors',
               locale === l
-                ? 'bg-white text-stone-800 shadow-sm'
-                : 'text-stone-400 hover:text-stone-600',
+                ? 'bg-white text-stone-800 shadow-sm dark:bg-stone-700 dark:text-stone-100'
+                : 'text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300',
             )}
             aria-current={locale === l ? 'true' : undefined}
           >
