@@ -189,6 +189,10 @@
     "loading": "Loading…",
     "roundOf": "Round {current}/{total}",
     "gameOver": "Challenge Complete!",
-    "gameOverSubtitle": "Come back tomorrow for a new challenge"
+    "gameOverSubtitle": "Come back tomorrow for a new challenge",
+    "shareResult": "Share Result",
+    "shareCopied": "Copied!",
+    "sharedResultTitle": "Challenge Result",
+    "playToday": "Play Today's Challenge"
   }
 }

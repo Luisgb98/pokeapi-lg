@@ -189,6 +189,10 @@
     "loading": "Carregando…",
     "roundOf": "Rodada {current}/{total}",
     "gameOver": "Desafio concluído!",
-    "gameOverSubtitle": "Volte amanhã para um novo desafio"
+    "gameOverSubtitle": "Volte amanhã para um novo desafio",
+    "shareResult": "Compartilhar resultado",
+    "shareCopied": "Copiado!",
+    "sharedResultTitle": "Resultado do desafio",
+    "playToday": "Jogar o desafio de hoje"
   }
 }

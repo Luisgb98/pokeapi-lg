@@ -10,6 +10,7 @@ import type { PokemonSummary } from '@/domain/entities/Pokemon';
 import { getOfficialArtworkUrl } from '@/domain/entities/Pokemon';
 import { fetchNextChallenge } from '@/application/actions/game';
 import { useGameStore, TIMER_SECONDS, MAX_ROUNDS } from '@/presentation/store/gameStore';
+import { GameShareButton } from '@/presentation/components/organisms/GameShareButton';
 
 interface Props {
   initialChallenge: GameChallenge;
@@ -238,6 +239,7 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
                 <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
                   {t('gameOverSubtitle')}
                 </p>
+                <GameShareButton />
               </div>
             ) : (
               <div className="flex items-center justify-between">

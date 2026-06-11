@@ -189,6 +189,10 @@
     "loading": "Caricamento…",
     "roundOf": "Round {current}/{total}",
     "gameOver": "Sfida completata!",
-    "gameOverSubtitle": "Torna domani per una nuova sfida"
+    "gameOverSubtitle": "Torna domani per una nuova sfida",
+    "shareResult": "Condividi risultato",
+    "shareCopied": "Copiato!",
+    "sharedResultTitle": "Risultato della sfida",
+    "playToday": "Gioca la sfida di oggi"
   }
 }

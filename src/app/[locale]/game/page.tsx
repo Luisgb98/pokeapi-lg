@@ -3,11 +3,14 @@ import { getTranslations } from 'next-intl/server';
 import { getRepository } from '@/application/container';
 import { getGameChallenge, getDailySeed } from '@/application/usecases/getGameChallenge';
 import { WhosThatPokemon } from '@/presentation/components/organisms/WhosThatPokemon';
+import { SharedGameResult } from '@/presentation/components/organisms/SharedGameResult';
+import { MAX_ROUNDS } from '@/presentation/store/gameStore';
 
 export const revalidate = 3600;
 
 interface Props {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ result?: string; total?: string; day?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -16,7 +19,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: t('heading') };
 }
 
-export default async function GamePage() {
+export default async function GamePage({ params, searchParams }: Props) {
+  const { locale } = await params;
+  const sp = await searchParams;
+
+  if (sp.result !== undefined && sp.day !== undefined) {
+    const day = parseInt(sp.day, 10);
+    if (!Number.isNaN(day)) {
+      const score = Math.max(0, Math.min(parseInt(sp.result, 10) || 0, MAX_ROUNDS));
+      const total = Math.max(1, Math.min(parseInt(sp.total ?? String(MAX_ROUNDS), 10) || MAX_ROUNDS, MAX_ROUNDS));
+      return <SharedGameResult score={score} total={total} day={day} locale={locale} />;
+    }
+  }
+
   const repository = getRepository();
   const seed = getDailySeed();
   const [challenge, t] = await Promise.all([
