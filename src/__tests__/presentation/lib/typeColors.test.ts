@@ -14,7 +14,14 @@ describe('TYPE_CLASSES', () => {
   });
 
   it('every entry has all 6 required keys', () => {
-    const requiredKeys = ['badgeBg', 'badgeText', 'badgeBorder', 'accentBg', 'tintBg', 'gradientBg'];
+    const requiredKeys = [
+      'badgeBg',
+      'badgeText',
+      'badgeBorder',
+      'accentBg',
+      'tintBg',
+      'gradientBg',
+    ];
     for (const type of POKEMON_TYPES) {
       for (const key of requiredKeys) {
         expect(TYPE_CLASSES[type]).toHaveProperty(key);

@@ -21,9 +21,9 @@ describe('normalizePokemonParams', () => {
   });
 
   it('sorts generations alphabetically', () => {
-    expect(
-      normalizePokemonParams({ generations: ['generation-ii', 'generation-i'] }),
-    ).toEqual({ generations: ['generation-i', 'generation-ii'] });
+    expect(normalizePokemonParams({ generations: ['generation-ii', 'generation-i'] })).toEqual({
+      generations: ['generation-i', 'generation-ii'],
+    });
   });
 
   it('omits typeMatchMode when only one type is present', () => {
@@ -33,9 +33,10 @@ describe('normalizePokemonParams', () => {
   });
 
   it('preserves typeMatchMode "all" when two or more types are present', () => {
-    expect(
-      normalizePokemonParams({ types: ['fire', 'water'], typeMatchMode: 'all' }),
-    ).toEqual({ types: ['fire', 'water'], typeMatchMode: 'all' });
+    expect(normalizePokemonParams({ types: ['fire', 'water'], typeMatchMode: 'all' })).toEqual({
+      types: ['fire', 'water'],
+      typeMatchMode: 'all',
+    });
   });
 
   it('omits typeMatchMode "any" regardless of type count', () => {
@@ -55,7 +56,11 @@ describe('normalizePokemonParams', () => {
   });
 
   it('is idempotent', () => {
-    const input: PokemonListParams = { types: ['water', 'fire'], typeMatchMode: 'all', search: ' pika ' };
+    const input: PokemonListParams = {
+      types: ['water', 'fire'],
+      typeMatchMode: 'all',
+      search: ' pika ',
+    };
     const once = normalizePokemonParams(input);
     const twice = normalizePokemonParams(once);
     expect(twice).toEqual(once);
