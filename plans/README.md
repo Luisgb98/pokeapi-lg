@@ -13,7 +13,7 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 | 003  | Fix cookie name unescaped in regex                           | P1       | S      | 001        | DONE   |
 | 004  | Test getGameChallenge seeded RNG and server action           | P1       | S      | —          | DONE   |
 | 005  | Test typeColors and queryKeys utilities                      | P1       | S      | —          | DONE   |
-| 006  | Fix getOrFetch race condition (duplicate concurrent fetches) | P1       | M      | 004        | TODO   |
+| 006  | Fix getOrFetch race condition (duplicate concurrent fetches) | P1       | M      | 004        | DONE   |
 | 007  | Resolve PokemonPageParams / PokemonListParams duplication    | P2       | S      | —          | TODO   |
 | 008  | Memoize PokemonCard and fix per-card store subscription      | P2       | S      | —          | TODO   |
 | 009  | Fix searchByNameWithEvolutions over-fetching species         | P2       | M      | —          | TODO   |
