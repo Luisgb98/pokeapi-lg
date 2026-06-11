@@ -9,7 +9,7 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 | Plan | Title                                                        | Priority | Effort | Depends on | Status |
 | ---- | ------------------------------------------------------------ | -------- | ------ | ---------- | ------ |
 | 001  | Extract shared cookieStorage utility                         | P1       | S      | —          | DONE   |
-| 002  | Delete getPokemonForm pass-through use case                  | P1       | S      | —          | TODO   |
+| 002  | Delete getPokemonForm pass-through use case                  | P1       | S      | —          | DONE   |
 | 003  | Fix cookie name unescaped in regex                           | P1       | S      | 001        | TODO   |
 | 004  | Test getGameChallenge seeded RNG and server action           | P1       | S      | —          | TODO   |
 | 005  | Test typeColors and queryKeys utilities                      | P1       | S      | —          | TODO   |
