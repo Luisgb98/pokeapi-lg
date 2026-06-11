@@ -1,9 +1,15 @@
-import type { Generation, Pokemon, PokemonSummary, PokemonType } from '../entities/Pokemon';
+import type {
+  Generation,
+  Pokemon,
+  PokemonSummary,
+  PokemonType,
+  TypeMatchMode,
+} from '../entities/Pokemon';
 import type { EvolutionChain } from '../entities/EvolutionChain';
 import type { LearnedMove } from '../entities/Move';
 import type { PokemonSpecies } from '../entities/PokemonSpecies';
 
-export type TypeMatchMode = 'any' | 'all';
+export type { TypeMatchMode } from '../entities/Pokemon';
 
 export interface PokemonFilters {
   readonly types?: readonly PokemonType[];

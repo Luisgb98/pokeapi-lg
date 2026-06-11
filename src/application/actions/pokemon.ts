@@ -1,5 +1,5 @@
 'use server';
-import type { Generation, Pokemon, PokemonType } from '@/domain/entities/Pokemon';
+import type { Pokemon, PokemonFilterParams } from '@/domain/entities/Pokemon';
 import { getRepository } from '../container';
 import { getPokemonById } from '../usecases/getPokemonById';
 import { getPokemonList, POKEMON_PAGE_SIZE } from '../usecases/getPokemonList';
@@ -15,15 +15,7 @@ export async function fetchPokemonFormById(id: number): Promise<Pokemon | null> 
   return repository.findById(id);
 }
 
-// Mirrors presentation/queries/pokemonQueries.ts PokemonListParams — structurally identical.
-export interface PokemonPageParams {
-  types?: PokemonType[];
-  generations?: Generation[];
-  typeMatchMode?: 'any' | 'all';
-  search?: string;
-}
-
-export async function fetchPokemonPage(params: PokemonPageParams, pageParam: number) {
+export async function fetchPokemonPage(params: PokemonFilterParams, pageParam: number) {
   const repository = getRepository();
   return getPokemonList(repository, {
     filters: {

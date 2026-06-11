@@ -1,3 +1,12 @@
+export type TypeMatchMode = 'any' | 'all';
+
+export interface PokemonFilterParams {
+  types?: PokemonType[];
+  generations?: Generation[];
+  typeMatchMode?: TypeMatchMode;
+  search?: string;
+}
+
 export const POKEMON_TYPES = [
   'normal',
   'fire',
