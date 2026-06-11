@@ -27,7 +27,10 @@ export default async function GamePage({ params, searchParams }: Props) {
     const day = parseInt(sp.day, 10);
     if (!Number.isNaN(day)) {
       const score = Math.max(0, Math.min(parseInt(sp.result, 10) || 0, MAX_ROUNDS));
-      const total = Math.max(1, Math.min(parseInt(sp.total ?? String(MAX_ROUNDS), 10) || MAX_ROUNDS, MAX_ROUNDS));
+      const total = Math.max(
+        1,
+        Math.min(parseInt(sp.total ?? String(MAX_ROUNDS), 10) || MAX_ROUNDS, MAX_ROUNDS),
+      );
       return <SharedGameResult score={score} total={total} day={day} locale={locale} />;
     }
   }
