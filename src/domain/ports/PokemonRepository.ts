@@ -1,4 +1,10 @@
-import type { Generation, Pokemon, PokemonSummary, PokemonType, TypeMatchMode } from '../entities/Pokemon';
+import type {
+  Generation,
+  Pokemon,
+  PokemonSummary,
+  PokemonType,
+  TypeMatchMode,
+} from '../entities/Pokemon';
 import type { EvolutionChain } from '../entities/EvolutionChain';
 import type { LearnedMove } from '../entities/Move';
 import type { PokemonSpecies } from '../entities/PokemonSpecies';
