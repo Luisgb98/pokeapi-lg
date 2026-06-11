@@ -81,38 +81,44 @@ async function fetchJson<T>(url: string): Promise<T> {
 export class PokeApiRepository implements PokemonRepository {
   /** Full list of all named Pokémon (name + url) — fetched once */
   private readonly allPokemonCache = new TtlCache<'all', PokeApiNamedResource[]>(LIST_TTL);
+  private readonly allPokemonInFlight = new Map<'all', Promise<PokeApiNamedResource[]>>();
   /** type-name → list of pokemon ids in that type */
   private readonly typeCache = new TtlCache<PokemonType, Set<number>>(LIST_TTL);
+  private readonly typeInFlight = new Map<PokemonType, Promise<Set<number>>>();
   /** pokemon id → full PokeApiPokemon */
   private readonly pokemonCache = new TtlCache<number, PokeApiPokemon>(DETAIL_TTL);
+  private readonly pokemonInFlight = new Map<number, Promise<PokeApiPokemon>>();
   /** species id → PokeApiSpecies */
   private readonly speciesCache = new TtlCache<number, PokeApiSpecies>(DETAIL_TTL);
+  private readonly speciesInFlight = new Map<number, Promise<PokeApiSpecies>>();
   /** evolution chain id → mapped EvolutionChain */
   private readonly chainCache = new TtlCache<number, EvolutionChain>(DETAIL_TTL);
+  private readonly chainInFlight = new Map<number, Promise<EvolutionChain>>();
   /** move id → PokeApiMove */
   private readonly moveCache = new TtlCache<number, PokeApiMove>(DETAIL_TTL);
+  private readonly moveInFlight = new Map<number, Promise<PokeApiMove>>();
 
   private async fetchAllPokemon(): Promise<PokeApiNamedResource[]> {
-    return getOrFetch(this.allPokemonCache, 'all', async () => {
+    return getOrFetch(this.allPokemonCache, this.allPokemonInFlight, 'all', async () => {
       const data = await fetchJson<PokeApiPaginatedResponse>(`${BASE_URL}/pokemon?limit=10000`);
       return data.results;
     });
   }
 
   private async fetchPokemon(id: number): Promise<PokeApiPokemon> {
-    return getOrFetch(this.pokemonCache, id, () =>
+    return getOrFetch(this.pokemonCache, this.pokemonInFlight, id, () =>
       fetchJson<PokeApiPokemon>(`${BASE_URL}/pokemon/${id}`),
     );
   }
 
   private async fetchSpecies(id: number): Promise<PokeApiSpecies> {
-    return getOrFetch(this.speciesCache, id, () =>
+    return getOrFetch(this.speciesCache, this.speciesInFlight, id, () =>
       fetchJson<PokeApiSpecies>(`${BASE_URL}/pokemon-species/${id}`),
     );
   }
 
   private async fetchTypeIds(type: PokemonType): Promise<Set<number>> {
-    return getOrFetch(this.typeCache, type, async () => {
+    return getOrFetch(this.typeCache, this.typeInFlight, type, async () => {
       const data = await fetchJson<PokeApiTypeDetail>(`${BASE_URL}/type/${type}`);
       const ids = new Set<number>();
       for (const entry of data.pokemon) {
@@ -192,7 +198,7 @@ export class PokeApiRepository implements PokemonRepository {
   }
 
   async findEvolutionChain(chainId: number): Promise<EvolutionChain> {
-    return getOrFetch(this.chainCache, chainId, async () => {
+    return getOrFetch(this.chainCache, this.chainInFlight, chainId, async () => {
       const raw = await fetchJson<PokeApiEvolutionChain>(`${BASE_URL}/evolution-chain/${chainId}`);
       return mapEvolutionChain(raw);
     });
@@ -237,7 +243,7 @@ export class PokeApiRepository implements PokemonRepository {
     const uniqueMoveIds = [...new Set(entries.map((e) => e.moveId))];
     const moveDetails = await Promise.all(
       uniqueMoveIds.map((moveId) =>
-        getOrFetch(this.moveCache, moveId, () =>
+        getOrFetch(this.moveCache, this.moveInFlight, moveId, () =>
           fetchJson<PokeApiMove>(`${BASE_URL}/move/${moveId}`),
         ),
       ),

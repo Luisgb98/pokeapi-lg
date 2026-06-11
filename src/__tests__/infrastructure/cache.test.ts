@@ -49,9 +49,10 @@ describe('TtlCache', () => {
 describe('getOrFetch', () => {
   it('calls fetcher on cache miss and caches result', async () => {
     const cache = new TtlCache<string, number>(5000);
+    const inFlight = new Map<string, Promise<number>>();
     const fetcher = vi.fn().mockResolvedValue(99);
 
-    const result = await getOrFetch(cache, 'k', fetcher);
+    const result = await getOrFetch(cache, inFlight, 'k', fetcher);
 
     expect(result).toBe(99);
     expect(fetcher).toHaveBeenCalledOnce();
@@ -59,12 +60,28 @@ describe('getOrFetch', () => {
 
   it('does not call fetcher on cache hit', async () => {
     const cache = new TtlCache<string, number>(5000);
+    const inFlight = new Map<string, Promise<number>>();
     const fetcher = vi.fn().mockResolvedValue(99);
 
-    await getOrFetch(cache, 'k', fetcher);
-    const second = await getOrFetch(cache, 'k', fetcher);
+    await getOrFetch(cache, inFlight, 'k', fetcher);
+    const second = await getOrFetch(cache, inFlight, 'k', fetcher);
 
     expect(second).toBe(99);
     expect(fetcher).toHaveBeenCalledOnce();
+  });
+
+  it('deduplicates concurrent calls for the same key', async () => {
+    const cache = new TtlCache<string, number>(60_000);
+    const inFlight = new Map<string, Promise<number>>();
+    const fetcher = vi.fn().mockResolvedValue(42);
+
+    const [a, b] = await Promise.all([
+      getOrFetch(cache, inFlight, 'k', fetcher),
+      getOrFetch(cache, inFlight, 'k', fetcher),
+    ]);
+
+    expect(a).toBe(42);
+    expect(b).toBe(42);
+    expect(fetcher).toHaveBeenCalledTimes(1);
   });
 });

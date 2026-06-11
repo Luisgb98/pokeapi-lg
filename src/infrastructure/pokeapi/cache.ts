@@ -32,15 +32,24 @@ export class TtlCache<K, V> {
   }
 }
 
-/** Fetches value once (or if expired), then caches it. */
+/** Fetches value once (or if expired), then caches it. Deduplicates concurrent requests for the same key. */
 export async function getOrFetch<K, V>(
   cache: TtlCache<K, V>,
+  inFlight: Map<K, Promise<V>>,
   key: K,
   fetcher: () => Promise<V>,
 ): Promise<V> {
   const cached = cache.get(key);
   if (cached !== undefined) return cached;
-  const value = await fetcher();
-  cache.set(key, value);
-  return value;
+
+  const pending = inFlight.get(key);
+  if (pending) return pending;
+
+  const promise = fetcher().then((value) => {
+    cache.set(key, value);
+    inFlight.delete(key);
+    return value;
+  });
+  inFlight.set(key, promise);
+  return promise;
 }
