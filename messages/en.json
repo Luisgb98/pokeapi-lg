@@ -100,7 +100,10 @@
     "membersResist": "{count} resist",
     "memberImmune": "{count} immune",
     "pickerTitle": "Add Pokémon",
-    "searchHint": "Type at least 2 characters to search"
+    "searchHint": "Type at least 2 characters to search",
+    "shareTeam": "Share Team",
+    "shareCopied": "Copied!",
+    "shareTitle": "Check out my Pokémon team"
   },
   "typeChart": {
     "title": "Type Defenses",

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { useTranslations } from 'next-intl';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
   DndContext,
@@ -21,6 +22,7 @@ import {
 } from '@dnd-kit/sortable';
 import { useTeamBuilderStore, TEAM_MAX_SIZE } from '@/presentation/store/teamBuilderStore';
 import type { TeamMember } from '@/presentation/store/teamBuilderStore';
+import { TeamShareButton } from '@/presentation/components/organisms/TeamShareButton';
 import { TeamSlot } from '@/presentation/components/molecules/TeamSlot';
 import { SortableTeamSlot } from '@/presentation/components/molecules/SortableTeamSlot';
 import { PokemonPickerModal } from '@/presentation/components/organisms/PokemonPickerModal';
@@ -31,6 +33,7 @@ import type { PokemonType } from '@/domain/entities/Pokemon';
 
 interface TeamBuilderProps {
   typeLabels: Record<PokemonType, string>;
+  sharedMembers?: TeamMember[];
 }
 
 function DragOverlayCard({ member }: { member: TeamMember }) {
@@ -54,9 +57,22 @@ function DragOverlayCard({ member }: { member: TeamMember }) {
   );
 }
 
-export function TeamBuilder({ typeLabels }: TeamBuilderProps) {
+export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps) {
   const t = useTranslations('teamBuilder');
-  const { team, removeMember, reorderTeam, clear } = useTeamBuilderStore();
+  const locale = useLocale();
+  const router = useRouter();
+  const { team, removeMember, reorderTeam, clear, addMember } = useTeamBuilderStore();
+
+  const sharedLoadedRef = useRef(false);
+  useEffect(() => {
+    if (sharedLoadedRef.current || sharedMembers.length === 0) return;
+    sharedLoadedRef.current = true;
+    clear();
+    for (const member of sharedMembers) {
+      addMember(member);
+    }
+    router.replace(`/${locale}/team`, { scroll: false });
+  }, [sharedMembers, clear, addMember, router, locale]);
 
   const [pickerOpen, setPickerOpen] = useState(false);
   const [activeId, setActiveId] = useState<number | null>(null);
@@ -134,7 +150,8 @@ export function TeamBuilder({ typeLabels }: TeamBuilderProps) {
         </DndContext>
 
         {team.length > 0 && (
-          <div className="mt-3 flex justify-end">
+          <div className="mt-3 flex items-center justify-end gap-4">
+            <TeamShareButton />
             <button
               type="button"
               onClick={clear}

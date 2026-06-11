@@ -2,12 +2,14 @@ import type { Metadata } from 'next';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations } from 'next-intl/server';
 import { TeamBuilder } from '@/presentation/components/organisms/TeamBuilder';
+import type { TeamMember } from '@/presentation/store/teamBuilderStore';
 import { getRepository } from '@/application/container';
 import { getPokemonList, POKEMON_PAGE_SIZE } from '@/application/usecases/getPokemonList';
 import { pokemonListQueryKey } from '@/presentation/lib/queryKeys';
 import { getQueryClient } from '@/presentation/lib/getQueryClient';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import type { PokemonType } from '@/domain/entities/Pokemon';
+import { parseTeamParam } from '@/presentation/lib/teamShare';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('teamBuilder');
@@ -17,10 +19,34 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function TeamBuilderPage() {
+interface Props {
+  searchParams: Promise<{ team?: string }>;
+}
+
+export default async function TeamBuilderPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const sharedIds = parseTeamParam(sp.team);
+
   const [t, tTypes] = await Promise.all([getTranslations('teamBuilder'), getTranslations('types')]);
   const queryClient = getQueryClient();
   const repository = getRepository();
+
+  const sharedMembers: TeamMember[] = [];
+  if (sharedIds.length > 0) {
+    const results = await Promise.allSettled(sharedIds.map((id) => repository.findById(id)));
+    for (const result of results) {
+      if (result.status === 'fulfilled' && result.value) {
+        const p = result.value;
+        sharedMembers.push({
+          id: p.id,
+          name: p.name,
+          displayName: p.displayName,
+          types: p.types,
+          sprite: p.sprite,
+        });
+      }
+    }
+  }
 
   const firstPage = await getPokemonList(repository, {
     pagination: { offset: 0, limit: POKEMON_PAGE_SIZE },
@@ -47,7 +73,7 @@ export default async function TeamBuilderPage() {
 
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <TeamBuilder typeLabels={typeLabels} />
+          <TeamBuilder typeLabels={typeLabels} sharedMembers={sharedMembers} />
         </HydrationBoundary>
       </div>
     </div>
