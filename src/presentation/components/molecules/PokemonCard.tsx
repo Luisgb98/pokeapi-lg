@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
@@ -9,23 +10,30 @@ import { cardVariants } from '@/presentation/components/ui/card-variants';
 import { useHydration } from '@/presentation/hooks/useHydration';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
 import { cn } from '@/presentation/lib/utils';
-import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import type { PokemonSummary } from '@/domain/entities/Pokemon';
 
-interface PokemonCardProps {
+type PokemonCardProps = {
   pokemon: PokemonSummary;
   index?: number;
   onClick?: () => void;
   animate?: boolean;
-}
+  isFavorite: boolean;
+  onToggleFavorite: (id: number) => void;
+};
 
-export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: PokemonCardProps) {
+export const PokemonCard = memo(function PokemonCard({
+  pokemon,
+  index = 0,
+  onClick,
+  animate = true,
+  isFavorite,
+  onToggleFavorite,
+}: PokemonCardProps) {
   const tTypes = useTranslations('types');
   const tFav = useTranslations('favorites');
   const tc = getPrimaryTypeClasses(pokemon.types);
   const formattedId = `#${String(pokemon.id).padStart(4, '0')}`;
   const hydrated = useHydration();
-  const { isFavorite, toggle } = useFavoritesStore();
 
   return (
     <Link
@@ -55,15 +63,15 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
           <span className="absolute right-2 top-2 z-10">
             <FavoriteButton
               size="sm"
-              isFavorite={isFavorite(pokemon.id)}
+              isFavorite={isFavorite}
               label={
-                isFavorite(pokemon.id)
+                isFavorite
                   ? tFav('remove', { name: pokemon.displayName })
                   : tFav('add', { name: pokemon.displayName })
               }
               onToggle={(e) => {
                 e.preventDefault();
-                toggle(pokemon.id);
+                onToggleFavorite(pokemon.id);
               }}
             />
           </span>
@@ -95,4 +103,4 @@ export function PokemonCard({ pokemon, index = 0, onClick, animate = true }: Pok
       <div className={`h-1 w-full opacity-70 ${tc.accentBg}`} />
     </Link>
   );
-}
+});
