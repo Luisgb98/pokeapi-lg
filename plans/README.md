@@ -6,25 +6,25 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 
 ## Execution order & status
 
-| Plan | Title | Priority | Effort | Depends on | Status |
-|------|-------|----------|--------|------------|--------|
-| 001 | Extract shared cookieStorage utility | P1 | S | — | DONE |
-| 002 | Delete getPokemonForm pass-through use case | P1 | S | — | TODO |
-| 003 | Fix cookie name unescaped in regex | P1 | S | 001 | TODO |
-| 004 | Test getGameChallenge seeded RNG and server action | P1 | S | — | TODO |
-| 005 | Test typeColors and queryKeys utilities | P1 | S | — | TODO |
-| 006 | Fix getOrFetch race condition (duplicate concurrent fetches) | P1 | M | 004 | TODO |
-| 007 | Resolve PokemonPageParams / PokemonListParams duplication | P2 | S | — | TODO |
-| 008 | Memoize PokemonCard and fix per-card store subscription | P2 | S | — | TODO |
-| 009 | Fix searchByNameWithEvolutions over-fetching species | P2 | M | — | TODO |
-| 010 | Fix findById swallowing all errors | P2 | M | — | TODO |
-| 011 | Add tests for 4 Zustand stores | P2 | M | — | TODO |
-| 012 | Add tests for 4 custom hooks | P2 | M | — | TODO |
-| 013 | Extend generateStaticParams beyond Gen 1 | P3 | M | — | TODO |
-| 014 | Document and guard singleton repository cache boundary | P3 | S | — | TODO |
-| 015 | [Direction] Game score sharing | P3 | M | — | TODO |
-| 016 | [Direction] Standalone type calculator page | P3 | S | — | TODO |
-| 017 | [Direction] Team export and share via URL | P3 | M | — | TODO |
+| Plan | Title                                                        | Priority | Effort | Depends on | Status |
+| ---- | ------------------------------------------------------------ | -------- | ------ | ---------- | ------ |
+| 001  | Extract shared cookieStorage utility                         | P1       | S      | —          | DONE   |
+| 002  | Delete getPokemonForm pass-through use case                  | P1       | S      | —          | TODO   |
+| 003  | Fix cookie name unescaped in regex                           | P1       | S      | 001        | TODO   |
+| 004  | Test getGameChallenge seeded RNG and server action           | P1       | S      | —          | TODO   |
+| 005  | Test typeColors and queryKeys utilities                      | P1       | S      | —          | TODO   |
+| 006  | Fix getOrFetch race condition (duplicate concurrent fetches) | P1       | M      | 004        | TODO   |
+| 007  | Resolve PokemonPageParams / PokemonListParams duplication    | P2       | S      | —          | TODO   |
+| 008  | Memoize PokemonCard and fix per-card store subscription      | P2       | S      | —          | TODO   |
+| 009  | Fix searchByNameWithEvolutions over-fetching species         | P2       | M      | —          | TODO   |
+| 010  | Fix findById swallowing all errors                           | P2       | M      | —          | TODO   |
+| 011  | Add tests for 4 Zustand stores                               | P2       | M      | —          | TODO   |
+| 012  | Add tests for 4 custom hooks                                 | P2       | M      | —          | TODO   |
+| 013  | Extend generateStaticParams beyond Gen 1                     | P3       | M      | —          | TODO   |
+| 014  | Document and guard singleton repository cache boundary       | P3       | S      | —          | TODO   |
+| 015  | [Direction] Game score sharing                               | P3       | M      | —          | TODO   |
+| 016  | [Direction] Standalone type calculator page                  | P3       | S      | —          | TODO   |
+| 017  | [Direction] Team export and share via URL                    | P3       | M      | —          | TODO   |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 
