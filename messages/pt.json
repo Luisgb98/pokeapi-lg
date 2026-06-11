@@ -100,7 +100,10 @@
     "membersResist": "{count} resiste",
     "memberImmune": "{count} imune",
     "pickerTitle": "Adicionar Pokémon",
-    "searchHint": "Digite pelo menos 2 caracteres para pesquisar"
+    "searchHint": "Digite pelo menos 2 caracteres para pesquisar",
+    "shareTeam": "Compartilhar equipe",
+    "shareCopied": "Copiado!",
+    "shareTitle": "Veja minha equipe Pokémon"
   },
   "typeChart": {
     "title": "Defesas de Tipo",
