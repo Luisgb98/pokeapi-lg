@@ -188,4 +188,12 @@ describe('searchByNameWithEvolutions', () => {
     const result = await repo.searchByNameWithEvolutions('pikachu', { types: ['grass'] });
     expect(result).toEqual([]);
   });
+
+  it('returns no duplicate pokemon when multiple name matches share an evolution chain', async () => {
+    // 'chu' matches pikachu, pichu, and raichu — all members of chain 10.
+    // The chain should be fetched once; no member should appear twice.
+    const result = await repo.searchByNameWithEvolutions('chu');
+    const ids = result.map((p) => p.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
 });
