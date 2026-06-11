@@ -2,7 +2,6 @@
 import type { Generation, Pokemon, PokemonType } from '@/domain/entities/Pokemon';
 import { getRepository } from '../container';
 import { getPokemonById } from '../usecases/getPokemonById';
-import { getPokemonForm } from '../usecases/getPokemonForm';
 import { getPokemonList, POKEMON_PAGE_SIZE } from '../usecases/getPokemonList';
 
 export async function fetchPokemonById(id: number): Promise<Pokemon> {
@@ -13,7 +12,7 @@ export async function fetchPokemonById(id: number): Promise<Pokemon> {
 
 export async function fetchPokemonFormById(id: number): Promise<Pokemon | null> {
   const repository = getRepository();
-  return getPokemonForm(repository, id);
+  return repository.findById(id);
 }
 
 // Mirrors presentation/queries/pokemonQueries.ts PokemonListParams — structurally identical.
