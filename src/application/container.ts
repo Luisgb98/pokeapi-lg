@@ -2,8 +2,16 @@ import { PokeApiRepository } from '../infrastructure/pokeapi/PokeApiRepository';
 import type { PokemonRepository } from '../domain/ports/PokemonRepository';
 
 /**
- * Singleton repository instance shared across all server requests.
- * The in-memory caches live here.
+ * Module-level singleton repository shared across all server requests in this process.
+ *
+ * This is intentional for public Pokémon data: the PokeAPI returns the same
+ * payload for all users, so a process-wide in-memory cache is safe and desirable.
+ *
+ * FOOTGUN: Do NOT add user-specific data (session tokens, rate-limit state,
+ * user preferences, A/B variants) to PokeApiRepository or its caches. Any
+ * data cached here is visible to all concurrent requests. If user-specific
+ * caching is ever needed, create a separate per-request repository factory
+ * and do NOT use this singleton for it.
  */
 let _repository: PokemonRepository | null = null;
 
