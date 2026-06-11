@@ -1,8 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import {
-  getDailySeed,
-  getGameChallenge,
-} from '../../application/usecases/getGameChallenge';
+import { getDailySeed, getGameChallenge } from '../../application/usecases/getGameChallenge';
 import type { PokemonRepository } from '../../domain/ports/PokemonRepository';
 import type { PokemonSummary } from '../../domain/entities/Pokemon';
 
