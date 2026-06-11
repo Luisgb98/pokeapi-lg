@@ -17,7 +17,7 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 | 007  | Resolve PokemonPageParams / PokemonListParams duplication    | P2       | S      | —          | DONE   |
 | 008  | Memoize PokemonCard and fix per-card store subscription      | P2       | S      | —          | DONE   |
 | 009  | Fix searchByNameWithEvolutions over-fetching species         | P2       | M      | —          | DONE   |
-| 010  | Fix findById swallowing all errors                           | P2       | M      | —          | TODO   |
+| 010  | Fix findById swallowing all errors                           | P2       | M      | —          | DONE   |
 | 011  | Add tests for 4 Zustand stores                               | P2       | M      | —          | TODO   |
 | 012  | Add tests for 4 custom hooks                                 | P2       | M      | —          | TODO   |
 | 013  | Extend generateStaticParams beyond Gen 1                     | P3       | M      | —          | TODO   |
