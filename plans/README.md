@@ -15,7 +15,7 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 | 005  | Test typeColors and queryKeys utilities                      | P1       | S      | —          | DONE   |
 | 006  | Fix getOrFetch race condition (duplicate concurrent fetches) | P1       | M      | 004        | DONE   |
 | 007  | Resolve PokemonPageParams / PokemonListParams duplication    | P2       | S      | —          | DONE   |
-| 008  | Memoize PokemonCard and fix per-card store subscription      | P2       | S      | —          | TODO   |
+| 008  | Memoize PokemonCard and fix per-card store subscription      | P2       | S      | —          | DONE   |
 | 009  | Fix searchByNameWithEvolutions over-fetching species         | P2       | M      | —          | TODO   |
 | 010  | Fix findById swallowing all errors                           | P2       | M      | —          | TODO   |
 | 011  | Add tests for 4 Zustand stores                               | P2       | M      | —          | TODO   |
