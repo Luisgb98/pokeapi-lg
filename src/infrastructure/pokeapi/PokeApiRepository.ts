@@ -273,7 +273,12 @@ export class PokeApiRepository implements PokemonRepository {
 
     if (directMatches.length === 0) return [];
 
-    // Step 2: fetch species for each match to get evolution chain IDs
+    // Step 2: fetch species for each match to get evolution chain IDs.
+    // All N fetches fire concurrently intentionally — serialising to skip chain
+    // duplicates early would add latency on the hot search path. The cost is
+    // bounded: fetchSpecies is backed by a TTL cache + inFlight dedup map, so
+    // repeated lookups after the first search are O(1) cache hits and concurrent
+    // duplicate requests within the same tick are coalesced into one network call.
     const matchIds = directMatches.map((p) => extractIdFromUrl(p.url));
     const speciesData = await Promise.all(matchIds.map((id) => this.fetchSpecies(id)));
 
