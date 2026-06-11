@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { PokemonType } from '@/domain/entities/Pokemon';
+import { cookieStorage } from '@/presentation/lib/cookieStorage';
 
 export const TEAM_MAX_SIZE = 6;
 
@@ -19,23 +20,6 @@ interface TeamBuilderState {
   readonly reorderTeam: (from: number, to: number) => void;
   readonly clear: () => void;
 }
-
-const cookieStorage = {
-  getItem: (name: string): string | null => {
-    if (typeof document === 'undefined') return null;
-    const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-    return match ? decodeURIComponent(match[1]) : null;
-  },
-  setItem: (name: string, value: string): void => {
-    if (typeof document === 'undefined') return;
-    const maxAge = 60 * 60 * 24 * 365;
-    document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax`;
-  },
-  removeItem: (name: string): void => {
-    if (typeof document === 'undefined') return;
-    document.cookie = `${name}=; max-age=0; path=/`;
-  },
-};
 
 export const useTeamBuilderStore = create<TeamBuilderState>()(
   persist(
