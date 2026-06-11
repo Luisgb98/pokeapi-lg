@@ -13,6 +13,7 @@ import { getSpeciesData } from '@/application/usecases/getSpeciesData';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import { MoveLearnsetTable } from '@/presentation/components/organisms/MoveLearnsetTable';
 import { SpeciesInfoSection } from '@/presentation/components/organisms/SpeciesInfoSection';
+import { ScrollReset } from '@/presentation/components/atoms/ScrollReset';
 import { routing } from '@/i18n/routing';
 
 export async function generateStaticParams() {
@@ -102,6 +103,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
 
   return (
     <div className="min-h-dvh bg-stone-50 dark:bg-stone-950">
+      <ScrollReset />
       <PokemonDetailHeader pokemon={pokemon} backTo={from} varieties={species.varieties} />
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
