@@ -189,6 +189,10 @@
     "loading": "Lädt…",
     "roundOf": "Runde {current}/{total}",
     "gameOver": "Herausforderung abgeschlossen!",
-    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück"
+    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück",
+    "shareResult": "Ergebnis teilen",
+    "shareCopied": "Kopiert!",
+    "sharedResultTitle": "Ergebnis der Herausforderung",
+    "playToday": "Heutige Herausforderung spielen"
   }
 }

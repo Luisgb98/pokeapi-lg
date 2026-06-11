@@ -189,6 +189,10 @@
     "loading": "Chargement…",
     "roundOf": "Tour {current}/{total}",
     "gameOver": "Défi terminé !",
-    "gameOverSubtitle": "Revenez demain pour un nouveau défi"
+    "gameOverSubtitle": "Revenez demain pour un nouveau défi",
+    "shareResult": "Partager le résultat",
+    "shareCopied": "Copié !",
+    "sharedResultTitle": "Résultat du défi",
+    "playToday": "Jouer le défi d'aujourd'hui"
   }
 }
