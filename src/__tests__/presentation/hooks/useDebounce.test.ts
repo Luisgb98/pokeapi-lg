@@ -13,9 +13,10 @@ describe('useDebounce', () => {
   });
 
   it('does not update before the delay elapses', () => {
-    const { result, rerender } = renderHook(({ value, delayMs }) => useDebounce(value, delayMs), {
-      initialProps: { value: 'initial', delayMs: 300 },
-    });
+    const { result, rerender } = renderHook(
+      ({ value, delayMs }: { value: string; delayMs: number }) => useDebounce(value, delayMs),
+      { initialProps: { value: 'initial', delayMs: 300 } },
+    );
     rerender({ value: 'updated', delayMs: 300 });
     act(() => {
       vi.advanceTimersByTime(299);
@@ -24,9 +25,10 @@ describe('useDebounce', () => {
   });
 
   it('updates after the delay elapses', () => {
-    const { result, rerender } = renderHook(({ value, delayMs }) => useDebounce(value, delayMs), {
-      initialProps: { value: 'initial', delayMs: 300 },
-    });
+    const { result, rerender } = renderHook(
+      ({ value, delayMs }: { value: string; delayMs: number }) => useDebounce(value, delayMs),
+      { initialProps: { value: 'initial', delayMs: 300 } },
+    );
     rerender({ value: 'updated', delayMs: 300 });
     act(() => {
       vi.advanceTimersByTime(300);
@@ -35,9 +37,10 @@ describe('useDebounce', () => {
   });
 
   it('returns the last value when multiple rapid updates occur', () => {
-    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 300), {
-      initialProps: { value: 'first' },
-    });
+    const { result, rerender } = renderHook(
+      ({ value }: { value: string }) => useDebounce(value, 300),
+      { initialProps: { value: 'first' } },
+    );
     rerender({ value: 'second' });
     rerender({ value: 'third' });
     rerender({ value: 'fourth' });
@@ -48,9 +51,10 @@ describe('useDebounce', () => {
   });
 
   it('respects a 200ms delay', () => {
-    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 200), {
-      initialProps: { value: 'before' },
-    });
+    const { result, rerender } = renderHook(
+      ({ value }: { value: string }) => useDebounce(value, 200),
+      { initialProps: { value: 'before' } },
+    );
     rerender({ value: 'after' });
     act(() => {
       vi.advanceTimersByTime(199);
@@ -63,9 +67,10 @@ describe('useDebounce', () => {
   });
 
   it('respects a 500ms delay', () => {
-    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 500), {
-      initialProps: { value: 'before' },
-    });
+    const { result, rerender } = renderHook(
+      ({ value }: { value: string }) => useDebounce(value, 500),
+      { initialProps: { value: 'before' } },
+    );
     rerender({ value: 'after' });
     act(() => {
       vi.advanceTimersByTime(499);
