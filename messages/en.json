@@ -194,5 +194,15 @@
     "shareCopied": "Copied!",
     "sharedResultTitle": "Challenge Result",
     "playToday": "Play Today's Challenge"
+  },
+  "typeCalculator": {
+    "heading": "Type Calculator",
+    "subtitle": "Select up to two types to see their defensive matchups",
+    "selectPrompt": "Select a type to get started",
+    "immune": "Immune",
+    "quadWeak": "4× Weak",
+    "doubleWeak": "2× Weak",
+    "halfResist": "½× Resist",
+    "quarterResist": "¼× Resist"
   }
 }

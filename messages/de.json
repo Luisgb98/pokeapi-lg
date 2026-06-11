@@ -194,5 +194,15 @@
     "shareCopied": "Kopiert!",
     "sharedResultTitle": "Ergebnis der Herausforderung",
     "playToday": "Heutige Herausforderung spielen"
+  },
+  "typeCalculator": {
+    "heading": "Typ-Rechner",
+    "subtitle": "Wähle bis zu zwei Typen, um ihre defensiven Matchups zu sehen",
+    "selectPrompt": "Wähle einen Typ, um zu beginnen",
+    "immune": "Immun",
+    "quadWeak": "4× Schwach",
+    "doubleWeak": "2× Schwach",
+    "halfResist": "½× Resistenz",
+    "quarterResist": "¼× Resistenz"
   }
 }

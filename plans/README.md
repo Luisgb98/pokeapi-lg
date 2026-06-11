@@ -23,7 +23,7 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 | 013  | Extend generateStaticParams beyond Gen 1                     | P3       | M      | —          | DONE   |
 | 014  | Document and guard singleton repository cache boundary       | P3       | S      | —          | DONE   |
 | 015  | [Direction] Game score sharing                               | P3       | M      | —          | DONE   |
-| 016  | [Direction] Standalone type calculator page                  | P3       | S      | —          | TODO   |
+| 016  | [Direction] Standalone type calculator page                  | P3       | S      | —          | DONE   |
 | 017  | [Direction] Team export and share via URL                    | P3       | M      | —          | TODO   |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
