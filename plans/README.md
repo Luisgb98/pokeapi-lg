@@ -20,7 +20,7 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 | 010  | Fix findById swallowing all errors                           | P2       | M      | —          | DONE   |
 | 011  | Add tests for 4 Zustand stores                               | P2       | M      | —          | DONE   |
 | 012  | Add tests for 4 custom hooks                                 | P2       | M      | —          | DONE   |
-| 013  | Extend generateStaticParams beyond Gen 1                     | P3       | M      | —          | TODO   |
+| 013  | Extend generateStaticParams beyond Gen 1                     | P3       | M      | —          | DONE   |
 | 014  | Document and guard singleton repository cache boundary       | P3       | S      | —          | TODO   |
 | 015  | [Direction] Game score sharing                               | P3       | M      | —          | TODO   |
 | 016  | [Direction] Standalone type calculator page                  | P3       | S      | —          | TODO   |
