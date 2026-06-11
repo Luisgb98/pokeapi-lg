@@ -18,7 +18,7 @@ import { routing } from '@/i18n/routing';
 
 export async function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
-    Array.from({ length: 151 }, (_, i) => ({ locale, id: String(i + 1) })),
+    Array.from({ length: 1025 }, (_, i) => ({ locale, id: String(i + 1) })),
   );
 }
 
