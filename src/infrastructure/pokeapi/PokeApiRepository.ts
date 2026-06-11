@@ -78,6 +78,10 @@ async function fetchJson<T>(url: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+function is404Error(error: unknown): boolean {
+  return error instanceof Error && error.message.startsWith('PokeAPI error 404 ');
+}
+
 export class PokeApiRepository implements PokemonRepository {
   /** Full list of all named Pokémon (name + url) — fetched once */
   private readonly allPokemonCache = new TtlCache<'all', PokeApiNamedResource[]>(LIST_TTL);
@@ -187,8 +191,9 @@ export class PokeApiRepository implements PokemonRepository {
       const species = await this.fetchSpecies(speciesId);
       const chainId = extractIdFromUrl(species.evolution_chain.url);
       return mapPokemon(rawPokemon, chainId);
-    } catch {
-      return null;
+    } catch (error) {
+      if (is404Error(error)) return null;
+      throw error;
     }
   }
 

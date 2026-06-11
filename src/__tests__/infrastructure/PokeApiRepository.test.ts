@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PokeApiRepository } from '../../infrastructure/pokeapi/PokeApiRepository';
 
 let repo: PokeApiRepository;
@@ -108,6 +108,23 @@ describe('findById', () => {
   it('returns null for unknown id (error from API is swallowed)', async () => {
     const result = await repo.findById(25);
     expect(result).not.toBeNull();
+  });
+
+  describe('error handling', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    it('returns null when the API responds with 404', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 404 }));
+      const result = await repo.findById(99999);
+      expect(result).toBeNull();
+    });
+
+    it('rethrows when the API responds with a non-404 error', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }));
+      await expect(repo.findById(25)).rejects.toThrow('PokeAPI error 500');
+    });
   });
 });
 
