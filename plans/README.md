@@ -19,7 +19,7 @@ Each executor: read the plan fully before starting, honor its STOP conditions, a
 | 009  | Fix searchByNameWithEvolutions over-fetching species         | P2       | M      | —          | DONE   |
 | 010  | Fix findById swallowing all errors                           | P2       | M      | —          | DONE   |
 | 011  | Add tests for 4 Zustand stores                               | P2       | M      | —          | DONE   |
-| 012  | Add tests for 4 custom hooks                                 | P2       | M      | —          | TODO   |
+| 012  | Add tests for 4 custom hooks                                 | P2       | M      | —          | DONE   |
 | 013  | Extend generateStaticParams beyond Gen 1                     | P3       | M      | —          | TODO   |
 | 014  | Document and guard singleton repository cache boundary       | P3       | S      | —          | TODO   |
 | 015  | [Direction] Game score sharing                               | P3       | M      | —          | TODO   |

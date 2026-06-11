@@ -1,6 +1,10 @@
 packages:
   - '.'
 
+overrides:
+  eslint-import-resolver-typescript: 3.10.0
+  semver: ^7.0.0
+
 minimumReleaseAge: 4320
 trustPolicy: no-downgrade
 
@@ -13,3 +17,18 @@ allowBuilds:
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+minimumReleaseAgeExclude:
+  - '@next/env@16.2.9'
+  - '@next/eslint-plugin-next@16.2.9'
+  - '@next/swc-darwin-arm64@16.2.9'
+  - '@next/swc-darwin-x64@16.2.9'
+  - '@next/swc-linux-arm64-gnu@16.2.9'
+  - '@next/swc-linux-arm64-musl@16.2.9'
+  - '@next/swc-linux-x64-gnu@16.2.9'
+  - '@next/swc-linux-x64-musl@16.2.9'
+  - '@next/swc-win32-arm64-msvc@16.2.9'
+  - '@next/swc-win32-x64-msvc@16.2.9'
+  - '@types/node@25.9.3'
+  - eslint-config-next@16.2.9
+  - next@16.2.9
+  - prettier@3.8.4
