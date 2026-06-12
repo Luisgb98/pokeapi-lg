@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { z } from 'zod';
 import type { PokemonType } from '@/domain/entities/Pokemon';
 import { cookieStorage } from '@/presentation/lib/cookieStorage';
+import { withValidation } from '@/presentation/lib/validatedStorage';
 
 export const TEAM_MAX_SIZE = 6;
 
@@ -45,7 +47,24 @@ export const useTeamBuilderStore = create<TeamBuilderState>()(
     }),
     {
       name: 'pokemon-team',
-      storage: createJSONStorage(() => cookieStorage),
+      storage: createJSONStorage(() =>
+        withValidation(
+          cookieStorage,
+          z.object({
+            team: z
+              .array(
+                z.object({
+                  id: z.number().int().positive(),
+                  name: z.string(),
+                  displayName: z.string(),
+                  types: z.array(z.string()),
+                  sprite: z.string(),
+                }),
+              )
+              .max(TEAM_MAX_SIZE),
+          }),
+        ),
+      ),
     },
   ),
 );

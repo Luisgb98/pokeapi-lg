@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { z } from 'zod';
 import { cookieStorage } from '@/presentation/lib/cookieStorage';
+import { withValidation } from '@/presentation/lib/validatedStorage';
 
 export type CompareSlot = 'a' | 'b' | 'c';
 
@@ -21,7 +23,18 @@ export const useCompareStore = create<CompareState>()(
     }),
     {
       name: 'pokemon-compare',
-      storage: createJSONStorage(() => cookieStorage),
+      storage: createJSONStorage(() =>
+        withValidation(
+          cookieStorage,
+          z.object({
+            slots: z.object({
+              a: z.number().int().positive().nullable(),
+              b: z.number().int().positive().nullable(),
+              c: z.number().int().positive().nullable(),
+            }),
+          }),
+        ),
+      ),
     },
   ),
 );
