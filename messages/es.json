@@ -73,6 +73,7 @@
     "teamBuilder": "Equipo",
     "compare": "Comparar",
     "game": "¿Quién es?",
+    "favorites": "Favoritos",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -136,7 +137,9 @@
     "remove": "Eliminar {name} de favoritos",
     "filterLabel": "Mostrar solo favoritos",
     "empty": "Aún no hay favoritos",
-    "emptyHint": "Toca el corazón en cualquier tarjeta para guardarlo aquí"
+    "emptyHint": "Toca el corazón en cualquier tarjeta para guardarlo aquí",
+    "heading": "Tus favoritos",
+    "subtitle": "Todos los Pokémon que has marcado, en un solo lugar."
   },
   "species": {
     "section": "Entrada del Pokédex",

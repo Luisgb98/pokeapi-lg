@@ -73,6 +73,7 @@
     "teamBuilder": "Squadra",
     "compare": "Confronta",
     "game": "Chi è?",
+    "favorites": "Preferiti",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -136,7 +137,9 @@
     "remove": "Rimuovi {name} dai preferiti",
     "filterLabel": "Mostra solo i preferiti",
     "empty": "Nessun preferito ancora",
-    "emptyHint": "Tocca il cuore su qualsiasi carta Pokémon per salvarlo qui"
+    "emptyHint": "Tocca il cuore su qualsiasi carta Pokémon per salvarlo qui",
+    "heading": "I tuoi preferiti",
+    "subtitle": "Tutti i Pokémon che hai salvato, in un unico posto."
   },
   "species": {
     "section": "Voce Pokédex",

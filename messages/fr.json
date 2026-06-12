@@ -73,6 +73,7 @@
     "teamBuilder": "Équipe",
     "compare": "Comparer",
     "game": "C'est qui ?",
+    "favorites": "Favoris",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -136,7 +137,9 @@
     "remove": "Retirer {name} des favoris",
     "filterLabel": "Afficher les favoris uniquement",
     "empty": "Aucun favori pour l'instant",
-    "emptyHint": "Appuyez sur le cœur d'une carte Pokémon pour le sauvegarder ici"
+    "emptyHint": "Appuyez sur le cœur d'une carte Pokémon pour le sauvegarder ici",
+    "heading": "Vos favoris",
+    "subtitle": "Tous les Pokémon que vous avez aimés, au même endroit."
   },
   "species": {
     "section": "Entrée Pokédex",
