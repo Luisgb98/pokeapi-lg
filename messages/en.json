@@ -196,7 +196,9 @@
     "shareResult": "Share Result",
     "shareCopied": "Copied!",
     "sharedResultTitle": "Challenge Result",
-    "playToday": "Play Today's Challenge"
+    "playToday": "Play Today's Challenge",
+    "streakLabel": "Streak: {count} 🔥",
+    "bestLabel": "Best: {best}/10"
   },
   "typeCalculator": {
     "heading": "Type Calculator",

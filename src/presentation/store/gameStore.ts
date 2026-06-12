@@ -5,6 +5,7 @@ import type { GameChallenge } from '@/application/usecases/getGameChallenge';
 
 export const TIMER_SECONDS = 30;
 export const MAX_ROUNDS = 10;
+export const HISTORY_LIMIT = 60;
 
 type GamePhase = 'playing' | 'revealed';
 
@@ -15,6 +16,10 @@ interface GameState {
   score: { correct: number; total: number };
   challenge: GameChallenge | null;
   roundOffset: number;
+  streak: number;
+  bestScore: number;
+  lastCompletedSeed: number | null;
+  history: { seed: number; correct: number }[];
 }
 
 interface GameActions {
@@ -33,7 +38,26 @@ const INITIAL_STATE: GameState = {
   score: { correct: 0, total: 0 },
   challenge: null,
   roundOffset: 0,
+  streak: 0,
+  bestScore: 0,
+  lastCompletedSeed: null,
+  history: [],
 };
+
+function completionUpdate(
+  state: Pick<GameStore, 'dailySeed' | 'streak' | 'bestScore' | 'lastCompletedSeed' | 'history'>,
+  correct: number,
+): Partial<GameState> {
+  const alreadyCounted = state.lastCompletedSeed === state.dailySeed;
+  if (alreadyCounted) return {};
+  const continued = state.lastCompletedSeed === state.dailySeed - 1;
+  return {
+    streak: continued ? state.streak + 1 : 1,
+    bestScore: Math.max(state.bestScore, correct),
+    lastCompletedSeed: state.dailySeed,
+    history: [...state.history, { seed: state.dailySeed, correct }].slice(-HISTORY_LIMIT),
+  };
+}
 
 export const useGameStore = create<GameStore>()(
   persist(
@@ -42,29 +66,40 @@ export const useGameStore = create<GameStore>()(
 
       initOrRestore: (initialChallenge) => {
         const today = getDailySeed();
-        const { dailySeed, challenge } = get();
+        const { dailySeed, challenge, streak, bestScore, lastCompletedSeed, history } = get();
         if (dailySeed === today && challenge !== null) return;
-        set({ ...INITIAL_STATE, dailySeed: today, challenge: initialChallenge });
+        set({
+          ...INITIAL_STATE,
+          dailySeed: today,
+          challenge: initialChallenge,
+          streak,
+          bestScore,
+          lastCompletedSeed,
+          history,
+        });
       },
 
       guess: (pokemonId) => {
         const { phase, challenge, score } = get();
         if (phase !== 'playing' || !challenge) return;
         const isCorrect = pokemonId === challenge.correct.id;
+        const newCorrect = score.correct + (isCorrect ? 1 : 0);
+        const newTotal = score.total + 1;
+        const completion = newTotal === MAX_ROUNDS ? completionUpdate(get(), newCorrect) : {};
         set({
           phase: 'revealed',
           selectedId: pokemonId,
-          score: {
-            correct: score.correct + (isCorrect ? 1 : 0),
-            total: score.total + 1,
-          },
+          score: { correct: newCorrect, total: newTotal },
+          ...completion,
         });
       },
 
       timeOut: () => {
         const { phase, score } = get();
         if (phase !== 'playing') return;
-        set({ phase: 'revealed', selectedId: null, score: { ...score, total: score.total + 1 } });
+        const newTotal = score.total + 1;
+        const completion = newTotal === MAX_ROUNDS ? completionUpdate(get(), score.correct) : {};
+        set({ phase: 'revealed', selectedId: null, score: { ...score, total: newTotal }, ...completion });
       },
 
       startNext: (challenge) => {

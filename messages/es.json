@@ -196,7 +196,9 @@
     "shareResult": "Compartir resultado",
     "shareCopied": "¡Copiado!",
     "sharedResultTitle": "Resultado del reto",
-    "playToday": "Jugar el reto de hoy"
+    "playToday": "Jugar el reto de hoy",
+    "streakLabel": "Racha: {count} 🔥",
+    "bestLabel": "Mejor: {best}/10"
   },
   "typeCalculator": {
     "heading": "Calculadora de tipos",
