@@ -2,7 +2,7 @@
 
 ## Stack
 
-- **Next.js 15** (App Router) · **TypeScript** · **Tailwind CSS 4** · **TanStack Query** · **Zustand** · **Vitest**
+- **Next.js 16** (App Router) · **TypeScript** · **Tailwind CSS 4** · **TanStack Query** · **Zustand** · **Vitest**
 - Package manager: `pnpm`
 - Path alias: `@/` → `src/`
 
@@ -13,9 +13,13 @@
 ```
 src/
 ├── app/                  # Next.js App Router (MUST stay here — Next.js constraint)
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── pokemon/[id]/page.tsx
+│   ├── [locale]/         # next-intl locale segment wraps all pages
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── pokemon/[id]/page.tsx
+│   │   ├── compare/  game/  team/
+│   │   └── tools/type-calculator/
+│   └── api/og/[id]/      # OG image route handler
 ├── domain/               # Entities, value objects, port interfaces — zero deps
 ├── application/          # Use cases, container — imports only domain
 ├── infrastructure/       # PokeAPI adapter — implements domain ports
@@ -52,7 +56,7 @@ src/
 **Default: every page and layout is an async Server Component.**
 
 ```tsx
-// app/page.tsx — prefetch pattern for pages with interactive client children
+// app/[locale]/page.tsx — prefetch pattern for pages with interactive client children
 export default async function HomePage() {
   const queryClient = new QueryClient();
   const repository = getRepository();
@@ -65,7 +69,7 @@ export default async function HomePage() {
   );
 }
 
-// app/pokemon/[id]/page.tsx — pure Server Component with generateMetadata
+// app/[locale]/pokemon/[id]/page.tsx — pure Server Component with generateMetadata
 export async function generateMetadata({ params }) { ... }
 
 export default async function PokemonDetailPage({ params }) {
