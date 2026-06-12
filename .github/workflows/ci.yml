@@ -49,6 +49,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: i18n key parity
+        run: pnpm i18n:check
+
   typecheck:
     name: Type check
     runs-on: ubuntu-latest
