@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { resetRepository, setRepository } from '../../application/container';
-import { fetchPokemonById, fetchPokemonPage } from '../../application/actions/pokemon';
+import {
+  fetchPokemonById,
+  fetchPokemonFormById,
+  fetchPokemonPage,
+} from '../../application/actions/pokemon';
 import type { PokemonRepository } from '../../domain/ports/PokemonRepository';
 import type { Pokemon } from '../../domain/entities/Pokemon';
 import type { EvolutionChain } from '../../domain/entities/EvolutionChain';
@@ -43,6 +47,21 @@ describe('fetchPokemonById', () => {
     const result = await fetchPokemonById(25);
     expect(result.id).toBe(25);
     expect(result.name).toBe('pikachu');
+  });
+});
+
+describe('fetchPokemonFormById', () => {
+  it('returns the pokemon when the repository finds it', async () => {
+    setRepository(mockRepo());
+    const result = await fetchPokemonFormById(25);
+    expect(result?.id).toBe(25);
+    expect(result?.name).toBe('pikachu');
+  });
+
+  it('returns null when the repository returns null', async () => {
+    setRepository(mockRepo({ findById: vi.fn().mockResolvedValue(null) }));
+    const result = await fetchPokemonFormById(9999);
+    expect(result).toBeNull();
   });
 });
 

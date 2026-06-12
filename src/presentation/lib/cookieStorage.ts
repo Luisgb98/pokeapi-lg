@@ -11,7 +11,8 @@ export const cookieStorage = {
   setItem: (name: string, value: string): void => {
     if (typeof document === 'undefined') return;
     const maxAge = 60 * 60 * 24 * 365;
-    document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    const secure = document.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax${secure}`;
   },
   removeItem: (name: string): void => {
     if (typeof document === 'undefined') return;

@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { buildShareUrl, buildShareText } from '../../../presentation/lib/gameShare';
+import {
+  buildShareUrl,
+  buildShareText,
+  parseGameShareParams,
+} from '../../../presentation/lib/gameShare';
 
 describe('buildShareUrl', () => {
   it('returns a URL with result, total, and day params', () => {
@@ -56,5 +60,50 @@ describe('buildShareText', () => {
     expect(lines).toHaveLength(2);
     expect(lines[0]).toBe("Who's That Pokémon? 2/4");
     expect(lines[1]).toBe('✅✅❌❌');
+  });
+});
+
+describe('parseGameShareParams', () => {
+  const validDay = Math.floor(Date.now() / 86_400_000);
+
+  it('returns parsed params for a valid share URL', () => {
+    const result = parseGameShareParams({
+      result: '7',
+      total: '10',
+      day: String(validDay),
+    });
+    expect(result).toEqual({ score: 7, total: 10, day: validDay });
+  });
+
+  it('returns null when result is missing', () => {
+    expect(parseGameShareParams({ total: '10', day: String(validDay) })).toBeNull();
+  });
+
+  it('returns null when day is missing', () => {
+    expect(parseGameShareParams({ result: '7', total: '10' })).toBeNull();
+  });
+
+  it('returns null for non-numeric result', () => {
+    expect(parseGameShareParams({ result: 'abc', total: '10', day: String(validDay) })).toBeNull();
+  });
+
+  it('returns null for negative day', () => {
+    expect(parseGameShareParams({ result: '5', total: '10', day: '-1' })).toBeNull();
+  });
+
+  it('returns null when day is in the future', () => {
+    expect(
+      parseGameShareParams({ result: '5', total: '10', day: String(validDay + 5) }),
+    ).toBeNull();
+  });
+
+  it('returns null when result exceeds total', () => {
+    expect(parseGameShareParams({ result: '11', total: '10', day: String(validDay) })).toBeNull();
+  });
+
+  it('defaults total to MAX_ROUNDS when omitted', () => {
+    const result = parseGameShareParams({ result: '5', day: String(validDay) });
+    expect(result).not.toBeNull();
+    expect(result?.total).toBe(10);
   });
 });

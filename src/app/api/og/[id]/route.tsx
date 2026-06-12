@@ -34,7 +34,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   const { id } = await params;
   const numericId = parseInt(id, 10);
 
-  if (!Number.isFinite(numericId) || numericId < 1) {
+  if (!Number.isFinite(numericId) || numericId < 1 || numericId > 20000) {
     return new Response('Not found', { status: 404 });
   }
 
