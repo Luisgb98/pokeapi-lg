@@ -104,7 +104,8 @@
     "searchHint": "Escribe al menos 2 caracteres para buscar",
     "shareTeam": "Compartir equipo",
     "shareCopied": "¡Copiado!",
-    "shareTitle": "Mira mi equipo Pokémon"
+    "shareTitle": "Mira mi equipo Pokémon",
+    "addFavorites": "Añadir favoritos"
   },
   "typeChart": {
     "title": "Defensa de Tipos",

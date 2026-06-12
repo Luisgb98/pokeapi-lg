@@ -18,6 +18,8 @@ export interface TeamMember {
 interface TeamBuilderState {
   readonly team: readonly TeamMember[];
   readonly addMember: (member: TeamMember) => void;
+  /** Adds members in order, skipping duplicates, stopping at TEAM_MAX_SIZE. */
+  readonly addMembers: (members: TeamMember[]) => void;
   readonly removeMember: (id: number) => void;
   readonly reorderTeam: (from: number, to: number) => void;
   readonly clear: () => void;
@@ -32,6 +34,16 @@ export const useTeamBuilderStore = create<TeamBuilderState>()(
         if (team.length >= TEAM_MAX_SIZE) return;
         if (team.some((m) => m.id === member.id)) return;
         set({ team: [...team, member] });
+      },
+      addMembers: (members: TeamMember[]) => {
+        const { team } = get();
+        const next = [...team];
+        for (const member of members) {
+          if (next.length >= TEAM_MAX_SIZE) break;
+          if (next.some((m) => m.id === member.id)) continue;
+          next.push(member);
+        }
+        if (next.length !== team.length) set({ team: next });
       },
       removeMember: (id: number) => {
         set((state) => ({ team: state.team.filter((m) => m.id !== id) }));

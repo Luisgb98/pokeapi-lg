@@ -78,3 +78,44 @@ describe('clear', () => {
     expect(useTeamBuilderStore.getState().team).toHaveLength(0);
   });
 });
+
+describe('addMembers', () => {
+  it('adds multiple members to an empty team in order', () => {
+    useTeamBuilderStore.getState().addMembers([makeMember(1), makeMember(2), makeMember(3)]);
+    const ids = useTeamBuilderStore.getState().team.map((m) => m.id);
+    expect(ids).toEqual([1, 2, 3]);
+  });
+
+  it('skips members whose id is already on the team', () => {
+    useTeamBuilderStore.getState().addMember(makeMember(1));
+    useTeamBuilderStore.getState().addMembers([makeMember(1), makeMember(2)]);
+    expect(useTeamBuilderStore.getState().team).toHaveLength(2);
+    expect(useTeamBuilderStore.getState().team.map((m) => m.id)).toEqual([1, 2]);
+  });
+
+  it(`stops at TEAM_MAX_SIZE when given more than ${TEAM_MAX_SIZE} members`, () => {
+    const members = Array.from({ length: 8 }, (_, i) => makeMember(i + 1));
+    useTeamBuilderStore.getState().addMembers(members);
+    expect(useTeamBuilderStore.getState().team).toHaveLength(TEAM_MAX_SIZE);
+  });
+
+  it('mixed: team of 4 + list with 1 duplicate and 3 new fills to 6', () => {
+    for (let i = 1; i <= 4; i++) {
+      useTeamBuilderStore.getState().addMember(makeMember(i));
+    }
+    useTeamBuilderStore
+      .getState()
+      .addMembers([makeMember(2), makeMember(5), makeMember(6), makeMember(7)]);
+    const team = useTeamBuilderStore.getState().team;
+    expect(team).toHaveLength(6);
+    expect(team.filter((m) => m.id === 2)).toHaveLength(1);
+  });
+
+  it('no-op when all members are already on the team', () => {
+    useTeamBuilderStore.getState().addMember(makeMember(1));
+    useTeamBuilderStore.getState().addMember(makeMember(2));
+    const before = useTeamBuilderStore.getState().team;
+    useTeamBuilderStore.getState().addMembers([makeMember(1), makeMember(2)]);
+    expect(useTeamBuilderStore.getState().team).toBe(before);
+  });
+});
