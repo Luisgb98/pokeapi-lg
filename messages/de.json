@@ -73,6 +73,7 @@
     "teamBuilder": "Team",
     "compare": "Vergleichen",
     "game": "Wer ist das?",
+    "favorites": "Favoriten",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -136,7 +137,9 @@
     "remove": "{name} aus Favoriten entfernen",
     "filterLabel": "Nur Favoriten anzeigen",
     "empty": "Noch keine Favoriten",
-    "emptyHint": "Tippe auf das Herz einer Pokémon-Karte, um es hier zu speichern"
+    "emptyHint": "Tippe auf das Herz einer Pokémon-Karte, um es hier zu speichern",
+    "heading": "Deine Favoriten",
+    "subtitle": "Alle Pokémon mit Herz, an einem Ort."
   },
   "species": {
     "section": "Pokédex-Eintrag",

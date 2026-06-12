@@ -73,6 +73,7 @@
     "teamBuilder": "Team Builder",
     "compare": "Compare",
     "game": "Who's That?",
+    "favorites": "Favorites",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -120,7 +121,9 @@
     "remove": "Remove {name} from favorites",
     "filterLabel": "Show favorites only",
     "empty": "No favorites yet",
-    "emptyHint": "Tap the heart on any Pokémon card to save it here"
+    "emptyHint": "Tap the heart on any Pokémon card to save it here",
+    "heading": "Your Favorites",
+    "subtitle": "Every Pokémon you've hearted, in one place."
   },
   "compare": {
     "heading": "Compare",
