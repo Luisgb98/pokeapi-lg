@@ -196,7 +196,9 @@
     "shareResult": "Partager le résultat",
     "shareCopied": "Copié !",
     "sharedResultTitle": "Résultat du défi",
-    "playToday": "Jouer le défi d'aujourd'hui"
+    "playToday": "Jouer le défi d'aujourd'hui",
+    "streakLabel": "Série : {count} 🔥",
+    "bestLabel": "Record : {best}/10"
   },
   "typeCalculator": {
     "heading": "Calculateur de types",

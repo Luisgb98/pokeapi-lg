@@ -196,7 +196,9 @@
     "shareResult": "Ergebnis teilen",
     "shareCopied": "Kopiert!",
     "sharedResultTitle": "Ergebnis der Herausforderung",
-    "playToday": "Heutige Herausforderung spielen"
+    "playToday": "Heutige Herausforderung spielen",
+    "streakLabel": "Serie: {count} 🔥",
+    "bestLabel": "Rekord: {best}/10"
   },
   "typeCalculator": {
     "heading": "Typ-Rechner",

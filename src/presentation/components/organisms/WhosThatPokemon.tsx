@@ -33,6 +33,10 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
     score,
     challenge,
     roundOffset,
+    streak,
+    bestScore,
+    lastCompletedSeed,
+    dailySeed,
     initOrRestore,
     guess,
     timeOut,
@@ -92,6 +96,9 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
   const isCorrectGuess = isRevealed && selectedId === challenge.correct.id;
   const isGameOver = isRevealed && score.total >= MAX_ROUNDS;
   const currentRound = phase === 'playing' ? score.total + 1 : score.total;
+
+  const displayStreak =
+    lastCompletedSeed !== null && lastCompletedSeed >= dailySeed - 1 ? streak : 0;
 
   const timerPct = isRevealed ? 0 : (timeLeft / TIMER_SECONDS) * 100;
   const timerColor = timeLeft > 10 ? 'bg-green-400' : timeLeft > 5 ? 'bg-yellow-400' : 'bg-red-400';
@@ -238,6 +245,10 @@ export function WhosThatPokemon({ initialChallenge }: Props) {
                 </p>
                 <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
                   {t('gameOverSubtitle')}
+                </p>
+                <p className="mt-3 text-sm font-semibold text-stone-700 dark:text-stone-300">
+                  {t('streakLabel', { count: displayStreak })} ·{' '}
+                  {t('bestLabel', { best: bestScore })}
                 </p>
                 <GameShareButton />
               </div>
