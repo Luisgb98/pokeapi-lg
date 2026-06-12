@@ -1,9 +1,13 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useTransition } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { fetchPokemonById } from '@/application/actions/pokemon';
+import type { Pokemon } from '@/domain/entities/Pokemon';
+import { useFavoritesStore } from '@/presentation/store/favoritesStore';
+import { useHydration } from '@/presentation/hooks/useHydration';
 import {
   DndContext,
   DragOverlay,
@@ -61,7 +65,10 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
   const t = useTranslations('teamBuilder');
   const locale = useLocale();
   const router = useRouter();
-  const { team, removeMember, reorderTeam, clear, addMember } = useTeamBuilderStore();
+  const { team, removeMember, reorderTeam, clear, addMember, addMembers } = useTeamBuilderStore();
+  const favoriteIds = useFavoritesStore((s) => s.ids);
+  const hydrated = useHydration();
+  const [isImporting, startImporting] = useTransition();
 
   const sharedLoadedRef = useRef(false);
   useEffect(() => {
@@ -78,6 +85,26 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
   const [activeId, setActiveId] = useState<number | null>(null);
 
   const isFull = team.length >= TEAM_MAX_SIZE;
+  const freeSlots = TEAM_MAX_SIZE - team.length;
+  const importableIds = favoriteIds
+    .filter((id) => !team.some((m) => m.id === id))
+    .slice(0, freeSlots);
+
+  const handleAddFavorites = () => {
+    startImporting(async () => {
+      const results = await Promise.allSettled(importableIds.map((id) => fetchPokemonById(id)));
+      const members = results
+        .filter((r): r is PromiseFulfilledResult<Pokemon> => r.status === 'fulfilled')
+        .map(({ value: p }) => ({
+          id: p.id,
+          name: p.name,
+          displayName: p.displayName,
+          types: p.types,
+          sprite: p.sprite,
+        }));
+      addMembers(members);
+    });
+  };
   const slots = Array.from({ length: TEAM_MAX_SIZE }, (_, i) => team[i] as TeamMember | undefined);
   const activeItem = activeId !== null ? team.find((m) => m.id === activeId) : undefined;
 
@@ -149,9 +176,17 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
           </DragOverlay>
         </DndContext>
 
-        {team.length > 0 && (
-          <div className="mt-3 flex items-center justify-end gap-4">
-            <TeamShareButton />
+        <div className="mt-3 flex items-center justify-end gap-4">
+          {team.length > 0 && <TeamShareButton />}
+          <button
+            type="button"
+            onClick={handleAddFavorites}
+            disabled={!hydrated || isImporting || isFull || importableIds.length === 0}
+            className="text-xs font-medium text-stone-400 transition-colors hover:text-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {t('addFavorites')}
+          </button>
+          {team.length > 0 && (
             <button
               type="button"
               onClick={clear}
@@ -159,8 +194,8 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
             >
               {t('clearTeam')}
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </section>
 
       {/* Coverage */}

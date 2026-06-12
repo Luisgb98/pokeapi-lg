@@ -104,7 +104,8 @@
     "searchHint": "Digita almeno 2 caratteri per cercare",
     "shareTeam": "Condividi squadra",
     "shareCopied": "Copiato!",
-    "shareTitle": "Guarda la mia squadra Pokémon"
+    "shareTitle": "Guarda la mia squadra Pokémon",
+    "addFavorites": "Aggiungi preferiti"
   },
   "typeChart": {
     "title": "Difese di Tipo",

@@ -104,7 +104,8 @@
     "searchHint": "Mindestens 2 Zeichen eingeben",
     "shareTeam": "Team teilen",
     "shareCopied": "Kopiert!",
-    "shareTitle": "Schau dir mein Pokémon-Team an"
+    "shareTitle": "Schau dir mein Pokémon-Team an",
+    "addFavorites": "Favoriten hinzufügen"
   },
   "typeChart": {
     "title": "Typ-Verteidigung",
