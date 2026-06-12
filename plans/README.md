@@ -30,13 +30,13 @@ remains the single status index for all plans.
 | 015  | [Direction] Game score sharing                               | P3       | M      | —          | DONE   |
 | 016  | [Direction] Standalone type calculator page                  | P3       | S      | —          | DONE   |
 | 017  | [Direction] Team export and share via URL                    | P3       | M      | —          | DONE   |
-| 018  | Validate untrusted inputs at boundaries with zod              | P1       | M      | —          | DONE   |
-| 019  | Enforce hexagonal layer boundaries with ESLint                | P1       | M      | —          | TODO   |
-| 020  | Fix factual drift in CLAUDE.md and README.md                  | P2       | S      | —          | TODO   |
-| 021  | Add i18n key-parity check to CI                               | P2       | S      | —          | TODO   |
-| 022  | [Direction] Game streaks and score history                    | P3       | M      | 021 (soft) | TODO   |
-| 023  | [Direction] Standalone /favorites collection page             | P3       | M      | 021 (soft) | TODO   |
-| 024  | [Direction] Bulk-add favorites to team                        | P3       | S      | 021 (soft) | TODO   |
+| 018  | Validate untrusted inputs at boundaries with zod             | P1       | M      | —          | DONE   |
+| 019  | Enforce hexagonal layer boundaries with ESLint               | P1       | M      | —          | TODO   |
+| 020  | Fix factual drift in CLAUDE.md and README.md                 | P2       | S      | —          | TODO   |
+| 021  | Add i18n key-parity check to CI                              | P2       | S      | —          | TODO   |
+| 022  | [Direction] Game streaks and score history                   | P3       | M      | 021 (soft) | TODO   |
+| 023  | [Direction] Standalone /favorites collection page            | P3       | M      | 021 (soft) | TODO   |
+| 024  | [Direction] Bulk-add favorites to team                       | P3       | S      | 021 (soft) | TODO   |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 
@@ -87,7 +87,7 @@ Rejected on merit:
 - Team-param split DoS via giant URLs: server header-size limits cap URL length; `parseTeamParam` already validates and slices.
 - `console.error` in error.tsx boundaries: Next.js's own template pattern; adding an error tracker is a product decision, not a defect.
 - generateStaticParams build cost (6 locales × 1025): deliberate decision from plan 013; revalidate + dynamicParams already configured.
-- Client-side query hooks for learnset/species data: server-side fetching in the detail page is the *correct* pattern per CLAUDE.md (YAGNI).
+- Client-side query hooks for learnset/species data: server-side fetching in the detail page is the _correct_ pattern per CLAUDE.md (YAGNI).
 - getGameChallenge total-count fetch race: request coalescing already fixed in plan 006; remainder speculative.
 - dnd-kit version-pinning risk, CI per-job installs, missing .editorconfig / .env.example, pre-commit hooks: marginal or standard practice; not worth plans.
 - PostCSS < 8.5.10 advisory (moderate, transitive via next): build-time tooling, no untrusted CSS input in this app; resolves with the next Next.js bump — monitor, don't patch.
