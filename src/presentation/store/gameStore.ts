@@ -99,7 +99,12 @@ export const useGameStore = create<GameStore>()(
         if (phase !== 'playing') return;
         const newTotal = score.total + 1;
         const completion = newTotal === MAX_ROUNDS ? completionUpdate(get(), score.correct) : {};
-        set({ phase: 'revealed', selectedId: null, score: { ...score, total: newTotal }, ...completion });
+        set({
+          phase: 'revealed',
+          selectedId: null,
+          score: { ...score, total: newTotal },
+          ...completion,
+        });
       },
 
       startNext: (challenge) => {
