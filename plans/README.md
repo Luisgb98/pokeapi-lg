@@ -2,6 +2,7 @@
 
 First audit: 2026-06-11 against commit `8ad2d6c` (plans 001–017, all DONE).
 Second audit (deep): 2026-06-12 against commit `84b8672` (plans 018–024).
+Third audit (direction/`next`): 2026-06-12 against commit `56438cc` (plans 025–030).
 Execute in the order below unless dependencies say otherwise.
 Each executor: read the plan fully before starting, honor its STOP conditions, and update your row when done.
 
@@ -31,12 +32,18 @@ remains the single status index for all plans.
 | 016  | [Direction] Standalone type calculator page                  | P3       | S      | —          | DONE   |
 | 017  | [Direction] Team export and share via URL                    | P3       | M      | —          | DONE   |
 | 018  | Validate untrusted inputs at boundaries with zod             | P1       | M      | —          | DONE   |
-| 019  | Enforce hexagonal layer boundaries with ESLint               | P1       | M      | —          | TODO   |
-| 020  | Fix factual drift in CLAUDE.md and README.md                 | P2       | S      | —          | TODO   |
-| 021  | Add i18n key-parity check to CI                              | P2       | S      | —          | TODO   |
-| 022  | [Direction] Game streaks and score history                   | P3       | M      | 021 (soft) | TODO   |
-| 023  | [Direction] Standalone /favorites collection page            | P3       | M      | 021 (soft) | TODO   |
-| 024  | [Direction] Bulk-add favorites to team                       | P3       | S      | 021 (soft) | TODO   |
+| 019  | Enforce hexagonal layer boundaries with ESLint               | P1       | M      | —          | DONE   |
+| 020  | Fix factual drift in CLAUDE.md and README.md                 | P2       | S      | —          | DONE   |
+| 021  | Add i18n key-parity check to CI                              | P2       | S      | —          | DONE   |
+| 022  | [Direction] Game streaks and score history                   | P3       | M      | 021 (soft) | DONE   |
+| 023  | [Direction] Standalone /favorites collection page            | P3       | M      | 021 (soft) | DONE   |
+| 024  | [Direction] Bulk-add favorites to team                       | P3       | S      | 021 (soft) | DONE   |
+| 025  | Playwright E2E smoke suite (5 journeys + CI job)             | P2       | M      | —          | DONE   |
+| 026  | [Direction] Offensive coverage analysis in team builder      | P3       | S      | —          | TODO   |
+| 027  | [Direction] Abilities, height, weight on detail page         | P3       | M      | —          | TODO   |
+| 028  | [Direction] Localized Pokémon and move names                 | P3       | M      | —          | TODO   |
+| 029  | [Direction] Stat calculator tool at /tools/stat-calculator   | P3       | M      | —          | TODO   |
+| 030  | [Direction] Type-matchup quiz as second daily game mode      | P3       | M–L    | 025 (soft) | TODO   |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 
@@ -51,6 +58,10 @@ Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJE
 - 018 and 024 both touch `teamBuilderStore.ts` (018: persist storage wrapper; 024: new `addMembers` action) — run sequentially in either order, not in parallel.
 - 022 and 018 both reference the game code: 018 adds `parseGameShareParams` to `gameShare.ts` and explicitly leaves `gameStore` alone; 022 owns `gameStore`. No conflict, any order.
 - 019 and 020 are fully independent of everything.
+- 025 should land first in the third batch: it creates the regression guard the feature plans extend (each adds at most one E2E assertion/journey when 025 is DONE).
+- 027 and 028 both touch `infrastructure/pokeapi/types.ts`, `mappers.ts`, the repository port, and the detail page — run sequentially in either order, never in parallel.
+- 026 and 030 both add to `domain/entities/typeChart.ts` (additively) — either order, trivial rebase.
+- 029 is fully independent of everything in the batch.
 
 ## Selection note (2026-06-12 run)
 
@@ -61,6 +72,28 @@ the recommended maintenance plans (018, 019, 020, 021) were written.
 unused in devDependencies with no config or tests; either build a minimal
 Playwright suite for the team-share/game/detail flows or drop the dependency.
 Open maintainer decision; ask for a plan if wanted.
+
+## Selection note (2026-06-12 direction run, plans 025–030)
+
+`/improve next` direction audit at `56438cc` (branch
+`advisor/024-bulk-add-favorites-to-team`, which already carries the
+implementations of 019–024 — their status rows above were corrected from TODO
+to DONE during this run's reconcile). The maintainer selected **all six**
+findings. The previously open E2E decision is resolved: build it (plan 025).
+
+Direction findings considered but NOT planned this run (do not re-audit
+without new evidence):
+
+- **Encounter locations ("where to catch")**: real PokeAPI endpoint
+  (`/pokemon/{id}/encounters`) but version-fragmented data with poor coverage
+  for newer generations — weak payoff.
+- **Damage calculator**: needs moves + natures + items modeling (L effort);
+  the stat calculator (029) is the cheaper first step toward it.
+- **Pokédex sort-by-BST/name**: `PokemonSummary` carries no stats; sorting by
+  BST would require fetching full detail for all 1,025 or a precomputed
+  dataset, which fights the API-driven architecture.
+- **Localized names in the grid / evolution chain / game**: requires a
+  species fetch per row; explicitly scoped out of plan 028.
 
 ## Findings considered and rejected
 
