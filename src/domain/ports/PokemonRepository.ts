@@ -1,10 +1,12 @@
 import type {
   Generation,
   Pokemon,
+  PokemonAbilityRef,
   PokemonSummary,
   PokemonType,
   TypeMatchMode,
 } from '../entities/Pokemon';
+import type { Ability } from '../entities/Ability';
 import type { EvolutionChain } from '../entities/EvolutionChain';
 import type { LearnedMove } from '../entities/Move';
 import type { PokemonSpecies } from '../entities/PokemonSpecies';
@@ -50,4 +52,7 @@ export interface PokemonRepository {
 
   /** Returns the full move learnset for a Pokémon in the most recent available game. */
   findMoveLearnset(id: number): Promise<readonly LearnedMove[]>;
+
+  /** Returns localized ability details for the given ability refs. */
+  findAbilities(refs: readonly PokemonAbilityRef[], locale: string): Promise<readonly Ability[]>;
 }

@@ -4,12 +4,14 @@ import {
   bulbasaurRaw,
   electricTypeDetail,
   grassTypeDetail,
+  lightningRodAbility,
   pichuRaw,
   pichuSpecies,
   pikachuChain,
   pikachuRaw,
   pikachuSpecies,
   raichuRaw,
+  staticAbility,
   thundershockMove,
 } from './fixtures';
 
@@ -63,4 +65,7 @@ export const handlers = [
   http.get(`${BASE}/type/grass`, () => HttpResponse.json(grassTypeDetail)),
 
   http.get(`${BASE}/move/84`, () => HttpResponse.json(thundershockMove)),
+
+  http.get(`${BASE}/ability/static`, () => HttpResponse.json(staticAbility)),
+  http.get(`${BASE}/ability/lightning-rod`, () => HttpResponse.json(lightningRodAbility)),
 ];

@@ -21,6 +21,7 @@ function makeRepo(): PokemonRepository {
     searchByNameWithEvolutions: vi.fn(),
     findSpeciesData: vi.fn().mockResolvedValue(mockSpecies),
     findMoveLearnset: vi.fn().mockResolvedValue([]),
+    findAbilities: vi.fn().mockResolvedValue([]),
   };
 }
 

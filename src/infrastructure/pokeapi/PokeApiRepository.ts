@@ -1,3 +1,4 @@
+import type { Ability } from '../../domain/entities/Ability';
 import type { EvolutionChain } from '../../domain/entities/EvolutionChain';
 import { flattenChainNames } from '../../domain/entities/EvolutionChain';
 import type { LearnedMove, LearnMethod } from '../../domain/entities/Move';
@@ -5,6 +6,7 @@ import { LEARN_METHODS } from '../../domain/entities/Move';
 import type {
   Generation,
   Pokemon,
+  PokemonAbilityRef,
   PokemonSummary,
   PokemonType,
 } from '../../domain/entities/Pokemon';
@@ -23,6 +25,7 @@ import type {
 } from '../../domain/ports/PokemonRepository';
 import { getOrFetch, TtlCache } from './cache';
 import {
+  mapAbility,
   mapEvolutionChain,
   mapMove,
   mapPokemon,
@@ -30,6 +33,7 @@ import {
   mapPokemonSummary,
 } from './mappers';
 import type {
+  PokeApiAbility,
   PokeApiEvolutionChain,
   PokeApiMove,
   PokeApiNamedResource,
@@ -101,6 +105,9 @@ export class PokeApiRepository implements PokemonRepository {
   /** move id → PokeApiMove */
   private readonly moveCache = new TtlCache<number, PokeApiMove>(DETAIL_TTL);
   private readonly moveInFlight = new Map<number, Promise<PokeApiMove>>();
+  /** ability slug → PokeApiAbility */
+  private readonly abilityCache = new TtlCache<string, PokeApiAbility>(DETAIL_TTL);
+  private readonly abilityInFlight = new Map<string, Promise<PokeApiAbility>>();
 
   private async fetchAllPokemon(): Promise<PokeApiNamedResource[]> {
     return getOrFetch(this.allPokemonCache, this.allPokemonInFlight, 'all', async () => {
@@ -260,6 +267,20 @@ export class PokeApiRepository implements PokemonRepository {
       if (!move) return [];
       return [{ move, learnMethod: entry.learnMethod, levelLearnedAt: entry.levelLearnedAt }];
     });
+  }
+
+  async findAbilities(
+    refs: readonly PokemonAbilityRef[],
+    locale: string,
+  ): Promise<readonly Ability[]> {
+    const raws = await Promise.all(
+      refs.map((ref) =>
+        getOrFetch(this.abilityCache, this.abilityInFlight, ref.name, () =>
+          fetchJson<PokeApiAbility>(`${BASE_URL}/ability/${ref.name}`),
+        ),
+      ),
+    );
+    return raws.map((raw, i) => mapAbility(raw, refs[i].isHidden, locale));
   }
 
   async searchByNameWithEvolutions(

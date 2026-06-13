@@ -217,5 +217,12 @@
     "doubleWeak": "2× Weak",
     "halfResist": "½× Resist",
     "quarterResist": "¼× Resist"
+  },
+  "about": {
+    "section": "About",
+    "height": "Height",
+    "weight": "Weight",
+    "abilities": "Abilities",
+    "hidden": "Hidden"
   }
 }

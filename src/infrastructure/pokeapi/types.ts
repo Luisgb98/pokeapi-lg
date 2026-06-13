@@ -45,11 +45,28 @@ export interface PokeApiPokemonMove {
 export interface PokeApiPokemon {
   id: number;
   name: string;
+  height: number;
+  weight: number;
   sprites: PokeApiSprites;
   stats: PokeApiStatEntry[];
   types: PokeApiTypeSlot[];
   species: PokeApiNamedResource;
   moves?: PokeApiPokemonMove[];
+  abilities: Array<{
+    ability: PokeApiNamedResource;
+    is_hidden: boolean;
+    slot: number;
+  }>;
+}
+
+export interface PokeApiAbility {
+  id: number;
+  name: string;
+  names: Array<{ name: string; language: PokeApiNamedResource }>;
+  flavor_text_entries: Array<{
+    flavor_text: string;
+    language: PokeApiNamedResource;
+  }>;
 }
 
 export interface PokeApiMove {

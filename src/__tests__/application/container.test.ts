@@ -26,6 +26,7 @@ describe('container', () => {
       searchByNameWithEvolutions: vi.fn(),
       findSpeciesData: vi.fn(),
       findMoveLearnset: vi.fn().mockResolvedValue([]),
+      findAbilities: vi.fn().mockResolvedValue([]),
     };
     setRepository(mock);
     expect(getRepository()).toBe(mock);

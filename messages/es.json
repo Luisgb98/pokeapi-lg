@@ -217,5 +217,12 @@
     "doubleWeak": "2× Débil",
     "halfResist": "½× Resistencia",
     "quarterResist": "¼× Resistencia"
+  },
+  "about": {
+    "section": "Acerca de",
+    "height": "Altura",
+    "weight": "Peso",
+    "abilities": "Habilidades",
+    "hidden": "Oculta"
   }
 }
