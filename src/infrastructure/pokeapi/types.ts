@@ -88,6 +88,10 @@ export interface PokeApiSpecies {
   name: string;
   generation: PokeApiNamedResource;
   evolution_chain: { url: string };
+  names: Array<{
+    name: string;
+    language: PokeApiNamedResource;
+  }>;
   flavor_text_entries: Array<{
     flavor_text: string;
     language: PokeApiNamedResource;

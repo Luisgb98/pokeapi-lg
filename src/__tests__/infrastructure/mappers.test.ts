@@ -146,6 +146,22 @@ describe('mapEvolutionChain', () => {
 });
 
 describe('mapPokemonSpecies', () => {
+  it('returns localizedName from the matching locale entry', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'de');
+    expect(result.localizedName).toBe('Pikachu');
+  });
+
+  it('falls back to English localizedName when locale has no names entry', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'pt');
+    expect(result.localizedName).toBe('Pikachu');
+  });
+
+  it('falls back to formatted slug for localizedName when names array is empty', () => {
+    const noNames = { ...pikachuSpecies, names: [] };
+    const result = mapPokemonSpecies(noNames, 'en');
+    expect(result.localizedName).toBe('Pikachu');
+  });
+
   it('maps genus for the requested locale', () => {
     const result = mapPokemonSpecies(pikachuSpecies, 'es');
     expect(result.genus).toBe('Ratón Pokémon');
@@ -231,7 +247,7 @@ describe('mapAbility', () => {
 
 describe('mapMove', () => {
   it('maps all fields correctly', () => {
-    const result = mapMove(thundershockMove);
+    const result = mapMove(thundershockMove, 'en');
     expect(result.id).toBe(84);
     expect(result.name).toBe('thundershock');
     expect(result.displayName).toBe('ThunderShock');
@@ -242,9 +258,19 @@ describe('mapMove', () => {
     expect(result.pp).toBe(30);
   });
 
+  it('returns the localized name when a matching locale entry exists', () => {
+    const result = mapMove(thundershockMove, 'de');
+    expect(result.displayName).toBe('Donnerschock');
+  });
+
+  it('falls back to English name when locale has no entry', () => {
+    const result = mapMove(thundershockMove, 'pt');
+    expect(result.displayName).toBe('ThunderShock');
+  });
+
   it('falls back to formatted name when no English name entry exists', () => {
     const noEnName = { ...thundershockMove, names: [] };
-    const result = mapMove(noEnName);
+    const result = mapMove(noEnName, 'en');
     expect(result.displayName).toBe('Thundershock');
   });
 });

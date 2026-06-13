@@ -26,10 +26,20 @@ describe('getMoveLearnset', () => {
       findMoveLearnset: vi.fn().mockResolvedValue(mockLearnset),
     } as unknown as PokemonRepository;
 
-    const result = await getMoveLearnset(repo, 25);
+    const result = await getMoveLearnset(repo, 25, 'en');
 
-    expect(repo.findMoveLearnset).toHaveBeenCalledWith(25);
+    expect(repo.findMoveLearnset).toHaveBeenCalledWith(25, 'en');
     expect(result).toBe(mockLearnset);
+  });
+
+  it('forwards the locale to the repository', async () => {
+    const repo = {
+      findMoveLearnset: vi.fn().mockResolvedValue(mockLearnset),
+    } as unknown as PokemonRepository;
+
+    await getMoveLearnset(repo, 25, 'de');
+
+    expect(repo.findMoveLearnset).toHaveBeenCalledWith(25, 'de');
   });
 
   it('returns empty array when repository returns no moves', async () => {
@@ -37,7 +47,7 @@ describe('getMoveLearnset', () => {
       findMoveLearnset: vi.fn().mockResolvedValue([]),
     } as unknown as PokemonRepository;
 
-    const result = await getMoveLearnset(repo, 999);
+    const result = await getMoveLearnset(repo, 999, 'en');
 
     expect(result).toEqual([]);
   });

@@ -40,8 +40,8 @@ remains the single status index for all plans.
 | 024  | [Direction] Bulk-add favorites to team                       | P3       | S      | 021 (soft) | DONE   |
 | 025  | Playwright E2E smoke suite (5 journeys + CI job)             | P2       | M      | —          | DONE   |
 | 026  | [Direction] Offensive coverage analysis in team builder      | P3       | S      | —          | DONE   |
-| 027  | [Direction] Abilities, height, weight on detail page         | P3       | M      | —          | TODO   |
-| 028  | [Direction] Localized Pokémon and move names                 | P3       | M      | —          | TODO   |
+| 027  | [Direction] Abilities, height, weight on detail page         | P3       | M      | —          | DONE   |
+| 028  | [Direction] Localized Pokémon and move names                 | P3       | M      | —          | DONE   |
 | 029  | [Direction] Stat calculator tool at /tools/stat-calculator   | P3       | M      | —          | TODO   |
 | 030  | [Direction] Type-matchup quiz as second daily game mode      | P3       | M–L    | 025 (soft) | TODO   |
 

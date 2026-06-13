@@ -41,21 +41,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'detail' });
     const tMeta = await getTranslations({ locale, namespace: 'metadata' });
     const repository = getRepository();
-    const { pokemon } = await getPokemonById(repository, numericId);
+    const [{ pokemon }, species] = await Promise.all([
+      getPokemonById(repository, numericId),
+      getSpeciesData(repository, numericId, locale),
+    ]);
+    const name = species.localizedName || pokemon.displayName;
 
     return {
-      title: pokemon.displayName,
-      description: t('metaDescription', { name: pokemon.displayName }),
+      title: name,
+      description: t('metaDescription', { name }),
       openGraph: {
-        title: `${pokemon.displayName} — ${tMeta('siteTitle')}`,
-        description: t('metaDescription', { name: pokemon.displayName }),
-        images: [
-          { url: `/api/og/${numericId}`, width: 1200, height: 630, alt: pokemon.displayName },
-        ],
+        title: `${name} — ${tMeta('siteTitle')}`,
+        description: t('metaDescription', { name }),
+        images: [{ url: `/api/og/${numericId}`, width: 1200, height: 630, alt: name }],
       },
       twitter: {
         card: 'summary_large_image',
-        title: `${pokemon.displayName} — ${tMeta('siteTitle')}`,
+        title: `${name} — ${tMeta('siteTitle')}`,
         images: [`/api/og/${numericId}`],
       },
     };
@@ -86,7 +88,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
     const [pokemonResult, speciesResult, learnsetResult] = await Promise.all([
       getPokemonById(repository, numericId),
       getSpeciesData(repository, numericId, locale),
-      getMoveLearnset(repository, numericId),
+      getMoveLearnset(repository, numericId, locale),
     ]);
     pokemon = pokemonResult.pokemon;
     evolutionChain = pokemonResult.evolutionChain;
@@ -108,7 +110,12 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
   return (
     <div className="min-h-dvh bg-stone-50 dark:bg-stone-950">
       <ScrollReset />
-      <PokemonDetailHeader pokemon={pokemon} backTo={from} varieties={species.varieties} />
+      <PokemonDetailHeader
+        pokemon={pokemon}
+        backTo={from}
+        varieties={species.varieties}
+        displayNameOverride={species.localizedName || undefined}
+      />
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">

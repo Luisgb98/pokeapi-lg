@@ -216,7 +216,7 @@ export class PokeApiRepository implements PokemonRepository {
     });
   }
 
-  async findMoveLearnset(id: number): Promise<readonly LearnedMove[]> {
+  async findMoveLearnset(id: number, locale: string): Promise<readonly LearnedMove[]> {
     const rawPokemon = await this.fetchPokemon(id);
     const rawMoves = rawPokemon.moves ?? [];
 
@@ -260,7 +260,7 @@ export class PokeApiRepository implements PokemonRepository {
         ),
       ),
     );
-    const moveById = new Map(moveDetails.map((m) => [m.id, mapMove(m)]));
+    const moveById = new Map(moveDetails.map((m) => [m.id, mapMove(m, locale)]));
 
     return entries.flatMap((entry) => {
       const move = moveById.get(entry.moveId);
