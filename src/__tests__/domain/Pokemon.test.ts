@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   extractIdFromUrl,
+  formatHeight,
   formatPokemonName,
+  formatWeight,
   getGenerationFromId,
   getOfficialArtworkUrl,
   getSpriteUrl,
@@ -57,6 +59,20 @@ describe('extractIdFromUrl', () => {
 
   it('throws on malformed URL', () => {
     expect(() => extractIdFromUrl('not-a-url')).toThrow();
+  });
+});
+
+describe('formatHeight', () => {
+  it('converts decimetres to metres with one decimal', () => {
+    expect(formatHeight(4)).toBe('0.4 m');
+    expect(formatHeight(17)).toBe('1.7 m');
+  });
+});
+
+describe('formatWeight', () => {
+  it('converts hectograms to kilograms with one decimal', () => {
+    expect(formatWeight(60)).toBe('6.0 kg');
+    expect(formatWeight(9999)).toBe('999.9 kg');
   });
 });
 

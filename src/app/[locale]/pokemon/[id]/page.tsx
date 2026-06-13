@@ -7,11 +7,13 @@ import { PokemonDetailHeader } from '@/presentation/components/organisms/Pokemon
 import { EvolutionChainView } from '@/presentation/components/organisms/EvolutionChainView';
 import { TypeMatchupTable } from '@/presentation/components/organisms/TypeMatchupTable';
 import { getRepository } from '@/application/container';
+import { getAbilities } from '@/application/usecases/getAbilities';
 import { getPokemonById, PokemonNotFoundError } from '@/application/usecases/getPokemonById';
 import { getMoveLearnset } from '@/application/usecases/getMoveLearnset';
 import { getSpeciesData } from '@/application/usecases/getSpeciesData';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import { MoveLearnsetTable } from '@/presentation/components/organisms/MoveLearnsetTable';
+import { PokemonAboutSection } from '@/presentation/components/organisms/PokemonAboutSection';
 import { SpeciesInfoSection } from '@/presentation/components/organisms/SpeciesInfoSection';
 import { ScrollReset } from '@/presentation/components/atoms/ScrollReset';
 import { routing } from '@/i18n/routing';
@@ -70,14 +72,15 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
     notFound();
   }
 
-  const [t, tTypes, tTypeChart, tSpecies] = await Promise.all([
+  const [t, tTypes, tTypeChart, tSpecies, tAbout] = await Promise.all([
     getTranslations('detail'),
     getTranslations('types'),
     getTranslations('typeChart'),
     getTranslations('species'),
+    getTranslations('about'),
   ]);
 
-  let pokemon, evolutionChain, species, learnset;
+  let pokemon, evolutionChain, species, learnset, abilities;
   try {
     const repository = getRepository();
     const [pokemonResult, speciesResult, learnsetResult] = await Promise.all([
@@ -89,6 +92,7 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
     evolutionChain = pokemonResult.evolutionChain;
     species = speciesResult;
     learnset = learnsetResult;
+    abilities = await getAbilities(repository, pokemon.abilities, locale);
   } catch (error) {
     unstable_rethrow(error);
     if (error instanceof PokemonNotFoundError) {
@@ -120,6 +124,19 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
               genderless: tSpecies('genderless'),
               male: tSpecies('male'),
               female: tSpecies('female'),
+            }}
+          />
+
+          <PokemonAboutSection
+            height={pokemon.height}
+            weight={pokemon.weight}
+            abilities={abilities ?? []}
+            labels={{
+              section: tAbout('section'),
+              height: tAbout('height'),
+              weight: tAbout('weight'),
+              abilities: tAbout('abilities'),
+              hidden: tAbout('hidden'),
             }}
           />
 

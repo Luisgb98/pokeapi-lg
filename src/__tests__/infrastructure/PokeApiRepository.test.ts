@@ -168,6 +168,48 @@ describe('findMoveLearnset', () => {
   });
 });
 
+describe('findAbilities', () => {
+  it('returns localized ability for the requested locale', async () => {
+    const result = await repo.findAbilities([{ name: 'static', isHidden: false }], 'de');
+    expect(result).toHaveLength(1);
+    expect(result[0].displayName).toBe('Statik');
+    expect(result[0].isHidden).toBe(false);
+  });
+
+  it('falls back to English when locale has no entry', async () => {
+    const result = await repo.findAbilities([{ name: 'static', isHidden: false }], 'pt');
+    expect(result[0].displayName).toBe('Static');
+  });
+
+  it('caches raw responses — same slug hits network once', async () => {
+    let callCount = 0;
+    const original = global.fetch;
+    global.fetch = async (input, init) => {
+      const url = typeof input === 'string' ? input : (input as Request).url;
+      if (url.includes('/ability/static')) callCount++;
+      return original(input, init);
+    };
+    await repo.findAbilities([{ name: 'static', isHidden: false }], 'en');
+    await repo.findAbilities([{ name: 'static', isHidden: false }], 'de');
+    global.fetch = original;
+    expect(callCount).toBe(1);
+  });
+
+  it('returns multiple abilities in order of refs', async () => {
+    const result = await repo.findAbilities(
+      [
+        { name: 'static', isHidden: false },
+        { name: 'lightning-rod', isHidden: true },
+      ],
+      'en',
+    );
+    expect(result).toHaveLength(2);
+    expect(result[0].name).toBe('static');
+    expect(result[1].name).toBe('lightning-rod');
+    expect(result[1].isHidden).toBe(true);
+  });
+});
+
 describe('searchByNameWithEvolutions', () => {
   it('returns direct match + full evolution chain', async () => {
     const result = await repo.searchByNameWithEvolutions('pikachu');

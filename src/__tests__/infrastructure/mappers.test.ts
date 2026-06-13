@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  mapAbility,
   mapEvolutionChain,
   mapMove,
   mapPokemon,
@@ -8,9 +9,11 @@ import {
 } from '../../infrastructure/pokeapi/mappers';
 import {
   bulbasaurRaw,
+  lightningRodAbility,
   pikachuChain,
   pikachuRaw,
   pikachuSpecies,
+  staticAbility,
   thundershockMove,
 } from '../mocks/fixtures';
 
@@ -78,6 +81,20 @@ describe('mapPokemon', () => {
   it('maps shinyArtwork from sprites when available', () => {
     const result = mapPokemon(pikachuRaw, 10);
     expect(result.shinyArtwork).toBe('https://artwork.pokemon.com/shiny/pikachu.png');
+  });
+
+  it('maps height and weight from raw', () => {
+    const result = mapPokemon(pikachuRaw, 10);
+    expect(result.height).toBe(4);
+    expect(result.weight).toBe(60);
+  });
+
+  it('maps abilities sorted by slot with isHidden preserved', () => {
+    const result = mapPokemon(pikachuRaw, 10);
+    expect(result.abilities).toEqual([
+      { name: 'static', isHidden: false },
+      { name: 'lightning-rod', isHidden: true },
+    ]);
   });
 
   it('falls back to computed shiny artwork URL when sprites shiny field is null', () => {
@@ -171,6 +188,44 @@ describe('mapPokemonSpecies', () => {
       displayName: 'Default',
       isDefault: true,
     });
+  });
+});
+
+describe('mapAbility', () => {
+  it('maps localized display name for the given locale', () => {
+    const result = mapAbility(staticAbility, false, 'de');
+    expect(result.displayName).toBe('Statik');
+  });
+
+  it('falls back to English name when locale has no entry', () => {
+    const result = mapAbility(staticAbility, false, 'pt');
+    expect(result.displayName).toBe('Static');
+  });
+
+  it('maps localized flavor text for the given locale', () => {
+    const result = mapAbility(staticAbility, false, 'de');
+    expect(result.effect).toContain('lähmen');
+  });
+
+  it('falls back to English flavor text when locale has no entry', () => {
+    const result = mapAbility(lightningRodAbility, true, 'pt');
+    expect(result.effect).toContain('Electric-type');
+  });
+
+  it('cleans whitespace characters from flavor text', () => {
+    const result = mapAbility(staticAbility, false, 'en');
+    expect(result.effect).not.toMatch(/[\f\n]/);
+  });
+
+  it('maps isHidden correctly', () => {
+    expect(mapAbility(staticAbility, false, 'en').isHidden).toBe(false);
+    expect(mapAbility(lightningRodAbility, true, 'en').isHidden).toBe(true);
+  });
+
+  it('falls back to formatted slug when no names exist', () => {
+    const noNames = { ...staticAbility, names: [] };
+    const result = mapAbility(noNames, false, 'en');
+    expect(result.displayName).toBe('Static');
   });
 });
 

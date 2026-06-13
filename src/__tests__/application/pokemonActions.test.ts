@@ -22,6 +22,9 @@ const pikachu: Pokemon = {
   shinyArtwork: '',
   stats: { hp: 35, attack: 55, defense: 40, specialAttack: 50, specialDefense: 50, speed: 90 },
   evolutionChainId: 10,
+  height: 4,
+  weight: 60,
+  abilities: [{ name: 'static', isHidden: false }],
 };
 
 const chain: EvolutionChain = {
@@ -37,6 +40,7 @@ function mockRepo(overrides: Partial<PokemonRepository> = {}): PokemonRepository
     searchByNameWithEvolutions: vi.fn().mockResolvedValue([pikachu]),
     findSpeciesData: vi.fn(),
     findMoveLearnset: vi.fn().mockResolvedValue([]),
+    findAbilities: vi.fn().mockResolvedValue([]),
     ...overrides,
   };
 }
