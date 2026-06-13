@@ -10,6 +10,7 @@ import {
   type PokemonSummary,
   type PokemonType,
 } from '../../domain/entities/Pokemon';
+import type { Ability } from '../../domain/entities/Ability';
 import type { EvolutionChain, EvolutionNode } from '../../domain/entities/EvolutionChain';
 import type { DamageClass, Move } from '../../domain/entities/Move';
 import {
@@ -17,6 +18,7 @@ import {
   type PokemonSpecies,
 } from '../../domain/entities/PokemonSpecies';
 import type {
+  PokeApiAbility,
   PokeApiEvolutionChain,
   PokeApiEvolutionChainLink,
   PokeApiMove,
@@ -65,6 +67,14 @@ export function mapPokemon(raw: PokeApiPokemon, evolutionChainId: number): Pokem
     shinyArtwork: raw.sprites.other['official-artwork'].front_shiny ?? getShinyArtworkUrl(raw.id),
     stats: mapStats(raw.stats),
     evolutionChainId,
+    height: raw.height,
+    weight: raw.weight,
+    abilities: raw.abilities
+      .toSorted((a, b) => a.slot - b.slot)
+      .map((a) => ({
+        name: a.ability.name,
+        isHidden: a.is_hidden,
+      })),
   };
 }
 
@@ -100,18 +110,22 @@ export function mapMove(raw: PokeApiMove): Move {
   };
 }
 
+function cleanFlavorText(raw: string): string {
+  return raw
+    .replace(/\f/g, ' ')
+    .replace(/\n/g, ' ')
+    .replace(/­/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
 export function mapPokemonSpecies(raw: PokeApiSpecies, locale: string): PokemonSpecies {
   const lang = LOCALE_TO_POKEAPI_LANG[locale] ?? 'en';
 
   const localeFlavors = raw.flavor_text_entries.filter((e) => e.language.name === lang);
   const englishFlavors = raw.flavor_text_entries.filter((e) => e.language.name === 'en');
   const entry = (localeFlavors.length > 0 ? localeFlavors : englishFlavors).at(-1);
-  const flavorText = (entry?.flavor_text ?? '')
-    .replace(/\f/g, ' ')
-    .replace(/\n/g, ' ')
-    .replace(/­/g, '')
-    .replace(/\s{2,}/g, ' ')
-    .trim();
+  const flavorText = cleanFlavorText(entry?.flavor_text ?? '');
 
   const genusEntry =
     raw.genera.find((g) => g.language.name === lang) ??
@@ -133,4 +147,19 @@ export function mapPokemonSpecies(raw: PokeApiSpecies, locale: string): PokemonS
     baseHappiness: raw.base_happiness ?? 0,
     varieties,
   };
+}
+
+export function mapAbility(raw: PokeApiAbility, isHidden: boolean, locale: string): Ability {
+  const lang = LOCALE_TO_POKEAPI_LANG[locale] ?? 'en';
+
+  const localeName = raw.names.find((n) => n.language.name === lang)?.name;
+  const englishName = raw.names.find((n) => n.language.name === 'en')?.name;
+  const displayName = localeName ?? englishName ?? formatPokemonName(raw.name);
+
+  const localeEntries = raw.flavor_text_entries.filter((e) => e.language.name === lang);
+  const englishEntries = raw.flavor_text_entries.filter((e) => e.language.name === 'en');
+  const effectEntry = (localeEntries.length > 0 ? localeEntries : englishEntries).at(-1);
+  const effect = cleanFlavorText(effectEntry?.flavor_text ?? '');
+
+  return { name: raw.name, displayName, effect, isHidden };
 }

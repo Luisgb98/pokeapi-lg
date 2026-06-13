@@ -61,11 +61,22 @@ export interface PokemonSummary {
   readonly sprite: string;
 }
 
+export interface PokemonAbilityRef {
+  /** PokeAPI slug, e.g. 'lightning-rod' */
+  readonly name: string;
+  readonly isHidden: boolean;
+}
+
 export interface Pokemon extends PokemonSummary {
   readonly artwork: string;
   readonly shinyArtwork: string;
   readonly stats: PokemonStats;
   readonly evolutionChainId: number;
+  /** Decimetres, as returned by PokeAPI. */
+  readonly height: number;
+  /** Hectograms, as returned by PokeAPI. */
+  readonly weight: number;
+  readonly abilities: readonly PokemonAbilityRef[];
 }
 
 /** Derives generation from national Pokédex ID (no extra API call needed). */
@@ -79,6 +90,16 @@ export function getGenerationFromId(id: number): Generation {
   if (id <= 809) return 'generation-vii';
   if (id <= 905) return 'generation-viii';
   return 'generation-ix';
+}
+
+/** Formats PokeAPI decimetres as metres, e.g. 4 → "0.4 m". */
+export function formatHeight(decimetres: number): string {
+  return `${(decimetres / 10).toFixed(1)} m`;
+}
+
+/** Formats PokeAPI hectograms as kilograms, e.g. 60 → "6.0 kg". */
+export function formatWeight(hectograms: number): string {
+  return `${(hectograms / 10).toFixed(1)} kg`;
 }
 
 /** Converts PokeAPI hyphenated name to title-case display name. */
