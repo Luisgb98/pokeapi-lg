@@ -105,7 +105,11 @@
     "shareTeam": "Partager l'équipe",
     "shareCopied": "Copié !",
     "shareTitle": "Regardez mon équipe Pokémon",
-    "addFavorites": "Ajouter les favoris"
+    "addFavorites": "Ajouter les favoris",
+    "offenseTitle": "Couverture Offensive",
+    "offenseSubtitle": "Basé sur les types de votre équipe (STAB uniquement)",
+    "offenseGaps": "Pas couvert super-efficacement :",
+    "offenseNoGaps": "Votre équipe couvre tous les types de façon super-efficace"
   },
   "typeChart": {
     "title": "Défenses de Type",
