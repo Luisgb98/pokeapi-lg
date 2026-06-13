@@ -105,7 +105,11 @@
     "shareTeam": "Share Team",
     "shareCopied": "Copied!",
     "shareTitle": "Check out my Pokémon team",
-    "addFavorites": "Add favorites"
+    "addFavorites": "Add favorites",
+    "offenseTitle": "Offensive Coverage",
+    "offenseSubtitle": "Based on your team's own types (STAB only)",
+    "offenseGaps": "Not hit super-effectively:",
+    "offenseNoGaps": "Your team hits every type super-effectively"
   },
   "typeChart": {
     "title": "Type Defenses",

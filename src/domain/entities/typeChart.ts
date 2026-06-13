@@ -439,3 +439,34 @@ export function computeDefensiveMatchups(types: readonly PokemonType[]): Defensi
 
   return { x4, x2, half, quarter, immune };
 }
+
+export interface OffensiveCoverageEntry {
+  /** The single defending type being evaluated. */
+  readonly defendingType: PokemonType;
+  /** Best STAB multiplier any team member achieves vs this type (0 | 0.5 | 1 | 2). */
+  readonly bestMultiplier: number;
+  /** How many team members have a STAB type that hits this type super-effectively. */
+  readonly superEffectiveCount: number;
+}
+
+/**
+ * STAB-only offensive coverage: for each defending type, the best multiplier
+ * achievable using only the team members' own types as attacking types.
+ * Coverage moves are intentionally ignored (approximation).
+ */
+export function computeOffensiveCoverage(
+  team: readonly (readonly PokemonType[])[],
+): readonly OffensiveCoverageEntry[] {
+  return POKEMON_TYPES.map((defendingType) => {
+    let bestMultiplier = 0;
+    let superEffectiveCount = 0;
+
+    for (const memberTypes of team) {
+      const memberBest = Math.max(...memberTypes.map((t) => TYPE_CHART[t][defendingType]));
+      if (memberBest > bestMultiplier) bestMultiplier = memberBest;
+      if (memberBest >= 2) superEffectiveCount++;
+    }
+
+    return { defendingType, bestMultiplier, superEffectiveCount };
+  });
+}

@@ -31,6 +31,7 @@ import { TeamSlot } from '@/presentation/components/molecules/TeamSlot';
 import { SortableTeamSlot } from '@/presentation/components/molecules/SortableTeamSlot';
 import { PokemonPickerModal } from '@/presentation/components/organisms/PokemonPickerModal';
 import { TeamCoverageDisplay } from '@/presentation/components/organisms/TeamCoverageDisplay';
+import { OffensiveCoverageDisplay } from '@/presentation/components/organisms/OffensiveCoverageDisplay';
 import { FullTypeChart } from '@/presentation/components/organisms/FullTypeChart';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
 import type { PokemonType } from '@/domain/entities/Pokemon';
@@ -200,11 +201,21 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
 
       {/* Coverage */}
       {team.length > 0 ? (
-        <TeamCoverageDisplay
-          teamTypes={teamTypes}
-          typeLabels={typeLabels}
-          title={t('teamCoverage')}
-        />
+        <>
+          <TeamCoverageDisplay
+            teamTypes={teamTypes}
+            typeLabels={typeLabels}
+            title={t('teamCoverage')}
+          />
+          <OffensiveCoverageDisplay
+            teamTypes={teamTypes}
+            typeLabels={typeLabels}
+            title={t('offenseTitle')}
+            subtitle={t('offenseSubtitle')}
+            gapsLabel={t('offenseGaps')}
+            noGapsLabel={t('offenseNoGaps')}
+          />
+        </>
       ) : (
         <div className="rounded-2xl border border-dashed border-stone-200 py-12 text-center dark:border-stone-700">
           <p className="text-sm text-stone-400 dark:text-stone-500">{t('noTeam')}</p>
