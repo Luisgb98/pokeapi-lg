@@ -49,7 +49,7 @@ export async function SharedGameResult({ score, total, day, locale }: Props) {
 
           <div className="px-5 pb-5">
             <Link
-              href={`/${locale}/game`}
+              href={`/${locale}/game/whos-that`}
               className="block w-full rounded-xl bg-stone-900 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
             >
               {t('playToday')}

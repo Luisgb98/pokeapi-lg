@@ -8,15 +8,15 @@ import {
 describe('buildShareUrl', () => {
   it('returns a URL with result, total, and day params', () => {
     const url = buildShareUrl(7, 10, 20261231, 'en');
-    expect(url).toContain('/en/game');
+    expect(url).toContain('/en/game/whos-that');
     expect(url).toContain('result=7');
     expect(url).toContain('total=10');
     expect(url).toContain('day=20261231');
   });
 
   it('includes locale in the path', () => {
-    expect(buildShareUrl(5, 10, 1000, 'de')).toContain('/de/game');
-    expect(buildShareUrl(5, 10, 1000, 'es')).toContain('/es/game');
+    expect(buildShareUrl(5, 10, 1000, 'de')).toContain('/de/game/whos-that');
+    expect(buildShareUrl(5, 10, 1000, 'es')).toContain('/es/game/whos-that');
   });
 
   it('produces a score of 0 correctly', () => {

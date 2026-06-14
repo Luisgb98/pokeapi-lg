@@ -44,6 +44,9 @@ remains the single status index for all plans.
 | 028  | [Direction] Localized Pokémon and move names                 | P3       | M      | —          | DONE   |
 | 029  | [Direction] Stat calculator tool at /tools/stat-calculator   | P3       | M      | —          | DONE   |
 | 030  | [Direction] Type-matchup quiz as second daily game mode      | P3       | M–L    | 025 (soft) | DONE   |
+| 031  | [Direction] Restructure /game into a games hub               | P3       | S–M    | —          | DONE   |
+| 032  | [Foundational] User accounts + PostgreSQL persistence        | P2       | L      | —          | TODO   |
+| 033  | [Direction] Advanced team builder (moves/ability/nature/EVs) | P3       | L      | 032        | TODO   |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 
@@ -62,6 +65,37 @@ Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJE
 - 027 and 028 both touch `infrastructure/pokeapi/types.ts`, `mappers.ts`, the repository port, and the detail page — run sequentially in either order, never in parallel.
 - 026 and 030 both add to `domain/entities/typeChart.ts` (additively) — either order, trivial rebase.
 - 029 is fully independent of everything in the batch.
+- 031 is independent (routing/landing change to `/game`). Touches `gameShare.ts`
+  - `SharedGameResult.tsx` for share-link backward-compat; no overlap with 032/033.
+- 032 is foundational and **blocks 033**: it introduces the first server DB
+  (PostgreSQL + Drizzle + Auth.js) and designs the `teamMembers` table with a
+  marked slot for 033's build columns. Needs operator-provided `DATABASE_URL`
+  and a GitHub OAuth app before its later phases can be verified.
+- 033 has a **hard dependency on 032** for per-account persistence of enriched
+  builds, but its local-only editor (move/ability/nature/IV/EV per slot) can be
+  built first; if 032 is not landed, stop at 033 Step 4 (local-only).
+- 031, 032, 033 may all be developed on separate branches; only 033's Step 5
+  must wait for 032.
+
+## Selection note (2026-06-14 run, plans 031–033)
+
+Maintainer-directed batch (not from an `/improve` audit). Three plans authored
+at commit `bac0ec6`:
+
+- **031** — the game section now has two modes (Who's That + Type Quiz, plan 030) but `/game` is still the silhouette game with a bolted-on CTA. Turn
+  `/game` into a games hub and move the silhouette game to `/game/whos-that`,
+  preserving old share links.
+- **032** — add user accounts + a database so favorites, teams, and comparisons
+  persist server-side. **Decision recorded in the plan: PostgreSQL (not
+  MongoDB)** — the data is relational and constraint-heavy, the domain already
+  uses typed/zod-validated records, and Auth.js ships a first-class SQL adapter.
+  Stack: PostgreSQL + Drizzle + Auth.js (GitHub OAuth). Guest mode stays the
+  default; the DB is additive.
+- **033** — level up the team builder: per-slot ability/nature/level/IV/EV/move
+  editor with live computed stats. **Legality correction baked in**: moves
+  (learnset) and abilities (the Pokémon's own list) are species-restricted and
+  filtered to legal options only; **natures are NOT species-restricted** (all
+  25 are universal), contrary to the original request's premise.
 
 ## Selection note (2026-06-12 run)
 
