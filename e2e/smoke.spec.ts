@@ -21,8 +21,15 @@ test('shared team URL pre-populates the team builder', async ({ page }) => {
   await expect(page.getByText(/squirtle/i).first()).toBeVisible();
 });
 
-test('daily game loads with four choices', async ({ page }) => {
+test('games hub shows two mode links', async ({ page }) => {
   await page.goto('/en/game');
+  await expect(page.getByRole('heading', { name: /^games$/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: /who's that pok/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: /type quiz/i })).toBeVisible();
+});
+
+test('daily game loads with four choices', async ({ page }) => {
+  await page.goto('/en/game/whos-that');
   await expect(page.getByRole('heading', { name: /who's that pok/i })).toBeVisible();
   // Wait for the game to hydrate (skeleton disappears, real buttons appear).
   // Scope to <main> to exclude the 6 LanguageSwitcher pill buttons in the nav.

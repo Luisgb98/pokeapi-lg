@@ -66,7 +66,7 @@ Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJE
 - 026 and 030 both add to `domain/entities/typeChart.ts` (additively) — either order, trivial rebase.
 - 029 is fully independent of everything in the batch.
 - 031 is independent (routing/landing change to `/game`). Touches `gameShare.ts`
-  + `SharedGameResult.tsx` for share-link backward-compat; no overlap with 032/033.
+  - `SharedGameResult.tsx` for share-link backward-compat; no overlap with 032/033.
 - 032 is foundational and **blocks 033**: it introduces the first server DB
   (PostgreSQL + Drizzle + Auth.js) and designs the `teamMembers` table with a
   marked slot for 033's build columns. Needs operator-provided `DATABASE_URL`
@@ -82,8 +82,7 @@ Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJE
 Maintainer-directed batch (not from an `/improve` audit). Three plans authored
 at commit `bac0ec6`:
 
-- **031** — the game section now has two modes (Who's That + Type Quiz, plan
-  030) but `/game` is still the silhouette game with a bolted-on CTA. Turn
+- **031** — the game section now has two modes (Who's That + Type Quiz, plan 030) but `/game` is still the silhouette game with a bolted-on CTA. Turn
   `/game` into a games hub and move the silhouette game to `/game/whos-that`,
   preserving old share links.
 - **032** — add user accounts + a database so favorites, teams, and comparisons
