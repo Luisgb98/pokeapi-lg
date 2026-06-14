@@ -224,5 +224,25 @@
     "weight": "Weight",
     "abilities": "Abilities",
     "hidden": "Hidden"
+  },
+  "statCalculator": {
+    "heading": "Stat Calculator",
+    "subtitle": "Compute real stats from level, nature, IVs and EVs",
+    "level": "Level",
+    "nature": "Nature",
+    "base": "Base",
+    "iv": "IV",
+    "ev": "EV",
+    "result": "Stat",
+    "evTotal": "EV total: {used} / {max}",
+    "evWarning": "EV total exceeds the legal maximum of 510",
+    "pokemonId": "Pokédex number",
+    "load": "Load",
+    "statHp": "HP",
+    "statAttack": "Attack",
+    "statDefense": "Defense",
+    "statSpecialAttack": "Sp. Atk",
+    "statSpecialDefense": "Sp. Def",
+    "statSpeed": "Speed"
   }
 }

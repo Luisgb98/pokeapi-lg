@@ -224,5 +224,25 @@
     "weight": "Gewicht",
     "abilities": "Fähigkeiten",
     "hidden": "Versteckt"
+  },
+  "statCalculator": {
+    "heading": "Statuswert-Rechner",
+    "subtitle": "Berechne echte Statuswerte aus Level, Wesen, IVs und EVs",
+    "level": "Level",
+    "nature": "Wesen",
+    "base": "Basis",
+    "iv": "IV",
+    "ev": "EP",
+    "result": "Wert",
+    "evTotal": "EP-Summe: {used} / {max}",
+    "evWarning": "Die EP-Summe überschreitet das legale Maximum von 510",
+    "pokemonId": "Pokédex-Nummer",
+    "load": "Laden",
+    "statHp": "KP",
+    "statAttack": "Angriff",
+    "statDefense": "Verteidigung",
+    "statSpecialAttack": "Sp.-Angr.",
+    "statSpecialDefense": "Sp.-Vert.",
+    "statSpeed": "Initiative"
   }
 }

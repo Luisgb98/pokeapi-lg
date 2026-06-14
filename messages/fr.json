@@ -224,5 +224,25 @@
     "weight": "Poids",
     "abilities": "Talents",
     "hidden": "Caché"
+  },
+  "statCalculator": {
+    "heading": "Calculateur de Statistiques",
+    "subtitle": "Calculez les statistiques réelles à partir du niveau, du talent, des IVs et des EVs",
+    "level": "Niveau",
+    "nature": "Talent",
+    "base": "Base",
+    "iv": "IV",
+    "ev": "EV",
+    "result": "Stat",
+    "evTotal": "Total EV : {used} / {max}",
+    "evWarning": "Le total des EVs dépasse le maximum légal de 510",
+    "pokemonId": "Numéro du Pokédex",
+    "load": "Charger",
+    "statHp": "PV",
+    "statAttack": "Attaque",
+    "statDefense": "Défense",
+    "statSpecialAttack": "Att. Spé.",
+    "statSpecialDefense": "Déf. Spé.",
+    "statSpeed": "Vitesse"
   }
 }
