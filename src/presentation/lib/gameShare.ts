@@ -35,7 +35,7 @@ export function parseGameShareParams(sp: {
 
 export function buildShareUrl(score: number, total: number, day: number, locale: string): string {
   const base = typeof window !== 'undefined' ? window.location.origin : '';
-  return `${base}/${locale}/game?result=${score}&total=${total}&day=${day}`;
+  return `${base}/${locale}/game/whos-that?result=${score}&total=${total}&day=${day}`;
 }
 
 export function buildShareText(score: number, total: number): string {

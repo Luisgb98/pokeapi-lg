@@ -72,7 +72,7 @@
     "pokedex": "Pokédex",
     "teamBuilder": "Equipo",
     "compare": "Comparar",
-    "game": "¿Quién es?",
+    "game": "Juegos",
     "favorites": "Favoritos",
     "tools": "Navigation"
   },
@@ -222,6 +222,20 @@
     "gameOverSubtitle": "Vuelve mañana para un nuevo reto",
     "streakLabel": "Racha: {count} 🔥",
     "bestLabel": "Mejor: {best}/10"
+  },
+  "gamesHub": {
+    "heading": "Juegos",
+    "subtitle": "Retos diarios de Pokémon — uno nuevo cada día",
+    "modes": {
+      "whosThat": {
+        "title": "¿Quién es ese Pokémon?",
+        "blurb": "Nombra al Pokémon por su silueta"
+      },
+      "typeQuiz": {
+        "title": "Quiz de tipos",
+        "blurb": "Elige el tipo súper efectivo antes de que se acabe el tiempo"
+      }
+    }
   },
   "typeCalculator": {
     "heading": "Calculadora de tipos",
