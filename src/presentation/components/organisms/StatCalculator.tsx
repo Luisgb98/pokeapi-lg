@@ -286,9 +286,7 @@ export function StatCalculator({ pokemon, labels }: Props) {
           <p
             className={[
               'text-xs font-medium',
-              evOverLimit
-                ? 'text-red-500 dark:text-red-400'
-                : 'text-stone-500 dark:text-stone-400',
+              evOverLimit ? 'text-red-500 dark:text-red-400' : 'text-stone-500 dark:text-stone-400',
             ].join(' ')}
           >
             {evTotalDisplay}
