@@ -206,6 +206,21 @@
     "sharedResultTitle": "Risultato della sfida",
     "playToday": "Gioca la sfida di oggi",
     "streakLabel": "Serie: {count} 🔥",
+    "bestLabel": "Record: {best}/10",
+    "typeQuizCta": "Prova il Quiz sui tipi →"
+  },
+  "typeQuiz": {
+    "heading": "Quiz sui tipi",
+    "subtitle": "Sfida quotidiana — quale tipo colpisce più forte?",
+    "question": "Quale tipo è super efficace contro…?",
+    "correct": "Corretto!",
+    "wrong": "Sbagliato! La risposta era {type}",
+    "timeout": "Tempo scaduto! La risposta era {type}",
+    "nextRound": "Prossimo round",
+    "roundOf": "Round {current}/{total}",
+    "gameOver": "Sfida completata!",
+    "gameOverSubtitle": "Torna domani per una nuova sfida",
+    "streakLabel": "Serie: {count} 🔥",
     "bestLabel": "Record: {best}/10"
   },
   "typeCalculator": {

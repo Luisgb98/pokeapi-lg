@@ -206,6 +206,21 @@
     "sharedResultTitle": "Ergebnis der Herausforderung",
     "playToday": "Heutige Herausforderung spielen",
     "streakLabel": "Serie: {count} 🔥",
+    "bestLabel": "Rekord: {best}/10",
+    "typeQuizCta": "Typen-Quiz spielen →"
+  },
+  "typeQuiz": {
+    "heading": "Typen-Quiz",
+    "subtitle": "Tägliche Herausforderung — welcher Typ trifft am härtesten?",
+    "question": "Welcher Typ ist supereffektiv gegen…?",
+    "correct": "Richtig!",
+    "wrong": "Falsch! Die Antwort war {type}",
+    "timeout": "Zeit abgelaufen! Die Antwort war {type}",
+    "nextRound": "Nächste Runde",
+    "roundOf": "Runde {current}/{total}",
+    "gameOver": "Herausforderung abgeschlossen!",
+    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück",
+    "streakLabel": "Serie: {count} 🔥",
     "bestLabel": "Rekord: {best}/10"
   },
   "typeCalculator": {

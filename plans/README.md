@@ -43,7 +43,7 @@ remains the single status index for all plans.
 | 027  | [Direction] Abilities, height, weight on detail page         | P3       | M      | —          | DONE   |
 | 028  | [Direction] Localized Pokémon and move names                 | P3       | M      | —          | DONE   |
 | 029  | [Direction] Stat calculator tool at /tools/stat-calculator   | P3       | M      | —          | DONE   |
-| 030  | [Direction] Type-matchup quiz as second daily game mode      | P3       | M–L    | 025 (soft) | TODO   |
+| 030  | [Direction] Type-matchup quiz as second daily game mode      | P3       | M–L    | 025 (soft) | DONE   |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 

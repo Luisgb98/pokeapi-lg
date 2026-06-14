@@ -206,6 +206,21 @@
     "sharedResultTitle": "Challenge Result",
     "playToday": "Play Today's Challenge",
     "streakLabel": "Streak: {count} 🔥",
+    "bestLabel": "Best: {best}/10",
+    "typeQuizCta": "Try the Type Quiz →"
+  },
+  "typeQuiz": {
+    "heading": "Type Quiz",
+    "subtitle": "Daily challenge — which type hits hardest?",
+    "question": "Which type is super-effective against…?",
+    "correct": "Correct!",
+    "wrong": "Wrong! The answer was {type}",
+    "timeout": "Time's up! The answer was {type}",
+    "nextRound": "Next Round",
+    "roundOf": "Round {current}/{total}",
+    "gameOver": "Challenge Complete!",
+    "gameOverSubtitle": "Come back tomorrow for a new challenge",
+    "streakLabel": "Streak: {count} 🔥",
     "bestLabel": "Best: {best}/10"
   },
   "typeCalculator": {

@@ -2,10 +2,11 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { getDailySeed } from '@/application/usecases/getGameChallenge';
 import type { GameChallenge } from '@/application/usecases/getGameChallenge';
+import { completionUpdate } from './gameProgress';
+export { HISTORY_LIMIT } from './gameProgress';
 
 export const TIMER_SECONDS = 30;
 export const MAX_ROUNDS = 10;
-export const HISTORY_LIMIT = 60;
 
 type GamePhase = 'playing' | 'revealed';
 
@@ -43,21 +44,6 @@ const INITIAL_STATE: GameState = {
   lastCompletedSeed: null,
   history: [],
 };
-
-function completionUpdate(
-  state: Pick<GameStore, 'dailySeed' | 'streak' | 'bestScore' | 'lastCompletedSeed' | 'history'>,
-  correct: number,
-): Partial<GameState> {
-  const alreadyCounted = state.lastCompletedSeed === state.dailySeed;
-  if (alreadyCounted) return {};
-  const continued = state.lastCompletedSeed === state.dailySeed - 1;
-  return {
-    streak: continued ? state.streak + 1 : 1,
-    bestScore: Math.max(state.bestScore, correct),
-    lastCompletedSeed: state.dailySeed,
-    history: [...state.history, { seed: state.dailySeed, correct }].slice(-HISTORY_LIMIT),
-  };
-}
 
 export const useGameStore = create<GameStore>()(
   persist(

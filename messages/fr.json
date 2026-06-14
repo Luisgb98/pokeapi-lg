@@ -206,6 +206,21 @@
     "sharedResultTitle": "Résultat du défi",
     "playToday": "Jouer le défi d'aujourd'hui",
     "streakLabel": "Série : {count} 🔥",
+    "bestLabel": "Record : {best}/10",
+    "typeQuizCta": "Essayez le Quiz des types →"
+  },
+  "typeQuiz": {
+    "heading": "Quiz des types",
+    "subtitle": "Défi quotidien — quel type frappe le plus fort ?",
+    "question": "Quel type est super efficace contre… ?",
+    "correct": "Correct !",
+    "wrong": "Raté ! La réponse était {type}",
+    "timeout": "Temps écoulé ! La réponse était {type}",
+    "nextRound": "Tour suivant",
+    "roundOf": "Tour {current}/{total}",
+    "gameOver": "Défi terminé !",
+    "gameOverSubtitle": "Revenez demain pour un nouveau défi",
+    "streakLabel": "Série : {count} 🔥",
     "bestLabel": "Record : {best}/10"
   },
   "typeCalculator": {
