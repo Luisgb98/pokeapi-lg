@@ -39,6 +39,10 @@ export const handlers = [
       ...pikachuSpecies,
       id: 26,
       name: 'raichu',
+      names: [
+        { name: 'Raichu', language: { name: 'en', url: '' } },
+        { name: 'Raichu', language: { name: 'de', url: '' } },
+      ],
     }),
   ),
   http.get(`${BASE}/pokemon-species/1`, () =>
@@ -47,6 +51,22 @@ export const handlers = [
       name: 'bulbasaur',
       generation: { name: 'generation-i', url: '' },
       evolution_chain: { url: 'https://pokeapi.co/api/v2/evolution-chain/1/' },
+      names: [
+        { name: 'Bulbasaur', language: { name: 'en', url: '' } },
+        { name: 'Bisasam', language: { name: 'de', url: '' } },
+      ],
+      flavor_text_entries: [],
+      genera: [],
+      egg_groups: [],
+      gender_rate: -1,
+      capture_rate: 45,
+      base_happiness: 50,
+      varieties: [
+        {
+          is_default: true,
+          pokemon: { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' },
+        },
+      ],
     }),
   ),
 

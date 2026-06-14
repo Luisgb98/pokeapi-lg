@@ -4,6 +4,7 @@ import type { PokemonRepository } from '../../domain/ports/PokemonRepository';
 import type { PokemonSpecies } from '../../domain/entities/PokemonSpecies';
 
 const mockSpecies: PokemonSpecies = {
+  localizedName: 'Pikachu',
   genus: 'Mouse Pokémon',
   flavorText: 'When several of these Pokémon gather, their electricity can cause lightning storms.',
   eggGroups: ['field', 'fairy'],

@@ -155,15 +155,35 @@ describe('findSpeciesData', () => {
 
 describe('findMoveLearnset', () => {
   it('returns learned moves for a pokemon', async () => {
-    const result = await repo.findMoveLearnset(25);
+    const result = await repo.findMoveLearnset(25, 'en');
     expect(result.length).toBeGreaterThan(0);
     expect(result[0].move.name).toBe('thundershock');
     expect(result[0].learnMethod).toBe('level-up');
     expect(result[0].levelLearnedAt).toBe(1);
   });
 
+  it('returns localized move names for the requested locale', async () => {
+    const result = await repo.findMoveLearnset(25, 'de');
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].move.displayName).toBe('Donnerschock');
+  });
+
+  it('does not make extra network requests when locale differs (locale is not a cache key)', async () => {
+    let moveCallCount = 0;
+    const original = global.fetch;
+    global.fetch = async (input, init) => {
+      const url = typeof input === 'string' ? input : (input as Request).url;
+      if (url.includes('/move/84')) moveCallCount++;
+      return original(input, init);
+    };
+    await repo.findMoveLearnset(25, 'de');
+    await repo.findMoveLearnset(25, 'en');
+    global.fetch = original;
+    expect(moveCallCount).toBe(1);
+  });
+
   it('returns empty array for a pokemon with no moves', async () => {
-    const result = await repo.findMoveLearnset(172);
+    const result = await repo.findMoveLearnset(172, 'en');
     expect(result).toEqual([]);
   });
 });

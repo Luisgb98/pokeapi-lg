@@ -26,12 +26,15 @@ interface PokemonDetailHeaderProps {
   pokemon: Pokemon;
   backTo?: string;
   varieties?: readonly PokemonVariety[];
+  /** Localized species name override; shown in place of `displayName` when no alternate form is active. */
+  displayNameOverride?: string;
 }
 
 export function PokemonDetailHeader({
   pokemon,
   backTo,
   varieties = EMPTY_VARIETIES,
+  displayNameOverride,
 }: PokemonDetailHeaderProps) {
   const tNav = useTranslations('nav');
   const tTypes = useTranslations('types');
@@ -159,7 +162,9 @@ export function PokemonDetailHeader({
             </p>
             <div className="mb-3 flex items-center justify-center gap-2 sm:justify-start">
               <h1 className="font-display text-4xl font-black tracking-tight text-stone-900 sm:text-5xl dark:text-stone-50">
-                {currentPokemon.displayName}
+                {isFormChanged
+                  ? currentPokemon.displayName
+                  : (displayNameOverride ?? currentPokemon.displayName)}
               </h1>
               {hydrated && (
                 <FavoriteButton

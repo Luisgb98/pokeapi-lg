@@ -50,8 +50,8 @@ export interface PokemonRepository {
   /** Returns species metadata (flavor text, genus, egg groups, etc.) for a given locale. */
   findSpeciesData(id: number, locale: string): Promise<PokemonSpecies>;
 
-  /** Returns the full move learnset for a Pokémon in the most recent available game. */
-  findMoveLearnset(id: number): Promise<readonly LearnedMove[]>;
+  /** Returns the full move learnset for a Pokémon in the most recent available game, with move names in the given locale. */
+  findMoveLearnset(id: number, locale: string): Promise<readonly LearnedMove[]>;
 
   /** Returns localized ability details for the given ability refs. */
   findAbilities(refs: readonly PokemonAbilityRef[], locale: string): Promise<readonly Ability[]>;

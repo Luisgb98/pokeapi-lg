@@ -6,6 +6,8 @@ export interface PokemonVariety {
 }
 
 export interface PokemonSpecies {
+  /** Species name in the requested locale; falls back to English, then the formatted slug. */
+  readonly localizedName: string;
   readonly genus: string;
   readonly flavorText: string;
   readonly eggGroups: readonly string[];

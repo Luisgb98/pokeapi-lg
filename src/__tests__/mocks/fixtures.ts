@@ -104,6 +104,11 @@ export const pikachuSpecies: PokeApiSpecies = {
   name: 'pikachu',
   generation: { name: 'generation-i', url: '' },
   evolution_chain: { url: 'https://pokeapi.co/api/v2/evolution-chain/10/' },
+  names: [
+    { name: 'Pikachu', language: { name: 'en', url: '' } },
+    { name: 'Pikachu', language: { name: 'de', url: '' } },
+    { name: 'Pikachu', language: { name: 'fr', url: '' } },
+  ],
   flavor_text_entries: [
     {
       flavor_text:
@@ -142,6 +147,10 @@ export const pichuSpecies: PokeApiSpecies = {
   name: 'pichu',
   generation: { name: 'generation-ii', url: '' },
   evolution_chain: { url: 'https://pokeapi.co/api/v2/evolution-chain/10/' },
+  names: [
+    { name: 'Pichu', language: { name: 'en', url: '' } },
+    { name: 'Pichu', language: { name: 'de', url: '' } },
+  ],
   flavor_text_entries: [
     {
       flavor_text: 'Despite its small size, it can zap even adult humans.',
@@ -215,7 +224,10 @@ export const thundershockMove: PokeApiMove = {
   power: 40,
   damage_class: { name: 'special', url: '' },
   type: { name: 'electric', url: '' },
-  names: [{ name: 'ThunderShock', language: { name: 'en', url: '' } }],
+  names: [
+    { name: 'ThunderShock', language: { name: 'en', url: '' } },
+    { name: 'Donnerschock', language: { name: 'de', url: '' } },
+  ],
 };
 
 export const bulbasaurRaw: PokeApiPokemon = {

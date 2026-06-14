@@ -96,12 +96,14 @@ export function mapEvolutionChain(raw: PokeApiEvolutionChain): EvolutionChain {
   };
 }
 
-export function mapMove(raw: PokeApiMove): Move {
+export function mapMove(raw: PokeApiMove, locale: string): Move {
+  const lang = LOCALE_TO_POKEAPI_LANG[locale] ?? 'en';
+  const localeName = raw.names.find((n) => n.language.name === lang)?.name;
   const enName = raw.names.find((n) => n.language.name === 'en')?.name;
   return {
     id: raw.id,
     name: raw.name,
-    displayName: enName ?? formatPokemonName(raw.name),
+    displayName: localeName ?? enName ?? formatPokemonName(raw.name),
     type: raw.type.name as PokemonType,
     damageClass: raw.damage_class.name as DamageClass,
     power: raw.power,
@@ -122,6 +124,11 @@ function cleanFlavorText(raw: string): string {
 export function mapPokemonSpecies(raw: PokeApiSpecies, locale: string): PokemonSpecies {
   const lang = LOCALE_TO_POKEAPI_LANG[locale] ?? 'en';
 
+  const localizedName =
+    raw.names.find((n) => n.language.name === lang)?.name ??
+    raw.names.find((n) => n.language.name === 'en')?.name ??
+    formatPokemonName(raw.name);
+
   const localeFlavors = raw.flavor_text_entries.filter((e) => e.language.name === lang);
   const englishFlavors = raw.flavor_text_entries.filter((e) => e.language.name === 'en');
   const entry = (localeFlavors.length > 0 ? localeFlavors : englishFlavors).at(-1);
@@ -139,6 +146,7 @@ export function mapPokemonSpecies(raw: PokeApiSpecies, locale: string): PokemonS
   }));
 
   return {
+    localizedName,
     genus: genusEntry?.genus ?? '',
     flavorText,
     eggGroups: raw.egg_groups.map((g) => g.name),
