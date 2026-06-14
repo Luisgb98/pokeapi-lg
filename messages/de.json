@@ -273,5 +273,31 @@
     "statSpecialAttack": "Sp.-Angr.",
     "statSpecialDefense": "Sp.-Vert.",
     "statSpeed": "Initiative"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "account": "Konto",
+    "guest": "Gast"
+  },
+  "import": {
+    "title": "Fortschritt speichern",
+    "favorites": "{count} Favoriten",
+    "team": "{count} Teammitglieder",
+    "comparison": "1 Vergleich",
+    "importButton": "In Konto importieren",
+    "skip": "Überspringen",
+    "importing": "Importiere…"
+  },
+  "account": {
+    "title": "Mein Konto",
+    "subtitle": "Gespeicherte Teams verwalten",
+    "signInPrompt": "Anmelden, um Teams zu speichern",
+    "signInDetail": "Dein Fortschritt wird auf allen Geräten synchronisiert.",
+    "signInButton": "Mit GitHub anmelden",
+    "empty": "Noch keine gespeicherten Teams.",
+    "members": "{count} Mitglieder",
+    "load": "Laden",
+    "delete": "Löschen"
   }
 }

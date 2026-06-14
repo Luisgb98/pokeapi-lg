@@ -5,6 +5,7 @@ import { Link, usePathname } from '@/i18n/navigation';
 import { LayoutGrid, Users, Scale, Gamepad2, Heart } from 'lucide-react';
 import { LanguageSwitcher } from '@/presentation/components/atoms/LanguageSwitcher';
 import { ThemeToggle } from '@/presentation/components/atoms/ThemeToggle';
+import { AuthMenu } from '@/presentation/components/organisms/AuthMenu';
 import { useHydration } from '@/presentation/hooks/useHydration';
 import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import { cn } from '@/presentation/lib/utils';
@@ -70,6 +71,7 @@ export function TopNav() {
             </div>
           </div>
           <div className="flex items-center gap-1">
+            <AuthMenu />
             <ThemeToggle />
             <LanguageSwitcher />
           </div>

@@ -5,7 +5,9 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { QueryProvider } from '@/presentation/components/providers/QueryProvider';
+import { AuthProvider } from '@/presentation/components/providers/AuthProvider';
 import { TopNav } from '@/presentation/components/organisms/TopNav';
+import { LocalImportBanner } from '@/presentation/components/organisms/LocalImportBanner';
 import { routing } from '@/i18n/routing';
 import type { Locale } from '@/i18n/routing';
 import '../globals.css';
@@ -87,10 +89,13 @@ export default async function LocaleLayout({ children, params }: Props) {
     >
       <body className="min-h-dvh antialiased dark:bg-stone-950" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
-          <QueryProvider>
-            <TopNav />
-            <main className="pb-16 sm:pb-0">{children}</main>
-          </QueryProvider>
+          <AuthProvider>
+            <QueryProvider>
+              <TopNav />
+              <LocalImportBanner />
+              <main className="pb-16 sm:pb-0">{children}</main>
+            </QueryProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

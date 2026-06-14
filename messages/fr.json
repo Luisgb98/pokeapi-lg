@@ -273,5 +273,31 @@
     "statSpecialAttack": "Att. Spé.",
     "statSpecialDefense": "Déf. Spé.",
     "statSpeed": "Vitesse"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "account": "Compte",
+    "guest": "Invité"
+  },
+  "import": {
+    "title": "Sauvegarder la progression",
+    "favorites": "{count} favoris",
+    "team": "{count} membres d’équipe",
+    "comparison": "1 comparaison",
+    "importButton": "Importer dans le compte",
+    "skip": "Ignorer",
+    "importing": "Importation…"
+  },
+  "account": {
+    "title": "Mon compte",
+    "subtitle": "Gérer vos équipes sauvegardées",
+    "signInPrompt": "Connectez-vous pour sauvegarder vos équipes",
+    "signInDetail": "Votre progression est synchronisée sur tous vos appareils.",
+    "signInButton": "Se connecter avec GitHub",
+    "empty": "Aucune équipe sauvegardée.",
+    "members": "{count} membres",
+    "load": "Charger",
+    "delete": "Supprimer"
   }
 }

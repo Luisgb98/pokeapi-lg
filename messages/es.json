@@ -273,5 +273,31 @@
     "statSpecialAttack": "Atq. Esp.",
     "statSpecialDefense": "Def. Esp.",
     "statSpeed": "Velocidad"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "account": "Cuenta",
+    "guest": "Invitado"
+  },
+  "import": {
+    "title": "Guarda tu progreso",
+    "favorites": "{count} favoritos",
+    "team": "{count} miembros del equipo",
+    "comparison": "1 comparación",
+    "importButton": "Importar a la cuenta",
+    "skip": "Omitir",
+    "importing": "Importando…"
+  },
+  "account": {
+    "title": "Mi cuenta",
+    "subtitle": "Gestiona tus equipos guardados",
+    "signInPrompt": "Inicia sesión para guardar equipos",
+    "signInDetail": "Tu progreso se sincroniza en todos tus dispositivos.",
+    "signInButton": "Iniciar sesión con GitHub",
+    "empty": "Aún no hay equipos guardados.",
+    "members": "{count} miembros",
+    "load": "Cargar",
+    "delete": "Eliminar"
   }
 }
