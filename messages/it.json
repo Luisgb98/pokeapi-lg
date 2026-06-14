@@ -224,5 +224,25 @@
     "weight": "Peso",
     "abilities": "Abilità",
     "hidden": "Nascosta"
+  },
+  "statCalculator": {
+    "heading": "Calcolatore di Statistiche",
+    "subtitle": "Calcola le statistiche reali da livello, natura, IV ed EV",
+    "level": "Livello",
+    "nature": "Natura",
+    "base": "Base",
+    "iv": "IV",
+    "ev": "EV",
+    "result": "Stat",
+    "evTotal": "Totale EV: {used} / {max}",
+    "evWarning": "Il totale degli EV supera il massimo legale di 510",
+    "pokemonId": "Numero del Pokédex",
+    "load": "Carica",
+    "statHp": "PS",
+    "statAttack": "Attacco",
+    "statDefense": "Difesa",
+    "statSpecialAttack": "Att. Sp.",
+    "statSpecialDefense": "Dif. Sp.",
+    "statSpeed": "Velocità"
   }
 }
