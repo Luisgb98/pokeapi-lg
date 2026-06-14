@@ -94,7 +94,8 @@ DATABASE_URL=postgres://...          # Neon / Vercel Postgres connection string
 AUTH_SECRET=...                      # Generate with: npx auth secret
 AUTH_GITHUB_ID=...                   # GitHub OAuth App client ID
 AUTH_GITHUB_SECRET=...               # GitHub OAuth App client secret
-AUTH_URL=http://localhost:3000       # Base URL (production: https://your-domain.com)
+NEXTAUTH_URL=http://localhost:3000   # next-auth v4 base URL; optional on Vercel (auto-detected)
+# AUTH_TRUST_HOST=true               # set when self-hosting behind a reverse proxy
 ```
 
 Copy `.env.example` → `.env.local`. **Never commit real secrets.** `AUTH_SECRET` and the GitHub credentials must never carry a `NEXT_PUBLIC_` prefix.

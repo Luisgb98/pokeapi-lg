@@ -5,6 +5,9 @@ const envSchema = z.object({
   AUTH_SECRET: z.string().min(1, 'AUTH_SECRET is required'),
   AUTH_GITHUB_ID: z.string().min(1, 'AUTH_GITHUB_ID is required'),
   AUTH_GITHUB_SECRET: z.string().min(1, 'AUTH_GITHUB_SECRET is required'),
+  // next-auth v4 uses NEXTAUTH_URL; optional because Vercel auto-detects origin.
+  // Set AUTH_TRUST_HOST=true when self-hosting behind a reverse proxy.
+  NEXTAUTH_URL: z.string().url().optional(),
 });
 
 function validateEnv() {
