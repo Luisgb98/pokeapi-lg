@@ -11,24 +11,32 @@ declare module 'next-auth' {
   }
 }
 
-export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(getDb(), {
-    usersTable: users,
-    accountsTable: accounts,
-    sessionsTable: sessions,
-    verificationTokensTable: verificationTokens,
-  }),
-  providers: [
-    GitHub({
-      clientId: getEnv().AUTH_GITHUB_ID,
-      clientSecret: getEnv().AUTH_GITHUB_SECRET,
+let _authOptions: NextAuthOptions | null = null;
+
+/** Lazy singleton — defers getDb()/getEnv() until first request so Next.js build succeeds without env vars. */
+export function getAuthOptions(): NextAuthOptions {
+  if (_authOptions) return _authOptions;
+  const env = getEnv();
+  _authOptions = {
+    adapter: DrizzleAdapter(getDb(), {
+      usersTable: users,
+      accountsTable: accounts,
+      sessionsTable: sessions,
+      verificationTokensTable: verificationTokens,
     }),
-  ],
-  session: { strategy: 'database' },
-  callbacks: {
-    session({ session, user }) {
-      session.user.id = user.id;
-      return session;
+    providers: [
+      GitHub({
+        clientId: env.AUTH_GITHUB_ID,
+        clientSecret: env.AUTH_GITHUB_SECRET,
+      }),
+    ],
+    session: { strategy: 'database' },
+    callbacks: {
+      session({ session, user }) {
+        session.user.id = user.id;
+        return session;
+      },
     },
-  },
-};
+  };
+  return _authOptions;
+}
