@@ -3,10 +3,12 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const CSP = [
   "default-src 'self'",
-  // 'unsafe-inline' required for Next.js hydration scripts and Tailwind CSS
-  "script-src 'self' 'unsafe-inline'",
+  // 'unsafe-inline' required for Next.js; 'unsafe-eval' only in dev (React stack reconstruction)
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   // raw.githubusercontent.com: PokeAPI sprites; avatars.githubusercontent.com: GitHub OAuth avatars
   "img-src 'self' data: https://raw.githubusercontent.com https://avatars.githubusercontent.com",

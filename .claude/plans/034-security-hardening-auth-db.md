@@ -24,8 +24,8 @@
 
 Produced by a focused security review of the Plan 032 auth/DB surface
 (`infrastructure/auth`, `infrastructure/db`, `application/actions/userData.ts`,
-schema, container, NextAuth route). AgentShield gave the *agent-config* surface
-an A/100; this plan covers the *application* findings AgentShield does not scan.
+schema, container, NextAuth route). AgentShield gave the _agent-config_ surface
+an A/100; this plan covers the _application_ findings AgentShield does not scan.
 
 ### What is already correct (DO NOT "fix" — verified safe)
 
@@ -42,7 +42,7 @@ an A/100; this plan covers the *application* findings AgentShield does not scan.
   secrets; `.env*` is git-ignored and no env file is tracked.
 - ✅ **`AUTH_SECRET` is correctly consumed** — verified in
   `node_modules/next-auth/next/index.js`: `process.env.NEXTAUTH_SECRET ??
-  process.env.AUTH_SECRET`. Leave it as-is.
+process.env.AUTH_SECRET`. Leave it as-is.
 - ✅ Schema FKs are all `onDelete: 'cascade'` from `user` → clean account
   deletion.
 
@@ -52,6 +52,7 @@ an A/100; this plan covers the *application* findings AgentShield does not scan.
 
 **Finding.** The app documents and validates `AUTH_URL`, but next-auth v4.24.14
 never reads it. Verified in `node_modules`:
+
 - `next-auth/utils/detect-origin.js` returns `process.env.NEXTAUTH_URL` (and
   honors `AUTH_TRUST_HOST` / `VERCEL` for forwarded-host detection).
 - `next-auth/core/lib/assert.js` warns `NEXTAUTH_URL` when origin can't be
@@ -63,6 +64,7 @@ callback URL and CSRF **origin check** fall back to header-derived values
 without `AUTH_TRUST_HOST`, which can break sign-in or weaken origin validation.
 
 **Fix (pick the rename path — clearest for v4):**
+
 1. `infrastructure/db/env.ts`: rename the schema key `AUTH_URL` →
    `NEXTAUTH_URL`. Keep it **optional** (next-auth auto-detects on Vercel):
    `NEXTAUTH_URL: z.string().url().optional()`.
@@ -73,6 +75,7 @@ without `AUTH_TRUST_HOST`, which can break sign-in or weaken origin validation.
 4. Do **not** rename `AUTH_SECRET` — it is read correctly.
 
 **Verification gate.**
+
 - `pnpm typecheck && pnpm test` green.
 - Manual: with `NEXTAUTH_URL` unset locally, sign-in still works (auto-detect);
   grep confirms no remaining `AUTH_URL` reference:
@@ -89,6 +92,7 @@ project's own `web/security.md` mandates a production CSP plus HSTS,
 
 **Fix.** Add an async `headers()` to `next.config.ts` returning these for all
 routes:
+
 - `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
@@ -108,6 +112,7 @@ routes:
 > the CSP `img-src` matches.
 
 **Verification gate.**
+
 - `pnpm build` green.
 - `curl -sI http://localhost:3000/` (after `pnpm start`) shows all headers.
 - Manually load a Pokémon detail page + sign in with GitHub: no CSP console
@@ -125,6 +130,7 @@ transaction. Both `common/security.md` and `react/security.md` require rate
 limiting sensitive/mutating actions.
 
 **Fix A.** Add a small per-user limiter keyed by `userId`:
+
 - Preferred for serverless/Vercel: `@upstash/ratelimit` + Upstash Redis (sliding
   window, e.g. 30 writes / 10s per user). Add `UPSTASH_REDIS_REST_URL/TOKEN` to
   `env.ts` as **optional** so local/dev without Redis still works.
@@ -151,6 +157,7 @@ it fetches the whole list per toggle. Optional: have the client pass the desired
 `on` boolean (still Zod-validated) and drop the extra read.
 
 **Verification gate.**
+
 - New unit tests: limiter returns `Too many requests` past threshold;
   actions return `err()` (not throw) on repo failure (mock the repo to throw).
 - `pnpm test` ≥ 80% on `application/` retained.
@@ -170,13 +177,13 @@ convenient, but Phase 1 is the cheapest win.
 
 ## Severity summary
 
-| # | Finding | Severity |
-|---|---------|----------|
-| 1 | `AUTH_URL` ignored by next-auth v4 (use `NEXTAUTH_URL`/`AUTH_TRUST_HOST`) | MEDIUM |
-| 2 | No CSP / security headers | MEDIUM |
-| 3A | No rate limiting on mutating server actions | MEDIUM |
-| 3B | Inconsistent error envelope (repo throws bypass `ActionResult`) | LOW |
-| 3C | `toggleFavoriteAction` read-then-write (perf/race nit) | LOW |
+| #   | Finding                                                                   | Severity |
+| --- | ------------------------------------------------------------------------- | -------- |
+| 1   | `AUTH_URL` ignored by next-auth v4 (use `NEXTAUTH_URL`/`AUTH_TRUST_HOST`) | MEDIUM   |
+| 2   | No CSP / security headers                                                 | MEDIUM   |
+| 3A  | No rate limiting on mutating server actions                               | MEDIUM   |
+| 3B  | Inconsistent error envelope (repo throws bypass `ActionResult`)           | LOW      |
+| 3C  | `toggleFavoriteAction` read-then-write (perf/race nit)                    | LOW      |
 
 No CRITICAL or HIGH findings. Core authz model (per-`userId` scoping, server-side
 auth gate, Zod validation, parameterized queries, secret hygiene) is sound.

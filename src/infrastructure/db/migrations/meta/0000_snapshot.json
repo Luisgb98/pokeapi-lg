@@ -81,12 +81,8 @@
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -94,10 +90,7 @@
       "compositePrimaryKeys": {
         "account_provider_providerAccountId_pk": {
           "name": "account_provider_providerAccountId_pk",
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ]
+          "columns": ["provider", "providerAccountId"]
         }
       },
       "uniqueConstraints": {},
@@ -160,12 +153,8 @@
           "name": "comparisons_user_id_user_id_fk",
           "tableFrom": "comparisons",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -206,12 +195,8 @@
           "name": "favorites_user_id_user_id_fk",
           "tableFrom": "favorites",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -219,10 +204,7 @@
       "compositePrimaryKeys": {
         "favorites_user_id_pokemon_id_pk": {
           "name": "favorites_user_id_pokemon_id_pk",
-          "columns": [
-            "user_id",
-            "pokemon_id"
-          ]
+          "columns": ["user_id", "pokemon_id"]
         }
       },
       "uniqueConstraints": {},
@@ -259,12 +241,8 @@
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -311,12 +289,8 @@
           "name": "team_members_team_id_teams_id_fk",
           "tableFrom": "team_members",
           "tableTo": "teams",
-          "columnsFrom": [
-            "team_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["team_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -326,10 +300,7 @@
         "unique_team_slot": {
           "name": "unique_team_slot",
           "nullsNotDistinct": false,
-          "columns": [
-            "team_id",
-            "slot"
-          ]
+          "columns": ["team_id", "slot"]
         }
       },
       "policies": {},
@@ -385,12 +356,8 @@
           "name": "teams_user_id_user_id_fk",
           "tableFrom": "teams",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -443,9 +410,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -480,10 +445,7 @@
       "compositePrimaryKeys": {
         "verificationToken_identifier_token_pk": {
           "name": "verificationToken_identifier_token_pk",
-          "columns": [
-            "identifier",
-            "token"
-          ]
+          "columns": ["identifier", "token"]
         }
       },
       "uniqueConstraints": {},

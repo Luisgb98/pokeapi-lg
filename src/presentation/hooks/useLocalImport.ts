@@ -51,6 +51,7 @@ export function useLocalImport(): LocalImportState {
 
   // Check localStorage only after hydration (avoids SSR mismatch)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: one-shot post-hydration read
     setDismissed(isDismissed());
   }, []);
 

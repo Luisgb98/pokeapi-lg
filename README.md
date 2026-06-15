@@ -166,13 +166,13 @@ Copy the environment template and fill in your values:
 cp .env.example .env.local
 ```
 
-| Variable | Where to get it |
-|---|---|
-| `DATABASE_URL` | Neon dashboard → Connection string |
-| `AUTH_SECRET` | `npx auth secret` |
-| `AUTH_GITHUB_ID` | GitHub → Settings → Developer settings → OAuth Apps |
+| Variable             | Where to get it                                                                |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `DATABASE_URL`       | Neon dashboard → Connection string                                             |
+| `AUTH_SECRET`        | `npx auth secret`                                                              |
+| `AUTH_GITHUB_ID`     | GitHub → Settings → Developer settings → OAuth Apps                            |
 | `AUTH_GITHUB_SECRET` | Same OAuth App; callback URL: `http://localhost:3000/api/auth/callback/github` |
-| `AUTH_URL` | `http://localhost:3000` (dev) or your production domain |
+| `AUTH_URL`           | `http://localhost:3000` (dev) or your production domain                        |
 
 Apply database migrations:
 

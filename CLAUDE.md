@@ -78,12 +78,12 @@ src/
 
 ### Client dual-mode hooks
 
-| Hook | Behaviour |
-|------|-----------|
-| `useFavoritesSync` | Guest → delegates to `useFavoritesStore` (localStorage). Authenticated → TanStack Query fetch + optimistic server toggle with rollback. |
-| `useSavedTeams` | Authenticated only — list/save/delete server-persisted named teams. |
-| `useSavedComparisons` | Authenticated only — list/save/delete server-persisted named comparisons. |
-| `useLocalImport` | Fires once on first sign-in if local guest data exists; offers one-click import; sets `pokemon-import-v1` flag when done. |
+| Hook                  | Behaviour                                                                                                                               |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `useFavoritesSync`    | Guest → delegates to `useFavoritesStore` (localStorage). Authenticated → TanStack Query fetch + optimistic server toggle with rollback. |
+| `useSavedTeams`       | Authenticated only — list/save/delete server-persisted named teams.                                                                     |
+| `useSavedComparisons` | Authenticated only — list/save/delete server-persisted named comparisons.                                                               |
+| `useLocalImport`      | Fires once on first sign-in if local guest data exists; offers one-click import; sets `pokemon-import-v1` flag when done.               |
 
 **Guest mode is always the default.** Local stores (`favoritesStore`, `teamBuilderStore`, `compareStore`) continue to work identically when logged out. The DB is additive; never gate existing features behind auth.
 

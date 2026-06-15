@@ -1,8 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { getServerSession } from '@/infrastructure/auth/session';
-import { getUserDataRepository } from '../container';
+import { getUserDataRepository, getSession } from '../container';
 import type { SavedTeam } from '@/domain/entities/SavedTeam';
 import type { SavedComparison } from '@/domain/entities/SavedComparison';
 import { checkRateLimit } from '../lib/rateLimiter';
@@ -32,7 +31,7 @@ function rateLimited(): Err {
 }
 
 async function requireUserId(): Promise<string | null> {
-  const session = await getServerSession();
+  const session = await getSession();
   return session?.user?.id ?? null;
 }
 

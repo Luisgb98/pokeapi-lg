@@ -4,6 +4,11 @@ import { DrizzleUserDataRepository } from '../infrastructure/db/DrizzleUserDataR
 import type { UserDataRepository } from '../domain/ports/UserDataRepository';
 import { getDb } from '../infrastructure/db/client';
 
+export async function getSession() {
+  const { getServerSession } = await import('../infrastructure/auth/session');
+  return getServerSession();
+}
+
 /**
  * Module-level singleton repository shared across all server requests in this process.
  *
