@@ -26,6 +26,8 @@ import {
 } from '@dnd-kit/sortable';
 import { useTeamBuilderStore, TEAM_MAX_SIZE } from '@/presentation/store/teamBuilderStore';
 import type { TeamMember } from '@/presentation/store/teamBuilderStore';
+import type { TeamMemberBuild } from '@/domain/entities/TeamMemberBuild';
+import { TeamMemberBuildModal } from '@/presentation/components/organisms/TeamMemberBuildModal';
 import { TeamShareButton } from '@/presentation/components/organisms/TeamShareButton';
 import { TeamSlot } from '@/presentation/components/molecules/TeamSlot';
 import { SortableTeamSlot } from '@/presentation/components/molecules/SortableTeamSlot';
@@ -64,9 +66,11 @@ function DragOverlayCard({ member }: { member: TeamMember }) {
 
 export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps) {
   const t = useTranslations('teamBuilder');
+  const tBuild = useTranslations('teamBuild');
   const locale = useLocale();
   const router = useRouter();
-  const { team, removeMember, reorderTeam, clear, addMember, addMembers } = useTeamBuilderStore();
+  const { team, removeMember, reorderTeam, clear, addMember, addMembers, setMemberBuild } =
+    useTeamBuilderStore();
   const favoriteIds = useFavoritesStore((s) => s.ids);
   const hydrated = useHydration();
   const [isImporting, startImporting] = useTransition();
@@ -84,6 +88,15 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
 
   const [pickerOpen, setPickerOpen] = useState(false);
   const [activeId, setActiveId] = useState<number | null>(null);
+  const [configuringId, setConfiguringId] = useState<number | null>(null);
+
+  const configuringMember =
+    configuringId !== null ? team.find((m) => m.id === configuringId) : undefined;
+
+  function handleBuildSave(build: TeamMemberBuild) {
+    if (configuringId !== null) setMemberBuild(configuringId, build);
+    setConfiguringId(null);
+  }
 
   const isFull = team.length >= TEAM_MAX_SIZE;
   const freeSlots = TEAM_MAX_SIZE - team.length;
@@ -152,7 +165,9 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
                     member={member}
                     typeLabels={typeLabels}
                     removeLabel={t('removeFromTeam')}
+                    configureLabel={tBuild('configure')}
                     onRemove={removeMember}
+                    onConfigure={setConfiguringId}
                     priority={i < 2}
                   />
                 ) : (
@@ -162,7 +177,9 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
                     typeLabels={typeLabels}
                     emptyLabel={t('emptySlot')}
                     removeLabel=""
+                    configureLabel=""
                     onRemove={() => {}}
+                    onConfigure={() => {}}
                     onAdd={isFull ? undefined : () => setPickerOpen(true)}
                   />
                 ),
@@ -232,6 +249,13 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
       />
 
       <PokemonPickerModal open={pickerOpen} onClose={() => setPickerOpen(false)} />
+      {configuringMember && (
+        <TeamMemberBuildModal
+          member={configuringMember}
+          onSave={handleBuildSave}
+          onClose={() => setConfiguringId(null)}
+        />
+      )}
     </div>
   );
 }

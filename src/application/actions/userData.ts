@@ -47,9 +47,28 @@ function mapRepoError(e: unknown): Err {
 
 const pokemonIdSchema = z.number().int().positive();
 
+const pokemonStatsSchema = z.object({
+  hp: z.number().int().min(0).max(255),
+  attack: z.number().int().min(0).max(255),
+  defense: z.number().int().min(0).max(255),
+  specialAttack: z.number().int().min(0).max(255),
+  specialDefense: z.number().int().min(0).max(255),
+  speed: z.number().int().min(0).max(255),
+});
+
+const teamMemberBuildSchema = z.object({
+  abilityName: z.string().min(1).max(100),
+  natureName: z.string().min(1).max(50),
+  level: z.number().int().min(1).max(100),
+  ivs: pokemonStatsSchema,
+  evs: pokemonStatsSchema,
+  moveNames: z.array(z.string().min(1).max(100)).max(4),
+});
+
 const teamMemberSchema = z.object({
   slot: z.number().int().min(0).max(5),
   pokemonId: z.number().int().positive(),
+  build: teamMemberBuildSchema.optional(),
 });
 
 const saveTeamInputSchema = z.object({

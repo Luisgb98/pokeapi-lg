@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { TeamMember } from '@/presentation/store/teamBuilderStore';
 import { TEAM_MAX_SIZE, useTeamBuilderStore } from '@/presentation/store/teamBuilderStore';
+import type { TeamMemberBuild } from '@/domain/entities/TeamMemberBuild';
 
 vi.mock('@/presentation/lib/cookieStorage', () => ({
   cookieStorage: { getItem: vi.fn(() => null), setItem: vi.fn(), removeItem: vi.fn() },
@@ -12,6 +13,15 @@ const makeMember = (id: number): TeamMember => ({
   displayName: `Pokemon ${id}`,
   types: ['normal'],
   sprite: `https://sprites.pokemon.com/${id}.png`,
+});
+
+const makeBuild = (): TeamMemberBuild => ({
+  abilityName: 'sand-veil',
+  natureName: 'jolly',
+  level: 50,
+  ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 0, specialDefense: 31, speed: 31 },
+  evs: { hp: 4, attack: 252, defense: 0, specialAttack: 0, specialDefense: 0, speed: 252 },
+  moveNames: ['earthquake', 'dragon-claw'],
 });
 
 beforeEach(() => {
@@ -117,5 +127,47 @@ describe('addMembers', () => {
     const before = useTeamBuilderStore.getState().team;
     useTeamBuilderStore.getState().addMembers([makeMember(1), makeMember(2)]);
     expect(useTeamBuilderStore.getState().team).toBe(before);
+  });
+});
+
+describe('setMemberBuild', () => {
+  it('sets a build on the correct member immutably', () => {
+    useTeamBuilderStore.getState().addMember(makeMember(1));
+    useTeamBuilderStore.getState().addMember(makeMember(2));
+    const build = makeBuild();
+    useTeamBuilderStore.getState().setMemberBuild(1, build);
+    const team = useTeamBuilderStore.getState().team;
+    expect(team.find((m) => m.id === 1)?.build).toEqual(build);
+    expect(team.find((m) => m.id === 2)?.build).toBeUndefined();
+  });
+
+  it('replaces an existing build with a new one', () => {
+    useTeamBuilderStore.getState().addMember(makeMember(1));
+    const build1 = makeBuild();
+    const build2: typeof build1 = { ...build1, natureName: 'adamant' };
+    useTeamBuilderStore.getState().setMemberBuild(1, build1);
+    useTeamBuilderStore.getState().setMemberBuild(1, build2);
+    expect(useTeamBuilderStore.getState().team[0]?.build?.natureName).toBe('adamant');
+  });
+
+  it('does not mutate other members when setting a build', () => {
+    useTeamBuilderStore.getState().addMember(makeMember(1));
+    useTeamBuilderStore.getState().addMember(makeMember(2));
+    const before2 = useTeamBuilderStore.getState().team.find((m) => m.id === 2);
+    useTeamBuilderStore.getState().setMemberBuild(1, makeBuild());
+    const after2 = useTeamBuilderStore.getState().team.find((m) => m.id === 2);
+    expect(after2).toBe(before2);
+  });
+
+  it('is a no-op for a member id not on the team', () => {
+    useTeamBuilderStore.getState().addMember(makeMember(1));
+    const before = useTeamBuilderStore.getState().team;
+    useTeamBuilderStore.getState().setMemberBuild(999, makeBuild());
+    expect(useTeamBuilderStore.getState().team).toEqual(before);
+  });
+
+  it('members without a build have build undefined by default', () => {
+    useTeamBuilderStore.getState().addMember(makeMember(1));
+    expect(useTeamBuilderStore.getState().team[0]?.build).toBeUndefined();
   });
 });

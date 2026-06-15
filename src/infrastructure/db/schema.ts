@@ -1,6 +1,7 @@
 import {
   check,
   integer,
+  jsonb,
   pgTable,
   primaryKey,
   smallint,
@@ -105,7 +106,12 @@ export const teamMembers = pgTable(
       .references(() => teams.id, { onDelete: 'cascade' }),
     slot: smallint('slot').notNull(),
     pokemonId: integer('pokemon_id').notNull(),
-    // Plan 033 will add: ability, nature, level, ivs, evs, moves columns here
+    abilityName: text('ability_name'),
+    natureName: text('nature_name'),
+    level: smallint('level'),
+    ivs: jsonb('ivs').$type<Record<string, number>>(),
+    evs: jsonb('evs').$type<Record<string, number>>(),
+    moveNames: text('move_names').array(),
   },
   (t) => ({
     slotRange: check('slot_range', sql`${t.slot} >= 0 AND ${t.slot} <= 5`),

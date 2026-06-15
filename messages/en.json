@@ -299,5 +299,26 @@
     "members": "{count} members",
     "load": "Load",
     "delete": "Delete"
+  },
+  "teamBuild": {
+    "configure": "Configure Build",
+    "ability": "Ability",
+    "hiddenAbility": "Hidden",
+    "nature": "Nature",
+    "level": "Level",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "EV budget: {remaining} remaining",
+    "moves": "Moves",
+    "selectUpToFour": "Select up to 4 moves",
+    "finalStats": "Final Stats",
+    "save": "Save Build",
+    "reset": "Reset",
+    "searchMoves": "Search moves…",
+    "noMoves": "No moves found",
+    "loadingMoves": "Loading learnset…",
+    "validationError": "Build has errors. Please check your selections.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutral)"
   }
 }

@@ -27,3 +27,7 @@ export function pokemonDetailQueryKey(id: number) {
 export function pokemonFormQueryKey(id: number) {
   return ['pokemon', 'form', id] as const;
 }
+
+export function pokemonLearnsetQueryKey(id: number, locale: string) {
+  return ['pokemon', 'learnset', id, locale] as const;
+}
