@@ -299,5 +299,26 @@
     "members": "{count} miembros",
     "load": "Cargar",
     "delete": "Eliminar"
+  },
+  "teamBuild": {
+    "configure": "Configurar set",
+    "ability": "Habilidad",
+    "hiddenAbility": "Oculta",
+    "nature": "Naturaleza",
+    "level": "Nivel",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "Presupuesto EV: {remaining} restantes",
+    "moves": "Movimientos",
+    "selectUpToFour": "Selecciona hasta 4 movimientos",
+    "finalStats": "Stats finales",
+    "save": "Guardar set",
+    "reset": "Reiniciar",
+    "searchMoves": "Buscar movimientos…",
+    "noMoves": "No se encontraron movimientos",
+    "loadingMoves": "Cargando learnset…",
+    "validationError": "El set tiene errores. Revisa tus selecciones.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutral)"
   }
 }

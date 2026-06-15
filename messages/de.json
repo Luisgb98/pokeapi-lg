@@ -299,5 +299,26 @@
     "members": "{count} Mitglieder",
     "load": "Laden",
     "delete": "Löschen"
+  },
+  "teamBuild": {
+    "configure": "Build konfigurieren",
+    "ability": "Fähigkeit",
+    "hiddenAbility": "Versteckt",
+    "nature": "Wesen",
+    "level": "Level",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "EV-Budget: {remaining} verbleibend",
+    "moves": "Attacken",
+    "selectUpToFour": "Bis zu 4 Attacken auswählen",
+    "finalStats": "Endwerte",
+    "save": "Build speichern",
+    "reset": "Zurücksetzen",
+    "searchMoves": "Attacken suchen…",
+    "noMoves": "Keine Attacken gefunden",
+    "loadingMoves": "Learnset wird geladen…",
+    "validationError": "Build enthält Fehler. Bitte überprüfe deine Auswahl.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutral)"
   }
 }

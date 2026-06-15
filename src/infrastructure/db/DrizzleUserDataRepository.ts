@@ -6,6 +6,7 @@ import type {
 } from '../../domain/ports/UserDataRepository';
 import type { SavedTeam } from '../../domain/entities/SavedTeam';
 import type { SavedComparison } from '../../domain/entities/SavedComparison';
+import type { PokemonStats } from '../../domain/entities/Pokemon';
 import type { Db } from './client';
 import { comparisons, favorites, teamMembers, teams } from './schema';
 
@@ -69,6 +70,16 @@ export class DrizzleUserDataRepository implements UserDataRepository {
             teamId: team.id,
             slot: m.slot,
             pokemonId: m.pokemonId,
+            ...(m.build
+              ? {
+                  abilityName: m.build.abilityName,
+                  natureName: m.build.natureName,
+                  level: m.build.level,
+                  ivs: m.build.ivs as unknown as Record<string, number>,
+                  evs: m.build.evs as unknown as Record<string, number>,
+                  moveNames: [...m.build.moveNames],
+                }
+              : {}),
           })),
         );
       }
@@ -127,12 +138,23 @@ export class DrizzleUserDataRepository implements UserDataRepository {
 // Mappers — convert DB row shapes to domain entities
 // ---------------------------------------------------------------------------
 
+type TeamMemberRow = {
+  slot: number;
+  pokemonId: number;
+  abilityName: string | null;
+  natureName: string | null;
+  level: number | null;
+  ivs: Record<string, number> | null;
+  evs: Record<string, number> | null;
+  moveNames: string[] | null;
+};
+
 type TeamRow = {
   id: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;
-  members: Array<{ slot: number; pokemonId: number }>;
+  members: TeamMemberRow[];
 };
 
 function toSavedTeam(row: TeamRow): SavedTeam {
@@ -142,7 +164,21 @@ function toSavedTeam(row: TeamRow): SavedTeam {
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
     members: row.members
-      .map((m) => ({ slot: m.slot, pokemonId: m.pokemonId }))
+      .map((m) => {
+        const base = { slot: m.slot, pokemonId: m.pokemonId };
+        if (!m.abilityName || !m.natureName || m.level == null || !m.ivs || !m.evs) return base;
+        return {
+          ...base,
+          build: {
+            abilityName: m.abilityName,
+            natureName: m.natureName,
+            level: m.level,
+            ivs: m.ivs as unknown as PokemonStats,
+            evs: m.evs as unknown as PokemonStats,
+            moveNames: m.moveNames ?? [],
+          },
+        };
+      })
       .sort((a, b) => a.slot - b.slot),
   };
 }

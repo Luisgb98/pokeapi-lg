@@ -186,6 +186,16 @@ describe('error envelope', () => {
       error: 'Not found',
     });
   });
+
+  it('saveComparisonAction wraps generic repo error', async () => {
+    setUserDataRepository(
+      makeRepo({ saveComparison: vi.fn().mockRejectedValue(new Error('DB down')) }),
+    );
+    expect(await saveComparisonAction({ slotA: 1 })).toEqual({
+      success: false,
+      error: 'Something went wrong',
+    });
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -201,6 +211,42 @@ describe('input validation', () => {
     expect(await saveTeamAction({ name: '', members: [{ slot: 0, pokemonId: 1 }] })).toEqual({
       success: false,
       error: 'Invalid team input',
+    });
+  });
+
+  it('saveTeamAction rejects member with invalid build level', async () => {
+    expect(
+      await saveTeamAction({
+        name: 'Team',
+        members: [
+          {
+            slot: 0,
+            pokemonId: 1,
+            build: {
+              abilityName: 'x',
+              natureName: 'hardy',
+              level: 200,
+              ivs: {
+                hp: 31,
+                attack: 31,
+                defense: 31,
+                specialAttack: 31,
+                specialDefense: 31,
+                speed: 31,
+              },
+              evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+              moveNames: [],
+            },
+          },
+        ],
+      }),
+    ).toEqual({ success: false, error: 'Invalid team input' });
+  });
+
+  it('saveComparisonAction rejects invalid input', async () => {
+    expect(await saveComparisonAction({ name: 'x'.repeat(200) })).toEqual({
+      success: false,
+      error: 'Invalid comparison input',
     });
   });
 

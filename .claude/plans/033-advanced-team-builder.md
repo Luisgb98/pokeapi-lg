@@ -17,6 +17,7 @@
 - **Priority**: P3 (direction)
 - **Effort**: L
 - **Risk**: MED (lots of UI surface; data-legality correctness is the crux)
+- **Done**: 2026-06-15 — all steps implemented and verified (typecheck ✓, lint ✓, 456 tests ✓, build ✓, migration applied)
 - **Depends on**:
   - **Hard for cloud persistence**: plan 032 (the `teamMembers` table gains the
     build columns; saved builds need the DB). The local-only build editor can

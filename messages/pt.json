@@ -299,5 +299,26 @@
     "members": "{count} membros",
     "load": "Carregar",
     "delete": "Eliminar"
+  },
+  "teamBuild": {
+    "configure": "Configurar build",
+    "ability": "Habilidade",
+    "hiddenAbility": "Oculta",
+    "nature": "Natureza",
+    "level": "Nível",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "Orçamento EV: {remaining} restantes",
+    "moves": "Golpes",
+    "selectUpToFour": "Selecione até 4 golpes",
+    "finalStats": "Stats finais",
+    "save": "Salvar build",
+    "reset": "Reiniciar",
+    "searchMoves": "Pesquisar golpes…",
+    "noMoves": "Nenhum golpe encontrado",
+    "loadingMoves": "Carregando learnset…",
+    "validationError": "O build tem erros. Verifique suas seleções.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutro)"
   }
 }

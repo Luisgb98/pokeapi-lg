@@ -1,12 +1,17 @@
 import type { SavedComparison } from '../entities/SavedComparison';
 import type { SavedTeam } from '../entities/SavedTeam';
+import type { TeamMemberBuild } from '../entities/TeamMemberBuild';
 
 export type { SavedTeam, SavedTeamMember } from '../entities/SavedTeam';
 export type { SavedComparison } from '../entities/SavedComparison';
 
 export interface NewTeamInput {
   readonly name: string;
-  readonly members: ReadonlyArray<{ readonly slot: number; readonly pokemonId: number }>;
+  readonly members: ReadonlyArray<{
+    readonly slot: number;
+    readonly pokemonId: number;
+    readonly build?: TeamMemberBuild;
+  }>;
 }
 
 export interface NewComparisonInput {

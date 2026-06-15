@@ -299,5 +299,26 @@
     "members": "{count} membri",
     "load": "Carica",
     "delete": "Elimina"
+  },
+  "teamBuild": {
+    "configure": "Configura set",
+    "ability": "Abilità",
+    "hiddenAbility": "Nascosta",
+    "nature": "Natura",
+    "level": "Livello",
+    "ivs": "IV",
+    "evs": "EV",
+    "evBudget": "Budget EV: {remaining} rimanenti",
+    "moves": "Mosse",
+    "selectUpToFour": "Seleziona fino a 4 mosse",
+    "finalStats": "Statistiche finali",
+    "save": "Salva set",
+    "reset": "Reimposta",
+    "searchMoves": "Cerca mosse…",
+    "noMoves": "Nessuna mossa trovata",
+    "loadingMoves": "Caricamento learnset…",
+    "validationError": "Il set contiene errori. Controlla le selezioni.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutrale)"
   }
 }

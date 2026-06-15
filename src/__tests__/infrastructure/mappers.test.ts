@@ -114,6 +114,13 @@ describe('mapPokemon', () => {
     expect(result.shinyArtwork).toContain('shiny');
     expect(result.shinyArtwork).toContain('25');
   });
+
+  it('defaults missing stats to 0', () => {
+    const noStats = { ...pikachuRaw, stats: [] };
+    const result = mapPokemon(noStats, 10);
+    expect(result.stats.hp).toBe(0);
+    expect(result.stats.attack).toBe(0);
+  });
 });
 
 describe('mapEvolutionChain', () => {
@@ -242,6 +249,12 @@ describe('mapAbility', () => {
     const noNames = { ...staticAbility, names: [] };
     const result = mapAbility(noNames, false, 'en');
     expect(result.displayName).toBe('Static');
+  });
+
+  it('returns empty string for effect when no flavor text entries exist', () => {
+    const noFlavors = { ...staticAbility, flavor_text_entries: [] };
+    const result = mapAbility(noFlavors, false, 'en');
+    expect(result.effect).toBe('');
   });
 });
 

@@ -38,7 +38,9 @@ interface FilledSlotProps {
   member: TeamMember;
   typeLabels: Record<PokemonType, string>;
   removeLabel: string;
+  configureLabel: string;
   onRemove: (id: number) => void;
+  onConfigure: (id: number) => void;
   priority?: boolean;
   isDragging?: boolean;
 }
@@ -47,11 +49,14 @@ function FilledSlot({
   member,
   typeLabels,
   removeLabel,
+  configureLabel,
   onRemove,
+  onConfigure,
   priority = false,
   isDragging = false,
 }: FilledSlotProps) {
   const tc = getPrimaryTypeClasses(member.types);
+  const hasBuild = Boolean(member.build);
 
   return (
     <div
@@ -128,6 +133,22 @@ function FilledSlot({
           <TypeBadge key={t} type={t} size="sm" label={typeLabels[t]} />
         ))}
       </div>
+
+      {/* Build summary / configure button */}
+      <button
+        type="button"
+        onClick={() => onConfigure(member.id)}
+        onPointerDown={(e) => e.stopPropagation()}
+        aria-label={`${configureLabel} ${member.displayName}`}
+        className={[
+          'absolute bottom-1.5 left-1/2 z-10 -translate-x-1/2 rounded-full px-2 py-0.5 text-[10px] font-medium leading-none transition-opacity',
+          hasBuild
+            ? 'bg-emerald-500/90 text-white'
+            : 'bg-stone-900/60 text-white opacity-0 group-hover:opacity-100 focus-visible:opacity-100',
+        ].join(' ')}
+      >
+        {hasBuild ? `Lv.${member.build!.level}` : '⚙'}
+      </button>
     </div>
   );
 }
@@ -137,7 +158,9 @@ interface TeamSlotProps {
   typeLabels: Record<PokemonType, string>;
   emptyLabel: string;
   removeLabel: string;
+  configureLabel: string;
   onRemove: (id: number) => void;
+  onConfigure: (id: number) => void;
   onAdd?: () => void;
   priority?: boolean;
   isDragging?: boolean;
@@ -148,7 +171,9 @@ export function TeamSlot({
   typeLabels,
   emptyLabel,
   removeLabel,
+  configureLabel,
   onRemove,
+  onConfigure,
   onAdd,
   priority,
   isDragging,
@@ -159,7 +184,9 @@ export function TeamSlot({
       member={member}
       typeLabels={typeLabels}
       removeLabel={removeLabel}
+      configureLabel={configureLabel}
       onRemove={onRemove}
+      onConfigure={onConfigure}
       priority={priority}
       isDragging={isDragging}
     />
