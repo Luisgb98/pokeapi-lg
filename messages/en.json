@@ -273,5 +273,31 @@
     "statSpecialAttack": "Sp. Atk",
     "statSpecialDefense": "Sp. Def",
     "statSpeed": "Speed"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "account": "Account",
+    "guest": "Guest"
+  },
+  "import": {
+    "title": "Save your progress",
+    "favorites": "{count} favorites",
+    "team": "{count} team members",
+    "comparison": "1 comparison",
+    "importButton": "Import to account",
+    "skip": "Skip",
+    "importing": "Importing…"
+  },
+  "account": {
+    "title": "My Account",
+    "subtitle": "Manage your saved teams",
+    "signInPrompt": "Sign in to save your teams",
+    "signInDetail": "Your progress syncs across all your devices.",
+    "signInButton": "Sign in with GitHub",
+    "empty": "No saved teams yet. Build a team and save it to your account.",
+    "members": "{count} members",
+    "load": "Load",
+    "delete": "Delete"
   }
 }

@@ -14,7 +14,8 @@ A full-featured Pokédex built with Next.js 16, TypeScript, and Tailwind CSS 4. 
 - **Real-time search** with debouncing — matches names _and_ evolution lines (searching "Charmander" also surfaces Charmeleon and Charizard)
 - **Multi-select type filter** with Any/All match modes — e.g. "show me Pokémon that are both Water AND Flying"
 - **Multi-select generation filter** to narrow by era
-- **Favorites system** — heart any Pokémon, filter to show favorites only; persisted across sessions via Zustand + localStorage
+- **Favorites system** — heart any Pokémon, filter to show favorites only; persisted via Zustand + localStorage (guest) or synced to your account (signed in)
+- **User accounts** — sign in with GitHub OAuth to save your teams and favorites to the cloud; data syncs across all your devices
 
 ### Pokémon Detail Page
 
@@ -133,6 +134,9 @@ return (
 | Client state  | Zustand v5 + `persist`        | Lightweight, cookie/localStorage persistence                |
 | i18n          | next-intl                     | 6 locales, locale-aware routing                             |
 | Drag & drop   | @dnd-kit/core + sortable      | Accessible, pointer + touch + keyboard support              |
+| Database      | PostgreSQL (Neon)             | Serverless HTTP driver, no connection-pool overhead         |
+| ORM           | Drizzle ORM + drizzle-kit     | TypeScript-first, thin, SQL migrations committed to repo    |
+| Auth          | Auth.js v4 (next-auth)        | GitHub OAuth, database sessions, Drizzle adapter            |
 | Validation    | Zod                           | Runtime schema validation inferred as TypeScript types      |
 | UI primitives | CVA + Radix UI                | Accessible headless components with typed variant API       |
 | Testing       | Vitest + MSW                  | Fast unit tests with real HTTP mocking (no fixture drift)   |
@@ -147,11 +151,38 @@ return (
 
 - Node.js 22+
 - pnpm
+- A PostgreSQL database (Neon free tier works; any `postgres://` URL is fine)
+- A GitHub OAuth App (for sign-in — optional if you only need the Pokédex features)
 
 ### Install and run
 
 ```bash
 pnpm install
+```
+
+Copy the environment template and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+| Variable             | Where to get it                                                                |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `DATABASE_URL`       | Neon dashboard → Connection string                                             |
+| `AUTH_SECRET`        | `npx auth secret`                                                              |
+| `AUTH_GITHUB_ID`     | GitHub → Settings → Developer settings → OAuth Apps                            |
+| `AUTH_GITHUB_SECRET` | Same OAuth App; callback URL: `http://localhost:3000/api/auth/callback/github` |
+| `AUTH_URL`           | `http://localhost:3000` (dev) or your production domain                        |
+
+Apply database migrations:
+
+```bash
+pnpm db:migrate
+```
+
+Start the dev server:
+
+```bash
 pnpm dev
 ```
 
@@ -178,6 +209,9 @@ pnpm lint           # ESLint
 pnpm typecheck      # TypeScript check (no emit)
 pnpm format         # Prettier
 pnpm ci             # format + lint + typecheck + test:coverage + build (full CI gate)
+pnpm db:generate    # generate a new Drizzle migration from schema changes
+pnpm db:migrate     # apply pending migrations to the database
+pnpm db:studio      # open Drizzle Studio (visual database browser)
 ```
 
 ---

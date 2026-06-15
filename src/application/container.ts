@@ -1,5 +1,13 @@
 import { PokeApiRepository } from '../infrastructure/pokeapi/PokeApiRepository';
 import type { PokemonRepository } from '../domain/ports/PokemonRepository';
+import { DrizzleUserDataRepository } from '../infrastructure/db/DrizzleUserDataRepository';
+import type { UserDataRepository } from '../domain/ports/UserDataRepository';
+import { getDb } from '../infrastructure/db/client';
+
+export async function getSession() {
+  const { getServerSession } = await import('../infrastructure/auth/session');
+  return getServerSession();
+}
 
 /**
  * Module-level singleton repository shared across all server requests in this process.
@@ -30,4 +38,23 @@ export function setRepository(repo: PokemonRepository): void {
 /** For testing: reset to default. */
 export function resetRepository(): void {
   _repository = null;
+}
+
+let _userDataRepository: UserDataRepository | null = null;
+
+export function getUserDataRepository(): UserDataRepository {
+  if (!_userDataRepository) {
+    _userDataRepository = new DrizzleUserDataRepository(getDb());
+  }
+  return _userDataRepository;
+}
+
+/** For testing: inject a mock user data repository. */
+export function setUserDataRepository(repo: UserDataRepository): void {
+  _userDataRepository = repo;
+}
+
+/** For testing: reset to default. */
+export function resetUserDataRepository(): void {
+  _userDataRepository = null;
 }

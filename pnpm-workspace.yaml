@@ -4,6 +4,7 @@ packages:
 overrides:
   eslint-import-resolver-typescript: 3.10.0
   semver: ^7.0.0
+  jose: '4.15.4'
 
 minimumReleaseAge: 4320
 trustPolicy: no-downgrade
@@ -11,6 +12,7 @@ trustPolicy: no-downgrade
 allowBuilds:
   '@parcel/watcher': true
   '@swc/core': true
+  esbuild: false
   msw: true
   sharp: false
   unrs-resolver: false

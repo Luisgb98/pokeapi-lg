@@ -273,5 +273,31 @@
     "statSpecialAttack": "Att. Sp.",
     "statSpecialDefense": "Dif. Sp.",
     "statSpeed": "Velocità"
+  },
+  "auth": {
+    "signIn": "Accedi",
+    "signOut": "Esci",
+    "account": "Account",
+    "guest": "Ospite"
+  },
+  "import": {
+    "title": "Salva i progressi",
+    "favorites": "{count} preferiti",
+    "team": "{count} membri del team",
+    "comparison": "1 confronto",
+    "importButton": "Importa nell’account",
+    "skip": "Salta",
+    "importing": "Importazione…"
+  },
+  "account": {
+    "title": "Il mio account",
+    "subtitle": "Gestisci le tue squadre salvate",
+    "signInPrompt": "Accedi per salvare le tue squadre",
+    "signInDetail": "I tuoi progressi vengono sincronizzati su tutti i dispositivi.",
+    "signInButton": "Accedi con GitHub",
+    "empty": "Nessuna squadra salvata.",
+    "members": "{count} membri",
+    "load": "Carica",
+    "delete": "Elimina"
   }
 }
