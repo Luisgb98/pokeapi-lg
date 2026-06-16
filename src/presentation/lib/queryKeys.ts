@@ -1,12 +1,6 @@
-import type { Generation, PokemonType } from '@/domain/entities/Pokemon';
-import type { TypeMatchMode } from '@/domain/ports/PokemonRepository';
+import type { PokemonFilterParams } from '@/domain/entities/Pokemon';
 
-export interface PokemonListParams {
-  types?: PokemonType[];
-  generations?: Generation[];
-  typeMatchMode?: TypeMatchMode;
-  search?: string;
-}
+export type PokemonListParams = PokemonFilterParams;
 
 /** Strips undefined/empty arrays so the key stays stable when filters are cleared. */
 export function normalizePokemonParams(params: PokemonListParams): PokemonListParams {
@@ -32,4 +26,8 @@ export function pokemonDetailQueryKey(id: number) {
 
 export function pokemonFormQueryKey(id: number) {
   return ['pokemon', 'form', id] as const;
+}
+
+export function pokemonLearnsetQueryKey(id: number, locale: string) {
+  return ['pokemon', 'learnset', id, locale] as const;
 }

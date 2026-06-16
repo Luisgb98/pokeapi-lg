@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { resetRepository, setRepository } from '../../application/container';
-import { fetchPokemonById, fetchPokemonPage } from '../../application/actions/pokemon';
+import {
+  fetchPokemonById,
+  fetchPokemonFormById,
+  fetchPokemonPage,
+} from '../../application/actions/pokemon';
 import type { PokemonRepository } from '../../domain/ports/PokemonRepository';
 import type { Pokemon } from '../../domain/entities/Pokemon';
 import type { EvolutionChain } from '../../domain/entities/EvolutionChain';
@@ -18,6 +22,9 @@ const pikachu: Pokemon = {
   shinyArtwork: '',
   stats: { hp: 35, attack: 55, defense: 40, specialAttack: 50, specialDefense: 50, speed: 90 },
   evolutionChainId: 10,
+  height: 4,
+  weight: 60,
+  abilities: [{ name: 'static', isHidden: false }],
 };
 
 const chain: EvolutionChain = {
@@ -33,6 +40,7 @@ function mockRepo(overrides: Partial<PokemonRepository> = {}): PokemonRepository
     searchByNameWithEvolutions: vi.fn().mockResolvedValue([pikachu]),
     findSpeciesData: vi.fn(),
     findMoveLearnset: vi.fn().mockResolvedValue([]),
+    findAbilities: vi.fn().mockResolvedValue([]),
     ...overrides,
   };
 }
@@ -43,6 +51,21 @@ describe('fetchPokemonById', () => {
     const result = await fetchPokemonById(25);
     expect(result.id).toBe(25);
     expect(result.name).toBe('pikachu');
+  });
+});
+
+describe('fetchPokemonFormById', () => {
+  it('returns the pokemon when the repository finds it', async () => {
+    setRepository(mockRepo());
+    const result = await fetchPokemonFormById(25);
+    expect(result?.id).toBe(25);
+    expect(result?.name).toBe('pikachu');
+  });
+
+  it('returns null when the repository returns null', async () => {
+    setRepository(mockRepo({ findById: vi.fn().mockResolvedValue(null) }));
+    const result = await fetchPokemonFormById(9999);
+    expect(result).toBeNull();
   });
 });
 

@@ -38,6 +38,7 @@ function mockRepo(overrides: Partial<PokemonRepository> = {}): PokemonRepository
     searchByNameWithEvolutions: vi.fn().mockResolvedValue([pikachu, pichu]),
     findSpeciesData: vi.fn(),
     findMoveLearnset: vi.fn().mockResolvedValue([]),
+    findAbilities: vi.fn().mockResolvedValue([]),
     ...overrides,
   };
 }

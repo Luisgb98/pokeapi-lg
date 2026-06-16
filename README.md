@@ -14,7 +14,8 @@ A full-featured Pokédex built with Next.js 16, TypeScript, and Tailwind CSS 4. 
 - **Real-time search** with debouncing — matches names _and_ evolution lines (searching "Charmander" also surfaces Charmeleon and Charizard)
 - **Multi-select type filter** with Any/All match modes — e.g. "show me Pokémon that are both Water AND Flying"
 - **Multi-select generation filter** to narrow by era
-- **Favorites system** — heart any Pokémon, filter to show favorites only; persisted across sessions via Zustand + localStorage
+- **Favorites system** — heart any Pokémon, filter to show favorites only; persisted via Zustand + localStorage (guest) or synced to your account (signed in)
+- **User accounts** — sign in with GitHub OAuth to save your teams and favorites to the cloud; data syncs across all your devices
 
 ### Pokémon Detail Page
 
@@ -35,6 +36,7 @@ A full-featured Pokédex built with Next.js 16, TypeScript, and Tailwind CSS 4. 
 - **Full 18×18 type chart** — interactive attack vs. defense effectiveness grid
 - Click any team slot to open the Pokémon's detail page without losing your team
 - Team state persisted in a **cookie** (survives page reloads and server-side hydration)
+- Team sharing via URL (`/team?team=1,4,7,...`)
 
 ### Compare
 
@@ -43,12 +45,18 @@ A full-featured Pokédex built with Next.js 16, TypeScript, and Tailwind CSS 4. 
 - **Stat bars** with colour-coded per-slot highlighting and BST totals
 - State synced to the **URL via search params** — links are shareable
 
+### Type Effectiveness Calculator
+
+- Standalone tool at `/tools/type-calculator` — pick any one or two types
+- Groups attacking types by damage multiplier (×4, ×2, ×1, ½, ¼, ×0)
+
 ### Who's That Pokémon? (Daily Game)
 
-- Silhouette-guessing game with a **5-second countdown timer**
+- Silhouette-guessing game with a **30-second countdown timer**
 - **10 rounds** per daily challenge with score tracking
 - Correct, wrong, and timeout feedback after each round
-- **Daily rotation** — puzzle resets at midnight; progress persisted via Zustand (cookies)
+- **Daily rotation** — puzzle resets at midnight; progress persisted via Zustand (localStorage)
+- Result sharing via Web Share API / clipboard with a shareable URL
 
 ### Navigation & UX
 
@@ -126,10 +134,12 @@ return (
 | Client state  | Zustand v5 + `persist`        | Lightweight, cookie/localStorage persistence                |
 | i18n          | next-intl                     | 6 locales, locale-aware routing                             |
 | Drag & drop   | @dnd-kit/core + sortable      | Accessible, pointer + touch + keyboard support              |
+| Database      | PostgreSQL (Neon)             | Serverless HTTP driver, no connection-pool overhead         |
+| ORM           | Drizzle ORM + drizzle-kit     | TypeScript-first, thin, SQL migrations committed to repo    |
+| Auth          | Auth.js v4 (next-auth)        | GitHub OAuth, database sessions, Drizzle adapter            |
 | Validation    | Zod                           | Runtime schema validation inferred as TypeScript types      |
 | UI primitives | CVA + Radix UI                | Accessible headless components with typed variant API       |
 | Testing       | Vitest + MSW                  | Fast unit tests with real HTTP mocking (no fixture drift)   |
-| E2E           | Playwright                    | Critical user flow coverage                                 |
 | Deployment    | Vercel                        | Edge-optimized Next.js hosting                              |
 | Data source   | [PokéAPI](https://pokeapi.co) | Free, public REST API covering all generations              |
 
@@ -139,13 +149,40 @@ return (
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 22+
 - pnpm
+- A PostgreSQL database (Neon free tier works; any `postgres://` URL is fine)
+- A GitHub OAuth App (for sign-in — optional if you only need the Pokédex features)
 
 ### Install and run
 
 ```bash
 pnpm install
+```
+
+Copy the environment template and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+| Variable             | Where to get it                                                                |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `DATABASE_URL`       | Neon dashboard → Connection string                                             |
+| `AUTH_SECRET`        | `npx auth secret`                                                              |
+| `AUTH_GITHUB_ID`     | GitHub → Settings → Developer settings → OAuth Apps                            |
+| `AUTH_GITHUB_SECRET` | Same OAuth App; callback URL: `http://localhost:3000/api/auth/callback/github` |
+| `AUTH_URL`           | `http://localhost:3000` (dev) or your production domain                        |
+
+Apply database migrations:
+
+```bash
+pnpm db:migrate
+```
+
+Start the dev server:
+
+```bash
 pnpm dev
 ```
 
@@ -172,6 +209,9 @@ pnpm lint           # ESLint
 pnpm typecheck      # TypeScript check (no emit)
 pnpm format         # Prettier
 pnpm ci             # format + lint + typecheck + test:coverage + build (full CI gate)
+pnpm db:generate    # generate a new Drizzle migration from schema changes
+pnpm db:migrate     # apply pending migrations to the database
+pnpm db:studio      # open Drizzle Studio (visual database browser)
 ```
 
 ---
@@ -221,7 +261,9 @@ Pokédex flavor text (species entries) is fetched from PokéAPI in the active lo
 
 **`style=` props are banned** across the codebase. Runtime colour values use a Tailwind class map (`src/presentation/lib/typeColors.ts`) keyed by Pokémon type — no hex strings in components, no inline styles leaking outside the design system.
 
-**Cookie persistence for team and game state** was chosen over localStorage so that the Zustand store can hydrate on the server side without a flash of empty content on page load. The `teamBuilderStore` and `gameStore` use a custom `cookieStorage` adapter plugged into Zustand's `persist` middleware via `createJSONStorage`. The adapter reads and writes `document.cookie` with `SameSite=Lax; path=/; max-age=365d`, and guards every access with `typeof document === 'undefined'` so it is safely skipped during SSR. Because cookies are sent with every request, Next.js Server Components can read the stored team before the page renders — no hydration mismatch, no empty flash.
+**Cookie persistence for team and compare state** was chosen over localStorage so that the Zustand store can hydrate on the server side without a flash of empty content on page load. The `teamBuilderStore` and `compareStore` use a custom `cookieStorage` adapter plugged into Zustand's `persist` middleware via `createJSONStorage`. The adapter reads and writes `document.cookie` with `SameSite=Lax; path=/; max-age=365d`, and guards every access with `typeof document === 'undefined'` so it is safely skipped during SSR. Because cookies are sent with every request, Next.js Server Components can read the stored team before the page renders — no hydration mismatch, no empty flash.
+
+The `gameStore` uses **localStorage** persistence instead (`persist` name `'pokemon-game-v2'`, `skipHydration: true`). Game state is client-only and never rendered server-side, so localStorage avoids inflating cookie headers with data the server doesn't need.
 
 The `favoritesStore` uses the default `localStorage` persistence instead. Favorites are UI-only and never rendered server-side, so the brief client-only hydration gap is acceptable and localStorage avoids inflating cookie headers with data the server doesn't need.
 
@@ -238,7 +280,7 @@ The `favoritesStore` uses the default `localStorage` persistence instead. Favori
 | `src/infrastructure/pokeapi/cache.ts`             | In-memory request cache to reduce API calls    |
 | `src/application/container.ts`                    | Dependency injection wiring                    |
 | `src/presentation/store/teamBuilderStore.ts`      | Team state with cookie persistence             |
-| `src/presentation/store/gameStore.ts`             | Daily game state with cookie persistence       |
+| `src/presentation/store/gameStore.ts`             | Daily game state with localStorage persistence |
 | `src/presentation/lib/typeColors.ts`              | Pokémon type → Tailwind class map              |
 | `src/app/[locale]/team/page.tsx`                  | Team Builder page                              |
 | `src/app/[locale]/compare/page.tsx`               | Compare page                                   |

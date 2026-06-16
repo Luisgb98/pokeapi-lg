@@ -72,7 +72,8 @@
     "pokedex": "Pokédex",
     "teamBuilder": "Equipo",
     "compare": "Comparar",
-    "game": "¿Quién es?",
+    "game": "Juegos",
+    "favorites": "Favoritos",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -100,7 +101,20 @@
     "membersResist": "{count} resiste",
     "memberImmune": "{count} inmune",
     "pickerTitle": "Añadir Pokémon",
-    "searchHint": "Escribe al menos 2 caracteres para buscar"
+    "searchHint": "Escribe al menos 2 caracteres para buscar",
+    "shareTeam": "Compartir equipo",
+    "shareCopied": "¡Copiado!",
+    "shareTitle": "Mira mi equipo Pokémon",
+    "addFavorites": "Añadir favoritos",
+    "addFavoritesHintImporting": "Añadiendo tus favoritos…",
+    "addFavoritesHintFull": "Tu equipo ya está completo",
+    "addFavoritesHintEmpty": "Aún no has marcado ningún Pokémon como favorito",
+    "addFavoritesHintAllAdded": "Todos tus favoritos ya están en el equipo",
+    "addFavoritesHintReady": "Añade {count} Pokémon favoritos a tu equipo",
+    "offenseTitle": "Cobertura Ofensiva",
+    "offenseSubtitle": "Basado en los tipos del equipo (solo STAB)",
+    "offenseGaps": "Sin cobertura superefectiva:",
+    "offenseNoGaps": "Tu equipo cubre todos los tipos de forma superefectiva"
   },
   "typeChart": {
     "title": "Defensa de Tipos",
@@ -133,7 +147,9 @@
     "remove": "Eliminar {name} de favoritos",
     "filterLabel": "Mostrar solo favoritos",
     "empty": "Aún no hay favoritos",
-    "emptyHint": "Toca el corazón en cualquier tarjeta para guardarlo aquí"
+    "emptyHint": "Toca el corazón en cualquier tarjeta para guardarlo aquí",
+    "heading": "Tus favoritos",
+    "subtitle": "Todos los Pokémon que has marcado, en un solo lugar."
   },
   "species": {
     "section": "Entrada del Pokédex",
@@ -189,6 +205,127 @@
     "loading": "Cargando…",
     "roundOf": "Ronda {current}/{total}",
     "gameOver": "¡Reto completado!",
-    "gameOverSubtitle": "Vuelve mañana para un nuevo reto"
+    "gameOverSubtitle": "Vuelve mañana para un nuevo reto",
+    "shareResult": "Compartir resultado",
+    "shareCopied": "¡Copiado!",
+    "sharedResultTitle": "Resultado del reto",
+    "playToday": "Jugar el reto de hoy",
+    "streakLabel": "Racha: {count} 🔥",
+    "bestLabel": "Mejor: {best}/10",
+    "typeQuizCta": "Prueba el Quiz de tipos →"
+  },
+  "typeQuiz": {
+    "heading": "Quiz de tipos",
+    "subtitle": "Reto diario — ¿qué tipo golpea más fuerte?",
+    "question": "¿Qué tipo es superefectivo contra…?",
+    "correct": "¡Correcto!",
+    "wrong": "¡Incorrecto! La respuesta era {type}",
+    "timeout": "¡Tiempo! La respuesta era {type}",
+    "nextRound": "Siguiente ronda",
+    "roundOf": "Ronda {current}/{total}",
+    "gameOver": "¡Reto completado!",
+    "gameOverSubtitle": "Vuelve mañana para un nuevo reto",
+    "streakLabel": "Racha: {count} 🔥",
+    "bestLabel": "Mejor: {best}/10"
+  },
+  "gamesHub": {
+    "heading": "Juegos",
+    "subtitle": "Retos diarios de Pokémon — uno nuevo cada día",
+    "modes": {
+      "whosThat": {
+        "title": "¿Quién es ese Pokémon?",
+        "blurb": "Nombra al Pokémon por su silueta"
+      },
+      "typeQuiz": {
+        "title": "Quiz de tipos",
+        "blurb": "Elige el tipo súper efectivo antes de que se acabe el tiempo"
+      }
+    }
+  },
+  "typeCalculator": {
+    "heading": "Calculadora de tipos",
+    "subtitle": "Selecciona hasta dos tipos para ver sus matchups defensivos",
+    "selectPrompt": "Selecciona un tipo para comenzar",
+    "immune": "Inmune",
+    "quadWeak": "4× Débil",
+    "doubleWeak": "2× Débil",
+    "halfResist": "½× Resistencia",
+    "quarterResist": "¼× Resistencia"
+  },
+  "about": {
+    "section": "Acerca de",
+    "height": "Altura",
+    "weight": "Peso",
+    "abilities": "Habilidades",
+    "hidden": "Oculta"
+  },
+  "statCalculator": {
+    "heading": "Calculadora de Estadísticas",
+    "subtitle": "Calcula las estadísticas reales a partir del nivel, naturaleza, IVs y EVs",
+    "level": "Nivel",
+    "nature": "Naturaleza",
+    "base": "Base",
+    "iv": "IV",
+    "ev": "EV",
+    "result": "Stat",
+    "evTotal": "Total EV: {used} / {max}",
+    "evWarning": "El total de EVs supera el máximo legal de 510",
+    "pokemonId": "Número de Pokédex",
+    "load": "Cargar",
+    "statHp": "PS",
+    "statAttack": "Ataque",
+    "statDefense": "Defensa",
+    "statSpecialAttack": "Atq. Esp.",
+    "statSpecialDefense": "Def. Esp.",
+    "statSpeed": "Velocidad"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "account": "Cuenta",
+    "guest": "Invitado"
+  },
+  "import": {
+    "title": "Guarda tu progreso",
+    "favorites": "{count} favoritos",
+    "team": "{count} miembros del equipo",
+    "comparison": "1 comparación",
+    "importButton": "Importar a la cuenta",
+    "skip": "Omitir",
+    "importing": "Importando…"
+  },
+  "account": {
+    "title": "Mi cuenta",
+    "subtitle": "Gestiona tus equipos guardados",
+    "signInPrompt": "Inicia sesión para guardar equipos",
+    "signInDetail": "Tu progreso se sincroniza en todos tus dispositivos.",
+    "signInButton": "Iniciar sesión con GitHub",
+    "empty": "Aún no hay equipos guardados.",
+    "members": "{count} miembros",
+    "load": "Cargar",
+    "delete": "Eliminar"
+  },
+  "teamBuild": {
+    "configure": "Configurar set",
+    "configureShort": "Configurar",
+    "ability": "Habilidad",
+    "hiddenAbility": "Oculta",
+    "nature": "Naturaleza",
+    "level": "Nivel",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "Presupuesto EV: {remaining} restantes",
+    "moves": "Movimientos",
+    "selectUpToFour": "Selecciona hasta 4 movimientos",
+    "finalStats": "Stats finales",
+    "save": "Guardar set",
+    "cancel": "Cancelar",
+    "reset": "Reiniciar",
+    "searchMoves": "Buscar movimientos…",
+    "noMoves": "No se encontraron movimientos",
+    "loadingMoves": "Cargando learnset…",
+    "validationError": "El set tiene errores. Revisa tus selecciones.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutral)"
   }
 }

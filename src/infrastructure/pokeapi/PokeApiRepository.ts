@@ -1,3 +1,4 @@
+import type { Ability } from '../../domain/entities/Ability';
 import type { EvolutionChain } from '../../domain/entities/EvolutionChain';
 import { flattenChainNames } from '../../domain/entities/EvolutionChain';
 import type { LearnedMove, LearnMethod } from '../../domain/entities/Move';
@@ -5,6 +6,7 @@ import { LEARN_METHODS } from '../../domain/entities/Move';
 import type {
   Generation,
   Pokemon,
+  PokemonAbilityRef,
   PokemonSummary,
   PokemonType,
 } from '../../domain/entities/Pokemon';
@@ -23,6 +25,7 @@ import type {
 } from '../../domain/ports/PokemonRepository';
 import { getOrFetch, TtlCache } from './cache';
 import {
+  mapAbility,
   mapEvolutionChain,
   mapMove,
   mapPokemon,
@@ -30,6 +33,7 @@ import {
   mapPokemonSummary,
 } from './mappers';
 import type {
+  PokeApiAbility,
   PokeApiEvolutionChain,
   PokeApiMove,
   PokeApiNamedResource,
@@ -78,41 +82,54 @@ async function fetchJson<T>(url: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+function is404Error(error: unknown): boolean {
+  return error instanceof Error && error.message.startsWith('PokeAPI error 404 ');
+}
+
 export class PokeApiRepository implements PokemonRepository {
   /** Full list of all named Pokémon (name + url) — fetched once */
   private readonly allPokemonCache = new TtlCache<'all', PokeApiNamedResource[]>(LIST_TTL);
+  private readonly allPokemonInFlight = new Map<'all', Promise<PokeApiNamedResource[]>>();
   /** type-name → list of pokemon ids in that type */
   private readonly typeCache = new TtlCache<PokemonType, Set<number>>(LIST_TTL);
+  private readonly typeInFlight = new Map<PokemonType, Promise<Set<number>>>();
   /** pokemon id → full PokeApiPokemon */
   private readonly pokemonCache = new TtlCache<number, PokeApiPokemon>(DETAIL_TTL);
+  private readonly pokemonInFlight = new Map<number, Promise<PokeApiPokemon>>();
   /** species id → PokeApiSpecies */
   private readonly speciesCache = new TtlCache<number, PokeApiSpecies>(DETAIL_TTL);
+  private readonly speciesInFlight = new Map<number, Promise<PokeApiSpecies>>();
   /** evolution chain id → mapped EvolutionChain */
   private readonly chainCache = new TtlCache<number, EvolutionChain>(DETAIL_TTL);
+  private readonly chainInFlight = new Map<number, Promise<EvolutionChain>>();
   /** move id → PokeApiMove */
   private readonly moveCache = new TtlCache<number, PokeApiMove>(DETAIL_TTL);
+  private readonly moveInFlight = new Map<number, Promise<PokeApiMove>>();
+  /** ability slug → PokeApiAbility */
+  private readonly abilityCache = new TtlCache<string, PokeApiAbility>(DETAIL_TTL);
+  private readonly abilityInFlight = new Map<string, Promise<PokeApiAbility>>();
 
   private async fetchAllPokemon(): Promise<PokeApiNamedResource[]> {
-    return getOrFetch(this.allPokemonCache, 'all', async () => {
+    return getOrFetch(this.allPokemonCache, this.allPokemonInFlight, 'all', async () => {
       const data = await fetchJson<PokeApiPaginatedResponse>(`${BASE_URL}/pokemon?limit=10000`);
       return data.results;
     });
   }
 
   private async fetchPokemon(id: number): Promise<PokeApiPokemon> {
-    return getOrFetch(this.pokemonCache, id, () =>
+    return getOrFetch(this.pokemonCache, this.pokemonInFlight, id, () =>
       fetchJson<PokeApiPokemon>(`${BASE_URL}/pokemon/${id}`),
     );
   }
 
   private async fetchSpecies(id: number): Promise<PokeApiSpecies> {
-    return getOrFetch(this.speciesCache, id, () =>
+    return getOrFetch(this.speciesCache, this.speciesInFlight, id, () =>
       fetchJson<PokeApiSpecies>(`${BASE_URL}/pokemon-species/${id}`),
     );
   }
 
   private async fetchTypeIds(type: PokemonType): Promise<Set<number>> {
-    return getOrFetch(this.typeCache, type, async () => {
+    return getOrFetch(this.typeCache, this.typeInFlight, type, async () => {
       const data = await fetchJson<PokeApiTypeDetail>(`${BASE_URL}/type/${type}`);
       const ids = new Set<number>();
       for (const entry of data.pokemon) {
@@ -181,8 +198,9 @@ export class PokeApiRepository implements PokemonRepository {
       const species = await this.fetchSpecies(speciesId);
       const chainId = extractIdFromUrl(species.evolution_chain.url);
       return mapPokemon(rawPokemon, chainId);
-    } catch {
-      return null;
+    } catch (error) {
+      if (is404Error(error)) return null;
+      throw error;
     }
   }
 
@@ -192,13 +210,13 @@ export class PokeApiRepository implements PokemonRepository {
   }
 
   async findEvolutionChain(chainId: number): Promise<EvolutionChain> {
-    return getOrFetch(this.chainCache, chainId, async () => {
+    return getOrFetch(this.chainCache, this.chainInFlight, chainId, async () => {
       const raw = await fetchJson<PokeApiEvolutionChain>(`${BASE_URL}/evolution-chain/${chainId}`);
       return mapEvolutionChain(raw);
     });
   }
 
-  async findMoveLearnset(id: number): Promise<readonly LearnedMove[]> {
+  async findMoveLearnset(id: number, locale: string): Promise<readonly LearnedMove[]> {
     const rawPokemon = await this.fetchPokemon(id);
     const rawMoves = rawPokemon.moves ?? [];
 
@@ -237,18 +255,32 @@ export class PokeApiRepository implements PokemonRepository {
     const uniqueMoveIds = [...new Set(entries.map((e) => e.moveId))];
     const moveDetails = await Promise.all(
       uniqueMoveIds.map((moveId) =>
-        getOrFetch(this.moveCache, moveId, () =>
+        getOrFetch(this.moveCache, this.moveInFlight, moveId, () =>
           fetchJson<PokeApiMove>(`${BASE_URL}/move/${moveId}`),
         ),
       ),
     );
-    const moveById = new Map(moveDetails.map((m) => [m.id, mapMove(m)]));
+    const moveById = new Map(moveDetails.map((m) => [m.id, mapMove(m, locale)]));
 
     return entries.flatMap((entry) => {
       const move = moveById.get(entry.moveId);
       if (!move) return [];
       return [{ move, learnMethod: entry.learnMethod, levelLearnedAt: entry.levelLearnedAt }];
     });
+  }
+
+  async findAbilities(
+    refs: readonly PokemonAbilityRef[],
+    locale: string,
+  ): Promise<readonly Ability[]> {
+    const raws = await Promise.all(
+      refs.map((ref) =>
+        getOrFetch(this.abilityCache, this.abilityInFlight, ref.name, () =>
+          fetchJson<PokeApiAbility>(`${BASE_URL}/ability/${ref.name}`),
+        ),
+      ),
+    );
+    return raws.map((raw, i) => mapAbility(raw, refs[i].isHidden, locale));
   }
 
   async searchByNameWithEvolutions(
@@ -267,7 +299,12 @@ export class PokeApiRepository implements PokemonRepository {
 
     if (directMatches.length === 0) return [];
 
-    // Step 2: fetch species for each match to get evolution chain IDs
+    // Step 2: fetch species for each match to get evolution chain IDs.
+    // All N fetches fire concurrently intentionally — serialising to skip chain
+    // duplicates early would add latency on the hot search path. The cost is
+    // bounded: fetchSpecies is backed by a TTL cache + inFlight dedup map, so
+    // repeated lookups after the first search are O(1) cache hits and concurrent
+    // duplicate requests within the same tick are coalesced into one network call.
     const matchIds = directMatches.map((p) => extractIdFromUrl(p.url));
     const speciesData = await Promise.all(matchIds.map((id) => this.fetchSpecies(id)));
 

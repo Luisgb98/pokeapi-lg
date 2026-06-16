@@ -72,7 +72,8 @@
     "pokedex": "Pokédex",
     "teamBuilder": "Team Builder",
     "compare": "Compare",
-    "game": "Who's That?",
+    "game": "Games",
+    "favorites": "Favorites",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -100,7 +101,20 @@
     "membersResist": "{count} resist",
     "memberImmune": "{count} immune",
     "pickerTitle": "Add Pokémon",
-    "searchHint": "Type at least 2 characters to search"
+    "searchHint": "Type at least 2 characters to search",
+    "shareTeam": "Share Team",
+    "shareCopied": "Copied!",
+    "shareTitle": "Check out my Pokémon team",
+    "addFavorites": "Add favorites",
+    "addFavoritesHintImporting": "Adding your favorites…",
+    "addFavoritesHintFull": "Your team is already full",
+    "addFavoritesHintEmpty": "You haven't favorited any Pokémon yet",
+    "addFavoritesHintAllAdded": "All your favorites are already on the team",
+    "addFavoritesHintReady": "Add {count} favorite Pokémon to your team",
+    "offenseTitle": "Offensive Coverage",
+    "offenseSubtitle": "Based on your team's own types (STAB only)",
+    "offenseGaps": "Not hit super-effectively:",
+    "offenseNoGaps": "Your team hits every type super-effectively"
   },
   "typeChart": {
     "title": "Type Defenses",
@@ -117,7 +131,9 @@
     "remove": "Remove {name} from favorites",
     "filterLabel": "Show favorites only",
     "empty": "No favorites yet",
-    "emptyHint": "Tap the heart on any Pokémon card to save it here"
+    "emptyHint": "Tap the heart on any Pokémon card to save it here",
+    "heading": "Your Favorites",
+    "subtitle": "Every Pokémon you've hearted, in one place."
   },
   "compare": {
     "heading": "Compare",
@@ -189,6 +205,127 @@
     "loading": "Loading…",
     "roundOf": "Round {current}/{total}",
     "gameOver": "Challenge Complete!",
-    "gameOverSubtitle": "Come back tomorrow for a new challenge"
+    "gameOverSubtitle": "Come back tomorrow for a new challenge",
+    "shareResult": "Share Result",
+    "shareCopied": "Copied!",
+    "sharedResultTitle": "Challenge Result",
+    "playToday": "Play Today's Challenge",
+    "streakLabel": "Streak: {count} 🔥",
+    "bestLabel": "Best: {best}/10",
+    "typeQuizCta": "Try the Type Quiz →"
+  },
+  "typeQuiz": {
+    "heading": "Type Quiz",
+    "subtitle": "Daily challenge — which type hits hardest?",
+    "question": "Which type is super-effective against…?",
+    "correct": "Correct!",
+    "wrong": "Wrong! The answer was {type}",
+    "timeout": "Time's up! The answer was {type}",
+    "nextRound": "Next Round",
+    "roundOf": "Round {current}/{total}",
+    "gameOver": "Challenge Complete!",
+    "gameOverSubtitle": "Come back tomorrow for a new challenge",
+    "streakLabel": "Streak: {count} 🔥",
+    "bestLabel": "Best: {best}/10"
+  },
+  "gamesHub": {
+    "heading": "Games",
+    "subtitle": "Daily Pokémon challenges — a new one every day",
+    "modes": {
+      "whosThat": {
+        "title": "Who's That Pokémon?",
+        "blurb": "Name the Pokémon from its silhouette"
+      },
+      "typeQuiz": {
+        "title": "Type Quiz",
+        "blurb": "Pick the super-effective type before time runs out"
+      }
+    }
+  },
+  "typeCalculator": {
+    "heading": "Type Calculator",
+    "subtitle": "Select up to two types to see their defensive matchups",
+    "selectPrompt": "Select a type to get started",
+    "immune": "Immune",
+    "quadWeak": "4× Weak",
+    "doubleWeak": "2× Weak",
+    "halfResist": "½× Resist",
+    "quarterResist": "¼× Resist"
+  },
+  "about": {
+    "section": "About",
+    "height": "Height",
+    "weight": "Weight",
+    "abilities": "Abilities",
+    "hidden": "Hidden"
+  },
+  "statCalculator": {
+    "heading": "Stat Calculator",
+    "subtitle": "Compute real stats from level, nature, IVs and EVs",
+    "level": "Level",
+    "nature": "Nature",
+    "base": "Base",
+    "iv": "IV",
+    "ev": "EV",
+    "result": "Stat",
+    "evTotal": "EV total: {used} / {max}",
+    "evWarning": "EV total exceeds the legal maximum of 510",
+    "pokemonId": "Pokédex number",
+    "load": "Load",
+    "statHp": "HP",
+    "statAttack": "Attack",
+    "statDefense": "Defense",
+    "statSpecialAttack": "Sp. Atk",
+    "statSpecialDefense": "Sp. Def",
+    "statSpeed": "Speed"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "account": "Account",
+    "guest": "Guest"
+  },
+  "import": {
+    "title": "Save your progress",
+    "favorites": "{count} favorites",
+    "team": "{count} team members",
+    "comparison": "1 comparison",
+    "importButton": "Import to account",
+    "skip": "Skip",
+    "importing": "Importing…"
+  },
+  "account": {
+    "title": "My Account",
+    "subtitle": "Manage your saved teams",
+    "signInPrompt": "Sign in to save your teams",
+    "signInDetail": "Your progress syncs across all your devices.",
+    "signInButton": "Sign in with GitHub",
+    "empty": "No saved teams yet. Build a team and save it to your account.",
+    "members": "{count} members",
+    "load": "Load",
+    "delete": "Delete"
+  },
+  "teamBuild": {
+    "configure": "Configure Build",
+    "configureShort": "Configure",
+    "ability": "Ability",
+    "hiddenAbility": "Hidden",
+    "nature": "Nature",
+    "level": "Level",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "EV budget: {remaining} remaining",
+    "moves": "Moves",
+    "selectUpToFour": "Select up to 4 moves",
+    "finalStats": "Final Stats",
+    "save": "Save Build",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "searchMoves": "Search moves…",
+    "noMoves": "No moves found",
+    "loadingMoves": "Loading learnset…",
+    "validationError": "Build has errors. Please check your selections.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutral)"
   }
 }

@@ -2,7 +2,7 @@
 
 ## Stack
 
-- **Next.js 15** (App Router) · **TypeScript** · **Tailwind CSS 4** · **TanStack Query** · **Zustand** · **Vitest**
+- **Next.js 16** (App Router) · **TypeScript** · **Tailwind CSS 4** · **TanStack Query** · **Zustand** · **Vitest**
 - Package manager: `pnpm`
 - Path alias: `@/` → `src/`
 
@@ -13,12 +13,20 @@
 ```
 src/
 ├── app/                  # Next.js App Router (MUST stay here — Next.js constraint)
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── pokemon/[id]/page.tsx
+│   ├── [locale]/         # next-intl locale segment wraps all pages
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── pokemon/[id]/page.tsx
+│   │   ├── compare/  game/  team/
+│   │   └── tools/type-calculator/
+│   └── api/og/[id]/      # OG image route handler
 ├── domain/               # Entities, value objects, port interfaces — zero deps
 ├── application/          # Use cases, container — imports only domain
-├── infrastructure/       # PokeAPI adapter — implements domain ports
+├── infrastructure/       # Adapters — implements domain ports
+│   ├── pokeapi/          # PokeApiRepository (HTTP + in-memory cache)
+│   ├── db/               # Drizzle ORM: schema.ts, client.ts, migrations/, env.ts
+│   │                     # DrizzleUserDataRepository.ts implements UserDataRepository
+│   └── auth/             # Auth.js v4: config.ts (GitHub OAuth + DrizzleAdapter), session.ts
 └── presentation/         # React layer — components, hooks, store, queries, lib
     ├── components/
     │   ├── atoms/
@@ -47,12 +55,67 @@ src/
 
 ---
 
+## User Accounts — PostgreSQL + Auth.js (Plan 032)
+
+### Infrastructure layers
+
+- **`infrastructure/db/schema.ts`** — Drizzle schema: Auth.js adapter tables (`user`, `account`, `session`, `verificationToken`) + app tables (`favorites`, `teams`, `team_members`, `comparisons`). Column names must match `@auth/drizzle-adapter` exactly.
+- **`infrastructure/db/client.ts`** — Neon HTTP singleton (`getDb()`). Never import directly from `presentation/`; go through server actions.
+- **`infrastructure/db/migrations/`** — Generated SQL committed to the repo. Run `pnpm db:migrate` to apply.
+- **`infrastructure/db/env.ts`** — Zod-validates required env vars at startup (`getEnv()`). Call resets via `resetEnv()` in tests.
+- **`infrastructure/auth/config.ts`** — Auth.js v4 `NextAuthOptions`: `DrizzleAdapter`, GitHub provider, `session: { strategy: 'database' }`. Session callback exposes `session.user.id`.
+- **`infrastructure/auth/session.ts`** — `getServerSession()` wrapper for use in server actions and RSCs.
+
+### Domain port
+
+- **`domain/ports/UserDataRepository.ts`** — Interface only. Methods: `getFavorites`, `setFavorite`, `listTeams`, `getTeam`, `saveTeam`, `deleteTeam`, `listComparisons`, `saveComparison`, `deleteComparison`.
+- **`domain/entities/SavedTeam.ts`** / **`SavedComparison.ts`** — Readonly domain entity interfaces.
+- **`infrastructure/db/DrizzleUserDataRepository.ts`** — Implements the port. **Every query is scoped by `userId`** — never trust a client-supplied userId.
+
+### Server actions
+
+- **`application/actions/userData.ts`** — `'use server'`. All actions: call `requireUserId()` first (rejects unauthenticated), then `safeParse` every argument via Zod, then delegate to `getUserDataRepository()`.
+
+### Client dual-mode hooks
+
+| Hook                  | Behaviour                                                                                                                               |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `useFavoritesSync`    | Guest → delegates to `useFavoritesStore` (localStorage). Authenticated → TanStack Query fetch + optimistic server toggle with rollback. |
+| `useSavedTeams`       | Authenticated only — list/save/delete server-persisted named teams.                                                                     |
+| `useSavedComparisons` | Authenticated only — list/save/delete server-persisted named comparisons.                                                               |
+| `useLocalImport`      | Fires once on first sign-in if local guest data exists; offers one-click import; sets `pokemon-import-v1` flag when done.               |
+
+**Guest mode is always the default.** Local stores (`favoritesStore`, `teamBuilderStore`, `compareStore`) continue to work identically when logged out. The DB is additive; never gate existing features behind auth.
+
+### Required environment variables
+
+```
+DATABASE_URL=postgres://...          # Neon / Vercel Postgres connection string
+AUTH_SECRET=...                      # Generate with: npx auth secret
+AUTH_GITHUB_ID=...                   # GitHub OAuth App client ID
+AUTH_GITHUB_SECRET=...               # GitHub OAuth App client secret
+NEXTAUTH_URL=http://localhost:3000   # next-auth v4 base URL; optional on Vercel (auto-detected)
+# AUTH_TRUST_HOST=true               # set when self-hosting behind a reverse proxy
+```
+
+Copy `.env.example` → `.env.local`. **Never commit real secrets.** `AUTH_SECRET` and the GitHub credentials must never carry a `NEXT_PUBLIC_` prefix.
+
+### DB commands
+
+```bash
+pnpm db:generate   # generate migration from schema changes
+pnpm db:migrate    # apply pending migrations to the DB
+pnpm db:studio     # open Drizzle Studio (visual DB browser)
+```
+
+---
+
 ## SSR — Server Components First
 
 **Default: every page and layout is an async Server Component.**
 
 ```tsx
-// app/page.tsx — prefetch pattern for pages with interactive client children
+// app/[locale]/page.tsx — prefetch pattern for pages with interactive client children
 export default async function HomePage() {
   const queryClient = new QueryClient();
   const repository = getRepository();
@@ -65,7 +128,7 @@ export default async function HomePage() {
   );
 }
 
-// app/pokemon/[id]/page.tsx — pure Server Component with generateMetadata
+// app/[locale]/pokemon/[id]/page.tsx — pure Server Component with generateMetadata
 export async function generateMetadata({ params }) { ... }
 
 export default async function PokemonDetailPage({ params }) {

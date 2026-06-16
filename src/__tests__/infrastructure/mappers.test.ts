@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  mapAbility,
   mapEvolutionChain,
   mapMove,
   mapPokemon,
@@ -8,9 +9,11 @@ import {
 } from '../../infrastructure/pokeapi/mappers';
 import {
   bulbasaurRaw,
+  lightningRodAbility,
   pikachuChain,
   pikachuRaw,
   pikachuSpecies,
+  staticAbility,
   thundershockMove,
 } from '../mocks/fixtures';
 
@@ -80,6 +83,20 @@ describe('mapPokemon', () => {
     expect(result.shinyArtwork).toBe('https://artwork.pokemon.com/shiny/pikachu.png');
   });
 
+  it('maps height and weight from raw', () => {
+    const result = mapPokemon(pikachuRaw, 10);
+    expect(result.height).toBe(4);
+    expect(result.weight).toBe(60);
+  });
+
+  it('maps abilities sorted by slot with isHidden preserved', () => {
+    const result = mapPokemon(pikachuRaw, 10);
+    expect(result.abilities).toEqual([
+      { name: 'static', isHidden: false },
+      { name: 'lightning-rod', isHidden: true },
+    ]);
+  });
+
   it('falls back to computed shiny artwork URL when sprites shiny field is null', () => {
     const noShiny = {
       ...pikachuRaw,
@@ -96,6 +113,13 @@ describe('mapPokemon', () => {
     const result = mapPokemon(noShiny, 10);
     expect(result.shinyArtwork).toContain('shiny');
     expect(result.shinyArtwork).toContain('25');
+  });
+
+  it('defaults missing stats to 0', () => {
+    const noStats = { ...pikachuRaw, stats: [] };
+    const result = mapPokemon(noStats, 10);
+    expect(result.stats.hp).toBe(0);
+    expect(result.stats.attack).toBe(0);
   });
 });
 
@@ -129,6 +153,22 @@ describe('mapEvolutionChain', () => {
 });
 
 describe('mapPokemonSpecies', () => {
+  it('returns localizedName from the matching locale entry', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'de');
+    expect(result.localizedName).toBe('Pikachu');
+  });
+
+  it('falls back to English localizedName when locale has no names entry', () => {
+    const result = mapPokemonSpecies(pikachuSpecies, 'pt');
+    expect(result.localizedName).toBe('Pikachu');
+  });
+
+  it('falls back to formatted slug for localizedName when names array is empty', () => {
+    const noNames = { ...pikachuSpecies, names: [] };
+    const result = mapPokemonSpecies(noNames, 'en');
+    expect(result.localizedName).toBe('Pikachu');
+  });
+
   it('maps genus for the requested locale', () => {
     const result = mapPokemonSpecies(pikachuSpecies, 'es');
     expect(result.genus).toBe('Ratón Pokémon');
@@ -174,9 +214,53 @@ describe('mapPokemonSpecies', () => {
   });
 });
 
+describe('mapAbility', () => {
+  it('maps localized display name for the given locale', () => {
+    const result = mapAbility(staticAbility, false, 'de');
+    expect(result.displayName).toBe('Statik');
+  });
+
+  it('falls back to English name when locale has no entry', () => {
+    const result = mapAbility(staticAbility, false, 'pt');
+    expect(result.displayName).toBe('Static');
+  });
+
+  it('maps localized flavor text for the given locale', () => {
+    const result = mapAbility(staticAbility, false, 'de');
+    expect(result.effect).toContain('lähmen');
+  });
+
+  it('falls back to English flavor text when locale has no entry', () => {
+    const result = mapAbility(lightningRodAbility, true, 'pt');
+    expect(result.effect).toContain('Electric-type');
+  });
+
+  it('cleans whitespace characters from flavor text', () => {
+    const result = mapAbility(staticAbility, false, 'en');
+    expect(result.effect).not.toMatch(/[\f\n]/);
+  });
+
+  it('maps isHidden correctly', () => {
+    expect(mapAbility(staticAbility, false, 'en').isHidden).toBe(false);
+    expect(mapAbility(lightningRodAbility, true, 'en').isHidden).toBe(true);
+  });
+
+  it('falls back to formatted slug when no names exist', () => {
+    const noNames = { ...staticAbility, names: [] };
+    const result = mapAbility(noNames, false, 'en');
+    expect(result.displayName).toBe('Static');
+  });
+
+  it('returns empty string for effect when no flavor text entries exist', () => {
+    const noFlavors = { ...staticAbility, flavor_text_entries: [] };
+    const result = mapAbility(noFlavors, false, 'en');
+    expect(result.effect).toBe('');
+  });
+});
+
 describe('mapMove', () => {
   it('maps all fields correctly', () => {
-    const result = mapMove(thundershockMove);
+    const result = mapMove(thundershockMove, 'en');
     expect(result.id).toBe(84);
     expect(result.name).toBe('thundershock');
     expect(result.displayName).toBe('ThunderShock');
@@ -187,9 +271,19 @@ describe('mapMove', () => {
     expect(result.pp).toBe(30);
   });
 
+  it('returns the localized name when a matching locale entry exists', () => {
+    const result = mapMove(thundershockMove, 'de');
+    expect(result.displayName).toBe('Donnerschock');
+  });
+
+  it('falls back to English name when locale has no entry', () => {
+    const result = mapMove(thundershockMove, 'pt');
+    expect(result.displayName).toBe('ThunderShock');
+  });
+
   it('falls back to formatted name when no English name entry exists', () => {
     const noEnName = { ...thundershockMove, names: [] };
-    const result = mapMove(noEnName);
+    const result = mapMove(noEnName, 'en');
     expect(result.displayName).toBe('Thundershock');
   });
 });

@@ -7,17 +7,20 @@ import { PokemonDetailHeader } from '@/presentation/components/organisms/Pokemon
 import { EvolutionChainView } from '@/presentation/components/organisms/EvolutionChainView';
 import { TypeMatchupTable } from '@/presentation/components/organisms/TypeMatchupTable';
 import { getRepository } from '@/application/container';
+import { getAbilities } from '@/application/usecases/getAbilities';
 import { getPokemonById, PokemonNotFoundError } from '@/application/usecases/getPokemonById';
 import { getMoveLearnset } from '@/application/usecases/getMoveLearnset';
 import { getSpeciesData } from '@/application/usecases/getSpeciesData';
 import { POKEMON_TYPES } from '@/domain/entities/Pokemon';
 import { MoveLearnsetTable } from '@/presentation/components/organisms/MoveLearnsetTable';
+import { PokemonAboutSection } from '@/presentation/components/organisms/PokemonAboutSection';
 import { SpeciesInfoSection } from '@/presentation/components/organisms/SpeciesInfoSection';
+import { ScrollReset } from '@/presentation/components/atoms/ScrollReset';
 import { routing } from '@/i18n/routing';
 
 export async function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
-    Array.from({ length: 151 }, (_, i) => ({ locale, id: String(i + 1) })),
+    Array.from({ length: 1025 }, (_, i) => ({ locale, id: String(i + 1) })),
   );
 }
 
@@ -38,21 +41,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'detail' });
     const tMeta = await getTranslations({ locale, namespace: 'metadata' });
     const repository = getRepository();
-    const { pokemon } = await getPokemonById(repository, numericId);
+    const [{ pokemon }, species] = await Promise.all([
+      getPokemonById(repository, numericId),
+      getSpeciesData(repository, numericId, locale),
+    ]);
+    const name = species.localizedName || pokemon.displayName;
 
     return {
-      title: pokemon.displayName,
-      description: t('metaDescription', { name: pokemon.displayName }),
+      title: name,
+      description: t('metaDescription', { name }),
       openGraph: {
-        title: `${pokemon.displayName} — ${tMeta('siteTitle')}`,
-        description: t('metaDescription', { name: pokemon.displayName }),
-        images: [
-          { url: `/api/og/${numericId}`, width: 1200, height: 630, alt: pokemon.displayName },
-        ],
+        title: `${name} — ${tMeta('siteTitle')}`,
+        description: t('metaDescription', { name }),
+        images: [{ url: `/api/og/${numericId}`, width: 1200, height: 630, alt: name }],
       },
       twitter: {
         card: 'summary_large_image',
-        title: `${pokemon.displayName} — ${tMeta('siteTitle')}`,
+        title: `${name} — ${tMeta('siteTitle')}`,
         images: [`/api/og/${numericId}`],
       },
     };
@@ -69,25 +74,27 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
     notFound();
   }
 
-  const [t, tTypes, tTypeChart, tSpecies] = await Promise.all([
+  const [t, tTypes, tTypeChart, tSpecies, tAbout] = await Promise.all([
     getTranslations('detail'),
     getTranslations('types'),
     getTranslations('typeChart'),
     getTranslations('species'),
+    getTranslations('about'),
   ]);
 
-  let pokemon, evolutionChain, species, learnset;
+  let pokemon, evolutionChain, species, learnset, abilities;
   try {
     const repository = getRepository();
     const [pokemonResult, speciesResult, learnsetResult] = await Promise.all([
       getPokemonById(repository, numericId),
       getSpeciesData(repository, numericId, locale),
-      getMoveLearnset(repository, numericId),
+      getMoveLearnset(repository, numericId, locale),
     ]);
     pokemon = pokemonResult.pokemon;
     evolutionChain = pokemonResult.evolutionChain;
     species = speciesResult;
     learnset = learnsetResult;
+    abilities = await getAbilities(repository, pokemon.abilities, locale);
   } catch (error) {
     unstable_rethrow(error);
     if (error instanceof PokemonNotFoundError) {
@@ -102,7 +109,13 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
 
   return (
     <div className="min-h-dvh bg-stone-50 dark:bg-stone-950">
-      <PokemonDetailHeader pokemon={pokemon} backTo={from} varieties={species.varieties} />
+      <ScrollReset />
+      <PokemonDetailHeader
+        pokemon={pokemon}
+        backTo={from}
+        varieties={species.varieties}
+        displayNameOverride={species.localizedName || undefined}
+      />
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
@@ -118,6 +131,19 @@ export default async function PokemonDetailPage({ params, searchParams }: Props)
               genderless: tSpecies('genderless'),
               male: tSpecies('male'),
               female: tSpecies('female'),
+            }}
+          />
+
+          <PokemonAboutSection
+            height={pokemon.height}
+            weight={pokemon.weight}
+            abilities={abilities ?? []}
+            labels={{
+              section: tAbout('section'),
+              height: tAbout('height'),
+              weight: tAbout('weight'),
+              abilities: tAbout('abilities'),
+              hidden: tAbout('hidden'),
             }}
           />
 

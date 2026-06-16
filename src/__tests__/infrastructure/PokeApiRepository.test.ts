@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PokeApiRepository } from '../../infrastructure/pokeapi/PokeApiRepository';
 
 let repo: PokeApiRepository;
@@ -109,6 +109,23 @@ describe('findById', () => {
     const result = await repo.findById(25);
     expect(result).not.toBeNull();
   });
+
+  describe('error handling', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    it('returns null when the API responds with 404', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 404 }));
+      const result = await repo.findById(99999);
+      expect(result).toBeNull();
+    });
+
+    it('rethrows when the API responds with a non-404 error', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }));
+      await expect(repo.findById(25)).rejects.toThrow('PokeAPI error 500');
+    });
+  });
 });
 
 describe('findEvolutionChain', () => {
@@ -138,16 +155,78 @@ describe('findSpeciesData', () => {
 
 describe('findMoveLearnset', () => {
   it('returns learned moves for a pokemon', async () => {
-    const result = await repo.findMoveLearnset(25);
+    const result = await repo.findMoveLearnset(25, 'en');
     expect(result.length).toBeGreaterThan(0);
     expect(result[0].move.name).toBe('thundershock');
     expect(result[0].learnMethod).toBe('level-up');
     expect(result[0].levelLearnedAt).toBe(1);
   });
 
+  it('returns localized move names for the requested locale', async () => {
+    const result = await repo.findMoveLearnset(25, 'de');
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].move.displayName).toBe('Donnerschock');
+  });
+
+  it('does not make extra network requests when locale differs (locale is not a cache key)', async () => {
+    let moveCallCount = 0;
+    const original = global.fetch;
+    global.fetch = async (input, init) => {
+      const url = typeof input === 'string' ? input : (input as Request).url;
+      if (url.includes('/move/84')) moveCallCount++;
+      return original(input, init);
+    };
+    await repo.findMoveLearnset(25, 'de');
+    await repo.findMoveLearnset(25, 'en');
+    global.fetch = original;
+    expect(moveCallCount).toBe(1);
+  });
+
   it('returns empty array for a pokemon with no moves', async () => {
-    const result = await repo.findMoveLearnset(172);
+    const result = await repo.findMoveLearnset(172, 'en');
     expect(result).toEqual([]);
+  });
+});
+
+describe('findAbilities', () => {
+  it('returns localized ability for the requested locale', async () => {
+    const result = await repo.findAbilities([{ name: 'static', isHidden: false }], 'de');
+    expect(result).toHaveLength(1);
+    expect(result[0].displayName).toBe('Statik');
+    expect(result[0].isHidden).toBe(false);
+  });
+
+  it('falls back to English when locale has no entry', async () => {
+    const result = await repo.findAbilities([{ name: 'static', isHidden: false }], 'pt');
+    expect(result[0].displayName).toBe('Static');
+  });
+
+  it('caches raw responses — same slug hits network once', async () => {
+    let callCount = 0;
+    const original = global.fetch;
+    global.fetch = async (input, init) => {
+      const url = typeof input === 'string' ? input : (input as Request).url;
+      if (url.includes('/ability/static')) callCount++;
+      return original(input, init);
+    };
+    await repo.findAbilities([{ name: 'static', isHidden: false }], 'en');
+    await repo.findAbilities([{ name: 'static', isHidden: false }], 'de');
+    global.fetch = original;
+    expect(callCount).toBe(1);
+  });
+
+  it('returns multiple abilities in order of refs', async () => {
+    const result = await repo.findAbilities(
+      [
+        { name: 'static', isHidden: false },
+        { name: 'lightning-rod', isHidden: true },
+      ],
+      'en',
+    );
+    expect(result).toHaveLength(2);
+    expect(result[0].name).toBe('static');
+    expect(result[1].name).toBe('lightning-rod');
+    expect(result[1].isHidden).toBe(true);
   });
 });
 
@@ -187,5 +266,13 @@ describe('searchByNameWithEvolutions', () => {
   it('returns empty array when type filter excludes all chain members', async () => {
     const result = await repo.searchByNameWithEvolutions('pikachu', { types: ['grass'] });
     expect(result).toEqual([]);
+  });
+
+  it('returns no duplicate pokemon when multiple name matches share an evolution chain', async () => {
+    // 'chu' matches pikachu, pichu, and raichu — all members of chain 10.
+    // The chain should be fetched once; no member should appear twice.
+    const result = await repo.searchByNameWithEvolutions('chu');
+    const ids = result.map((p) => p.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });

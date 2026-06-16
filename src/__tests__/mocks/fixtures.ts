@@ -1,4 +1,5 @@
 import type {
+  PokeApiAbility,
   PokeApiEvolutionChain,
   PokeApiMove,
   PokeApiPokemon,
@@ -9,6 +10,12 @@ import type {
 export const pikachuRaw: PokeApiPokemon = {
   id: 25,
   name: 'pikachu',
+  height: 4,
+  weight: 60,
+  abilities: [
+    { ability: { name: 'static', url: '' }, is_hidden: false, slot: 1 },
+    { ability: { name: 'lightning-rod', url: '' }, is_hidden: true, slot: 3 },
+  ],
   sprites: {
     front_default: 'https://sprites.pokemon.com/pikachu.png',
     front_shiny: 'https://sprites.pokemon.com/shiny/pikachu.png',
@@ -46,6 +53,9 @@ export const pikachuRaw: PokeApiPokemon = {
 export const pichuRaw: PokeApiPokemon = {
   id: 172,
   name: 'pichu',
+  height: 3,
+  weight: 20,
+  abilities: [{ ability: { name: 'static', url: '' }, is_hidden: false, slot: 1 }],
   sprites: {
     front_default: 'https://sprites.pokemon.com/pichu.png',
     front_shiny: null,
@@ -66,6 +76,12 @@ export const pichuRaw: PokeApiPokemon = {
 export const raichuRaw: PokeApiPokemon = {
   id: 26,
   name: 'raichu',
+  height: 8,
+  weight: 300,
+  abilities: [
+    { ability: { name: 'static', url: '' }, is_hidden: false, slot: 1 },
+    { ability: { name: 'lightning-rod', url: '' }, is_hidden: true, slot: 3 },
+  ],
   sprites: {
     front_default: 'https://sprites.pokemon.com/raichu.png',
     front_shiny: null,
@@ -88,6 +104,11 @@ export const pikachuSpecies: PokeApiSpecies = {
   name: 'pikachu',
   generation: { name: 'generation-i', url: '' },
   evolution_chain: { url: 'https://pokeapi.co/api/v2/evolution-chain/10/' },
+  names: [
+    { name: 'Pikachu', language: { name: 'en', url: '' } },
+    { name: 'Pikachu', language: { name: 'de', url: '' } },
+    { name: 'Pikachu', language: { name: 'fr', url: '' } },
+  ],
   flavor_text_entries: [
     {
       flavor_text:
@@ -126,6 +147,10 @@ export const pichuSpecies: PokeApiSpecies = {
   name: 'pichu',
   generation: { name: 'generation-ii', url: '' },
   evolution_chain: { url: 'https://pokeapi.co/api/v2/evolution-chain/10/' },
+  names: [
+    { name: 'Pichu', language: { name: 'en', url: '' } },
+    { name: 'Pichu', language: { name: 'de', url: '' } },
+  ],
   flavor_text_entries: [
     {
       flavor_text: 'Despite its small size, it can zap even adult humans.',
@@ -199,12 +224,21 @@ export const thundershockMove: PokeApiMove = {
   power: 40,
   damage_class: { name: 'special', url: '' },
   type: { name: 'electric', url: '' },
-  names: [{ name: 'ThunderShock', language: { name: 'en', url: '' } }],
+  names: [
+    { name: 'ThunderShock', language: { name: 'en', url: '' } },
+    { name: 'Donnerschock', language: { name: 'de', url: '' } },
+  ],
 };
 
 export const bulbasaurRaw: PokeApiPokemon = {
   id: 1,
   name: 'bulbasaur',
+  height: 7,
+  weight: 69,
+  abilities: [
+    { ability: { name: 'overgrow', url: '' }, is_hidden: false, slot: 1 },
+    { ability: { name: 'chlorophyll', url: '' }, is_hidden: true, slot: 3 },
+  ],
   sprites: {
     front_default: 'https://sprites.pokemon.com/bulbasaur.png',
     front_shiny: null,
@@ -223,4 +257,38 @@ export const bulbasaurRaw: PokeApiPokemon = {
     { slot: 2, type: { name: 'poison', url: '' } },
   ],
   species: { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon-species/1/' },
+};
+
+export const staticAbility: PokeApiAbility = {
+  id: 9,
+  name: 'static',
+  names: [
+    { name: 'Static', language: { name: 'en', url: '' } },
+    { name: 'Statik', language: { name: 'de', url: '' } },
+  ],
+  flavor_text_entries: [
+    {
+      flavor_text: 'May cause paralysis\nif the foe touches\fthe Pokémon.',
+      language: { name: 'en', url: '' },
+    },
+    {
+      flavor_text: 'Kann den Gegner lähmen,\nwenn er berührt wird.',
+      language: { name: 'de', url: '' },
+    },
+  ],
+};
+
+export const lightningRodAbility: PokeApiAbility = {
+  id: 31,
+  name: 'lightning-rod',
+  names: [
+    { name: 'Lightning Rod', language: { name: 'en', url: '' } },
+    { name: 'Blitzfänger', language: { name: 'de', url: '' } },
+  ],
+  flavor_text_entries: [
+    {
+      flavor_text: 'Draws in all Electric-type moves to boost Sp. Atk.',
+      language: { name: 'en', url: '' },
+    },
+  ],
 };

@@ -28,6 +28,7 @@ export function PokemonGrid() {
   } = usePokemonStore();
   const hydrated = useHydration();
   const favoriteIds = useFavoritesStore((s) => s.ids);
+  const toggleFavorite = useFavoritesStore((s) => s.toggle);
   const debouncedSearch = useDebounce(search, 320);
 
   const params = {
@@ -128,6 +129,8 @@ export function PokemonGrid() {
                 index={i}
                 onClick={handleCardClick}
                 animate={scrollY === 0 || i >= restoreCount}
+                isFavorite={favoriteIds.includes(p.id)}
+                onToggleFavorite={toggleFavorite}
               />
             ))}
           </div>

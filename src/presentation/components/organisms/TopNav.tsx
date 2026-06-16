@@ -2,9 +2,10 @@
 
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
-import { LayoutGrid, Users, Scale, Gamepad2 } from 'lucide-react';
+import { LayoutGrid, Users, Scale, Gamepad2, Heart } from 'lucide-react';
 import { LanguageSwitcher } from '@/presentation/components/atoms/LanguageSwitcher';
 import { ThemeToggle } from '@/presentation/components/atoms/ThemeToggle';
+import { AuthMenu } from '@/presentation/components/organisms/AuthMenu';
 import { useHydration } from '@/presentation/hooks/useHydration';
 import { useFavoritesStore } from '@/presentation/store/favoritesStore';
 import { cn } from '@/presentation/lib/utils';
@@ -16,15 +17,16 @@ export function TopNav() {
   const favCount = useFavoritesStore((s) => s.count());
 
   const tabs = [
-    {
-      href: '/' as const,
-      label: t('pokedex'),
-      icon: LayoutGrid,
-      badge: hydrated && favCount > 0 ? favCount : null,
-    },
+    { href: '/' as const, label: t('pokedex'), icon: LayoutGrid, badge: null },
     { href: '/team' as const, label: t('teamBuilder'), icon: Users, badge: null },
     { href: '/compare' as const, label: t('compare'), icon: Scale, badge: null },
     { href: '/game' as const, label: t('game'), icon: Gamepad2, badge: null },
+    {
+      href: '/favorites' as const,
+      label: t('favorites'),
+      icon: Heart,
+      badge: hydrated && favCount > 0 ? favCount : null,
+    },
   ];
 
   return (
@@ -69,6 +71,7 @@ export function TopNav() {
             </div>
           </div>
           <div className="flex items-center gap-1">
+            <AuthMenu />
             <ThemeToggle />
             <LanguageSwitcher />
           </div>

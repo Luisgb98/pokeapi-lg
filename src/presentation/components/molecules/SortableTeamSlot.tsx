@@ -10,7 +10,9 @@ interface SortableTeamSlotProps {
   member: TeamMember;
   typeLabels: Record<PokemonType, string>;
   removeLabel: string;
+  configureLabel: string;
   onRemove: (id: number) => void;
+  onConfigure: (id: number) => void;
   priority?: boolean;
 }
 
@@ -18,7 +20,9 @@ export function SortableTeamSlot({
   member,
   typeLabels,
   removeLabel,
+  configureLabel,
   onRemove,
+  onConfigure,
   priority,
 }: SortableTeamSlotProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -42,7 +46,9 @@ export function SortableTeamSlot({
         typeLabels={typeLabels}
         emptyLabel=""
         removeLabel={removeLabel}
+        configureLabel={configureLabel}
         onRemove={onRemove}
+        onConfigure={onConfigure}
         priority={priority}
         isDragging={isDragging}
       />

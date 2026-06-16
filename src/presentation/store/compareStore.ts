@@ -1,5 +1,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { z } from 'zod';
+import { cookieStorage } from '@/presentation/lib/cookieStorage';
+import { withValidation } from '@/presentation/lib/validatedStorage';
 
 export type CompareSlot = 'a' | 'b' | 'c';
 
@@ -9,23 +12,6 @@ interface CompareState {
   readonly clearSlot: (slot: CompareSlot) => void;
   readonly clearAll: () => void;
 }
-
-const cookieStorage = {
-  getItem: (name: string): string | null => {
-    if (typeof document === 'undefined') return null;
-    const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-    return match ? decodeURIComponent(match[1]) : null;
-  },
-  setItem: (name: string, value: string): void => {
-    if (typeof document === 'undefined') return;
-    const maxAge = 60 * 60 * 24 * 365;
-    document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax`;
-  },
-  removeItem: (name: string): void => {
-    if (typeof document === 'undefined') return;
-    document.cookie = `${name}=; max-age=0; path=/`;
-  },
-};
 
 export const useCompareStore = create<CompareState>()(
   persist(
@@ -37,7 +23,18 @@ export const useCompareStore = create<CompareState>()(
     }),
     {
       name: 'pokemon-compare',
-      storage: createJSONStorage(() => cookieStorage),
+      storage: createJSONStorage(() =>
+        withValidation(
+          cookieStorage,
+          z.object({
+            slots: z.object({
+              a: z.number().int().positive().nullable(),
+              b: z.number().int().positive().nullable(),
+              c: z.number().int().positive().nullable(),
+            }),
+          }),
+        ),
+      ),
     },
   ),
 );

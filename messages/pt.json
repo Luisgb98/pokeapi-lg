@@ -72,7 +72,8 @@
     "pokedex": "Pokédex",
     "teamBuilder": "Equipe",
     "compare": "Comparar",
-    "game": "Quem é?",
+    "game": "Jogos",
+    "favorites": "Favoritos",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -100,7 +101,20 @@
     "membersResist": "{count} resiste",
     "memberImmune": "{count} imune",
     "pickerTitle": "Adicionar Pokémon",
-    "searchHint": "Digite pelo menos 2 caracteres para pesquisar"
+    "searchHint": "Digite pelo menos 2 caracteres para pesquisar",
+    "shareTeam": "Compartilhar equipe",
+    "shareCopied": "Copiado!",
+    "shareTitle": "Veja minha equipe Pokémon",
+    "addFavorites": "Adicionar favoritos",
+    "addFavoritesHintImporting": "Adicionando seus favoritos…",
+    "addFavoritesHintFull": "Sua equipe já está cheia",
+    "addFavoritesHintEmpty": "Você ainda não favoritou nenhum Pokémon",
+    "addFavoritesHintAllAdded": "Todos os seus favoritos já estão na equipe",
+    "addFavoritesHintReady": "Adicione {count} Pokémon favoritos à sua equipe",
+    "offenseTitle": "Cobertura Ofensiva",
+    "offenseSubtitle": "Com base nos tipos do time (somente STAB)",
+    "offenseGaps": "Não atingido de forma supereficaz:",
+    "offenseNoGaps": "Seu time atinge todos os tipos de forma supereficaz"
   },
   "typeChart": {
     "title": "Defesas de Tipo",
@@ -133,7 +147,9 @@
     "remove": "Remover {name} dos favoritos",
     "filterLabel": "Mostrar apenas favoritos",
     "empty": "Nenhum favorito ainda",
-    "emptyHint": "Toque no coração de qualquer card Pokémon para salvá-lo aqui"
+    "emptyHint": "Toque no coração de qualquer card Pokémon para salvá-lo aqui",
+    "heading": "Seus favoritos",
+    "subtitle": "Todos os Pokémon que você favoritou, em um só lugar."
   },
   "species": {
     "section": "Entrada Pokédex",
@@ -189,6 +205,127 @@
     "loading": "Carregando…",
     "roundOf": "Rodada {current}/{total}",
     "gameOver": "Desafio concluído!",
-    "gameOverSubtitle": "Volte amanhã para um novo desafio"
+    "gameOverSubtitle": "Volte amanhã para um novo desafio",
+    "shareResult": "Compartilhar resultado",
+    "shareCopied": "Copiado!",
+    "sharedResultTitle": "Resultado do desafio",
+    "playToday": "Jogar o desafio de hoje",
+    "streakLabel": "Sequência: {count} 🔥",
+    "bestLabel": "Recorde: {best}/10",
+    "typeQuizCta": "Tente o Quiz de tipos →"
+  },
+  "typeQuiz": {
+    "heading": "Quiz de tipos",
+    "subtitle": "Desafio diário — qual tipo golpeia mais forte?",
+    "question": "Qual tipo é super eficaz contra…?",
+    "correct": "Correto!",
+    "wrong": "Errado! A resposta era {type}",
+    "timeout": "Tempo esgotado! A resposta era {type}",
+    "nextRound": "Próxima rodada",
+    "roundOf": "Rodada {current}/{total}",
+    "gameOver": "Desafio concluído!",
+    "gameOverSubtitle": "Volte amanhã para um novo desafio",
+    "streakLabel": "Sequência: {count} 🔥",
+    "bestLabel": "Recorde: {best}/10"
+  },
+  "gamesHub": {
+    "heading": "Jogos",
+    "subtitle": "Desafios diários de Pokémon — um novo a cada dia",
+    "modes": {
+      "whosThat": {
+        "title": "Quem é esse Pokémon?",
+        "blurb": "Diga o nome do Pokémon pela sua silhueta"
+      },
+      "typeQuiz": {
+        "title": "Quiz de tipos",
+        "blurb": "Escolha o tipo super eficaz antes do tempo acabar"
+      }
+    }
+  },
+  "typeCalculator": {
+    "heading": "Calculadora de tipos",
+    "subtitle": "Selecione até dois tipos para ver seus matchups defensivos",
+    "selectPrompt": "Selecione um tipo para começar",
+    "immune": "Imune",
+    "quadWeak": "4× Fraco",
+    "doubleWeak": "2× Fraco",
+    "halfResist": "½× Resistência",
+    "quarterResist": "¼× Resistência"
+  },
+  "about": {
+    "section": "Sobre",
+    "height": "Altura",
+    "weight": "Peso",
+    "abilities": "Habilidades",
+    "hidden": "Oculta"
+  },
+  "statCalculator": {
+    "heading": "Calculadora de Estatísticas",
+    "subtitle": "Calcule as estatísticas reais com base no nível, natureza, IVs e EVs",
+    "level": "Nível",
+    "nature": "Natureza",
+    "base": "Base",
+    "iv": "IV",
+    "ev": "EV",
+    "result": "Stat",
+    "evTotal": "Total de EV: {used} / {max}",
+    "evWarning": "O total de EVs excede o máximo legal de 510",
+    "pokemonId": "Número da Pokédex",
+    "load": "Carregar",
+    "statHp": "PS",
+    "statAttack": "Ataque",
+    "statDefense": "Defesa",
+    "statSpecialAttack": "Atq. Esp.",
+    "statSpecialDefense": "Def. Esp.",
+    "statSpeed": "Velocidade"
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "account": "Conta",
+    "guest": "Convidado"
+  },
+  "import": {
+    "title": "Salvar progresso",
+    "favorites": "{count} favoritos",
+    "team": "{count} membros da equipa",
+    "comparison": "1 comparação",
+    "importButton": "Importar para a conta",
+    "skip": "Ignorar",
+    "importing": "A importar…"
+  },
+  "account": {
+    "title": "Minha conta",
+    "subtitle": "Gerir as suas equipas guardadas",
+    "signInPrompt": "Inicie sessão para guardar as suas equipas",
+    "signInDetail": "O seu progresso é sincronizado em todos os dispositivos.",
+    "signInButton": "Entrar com GitHub",
+    "empty": "Nenhuma equipa guardada ainda.",
+    "members": "{count} membros",
+    "load": "Carregar",
+    "delete": "Eliminar"
+  },
+  "teamBuild": {
+    "configure": "Configurar build",
+    "configureShort": "Configurar",
+    "ability": "Habilidade",
+    "hiddenAbility": "Oculta",
+    "nature": "Natureza",
+    "level": "Nível",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "Orçamento EV: {remaining} restantes",
+    "moves": "Golpes",
+    "selectUpToFour": "Selecione até 4 golpes",
+    "finalStats": "Stats finais",
+    "save": "Salvar build",
+    "cancel": "Cancelar",
+    "reset": "Reiniciar",
+    "searchMoves": "Pesquisar golpes…",
+    "noMoves": "Nenhum golpe encontrado",
+    "loadingMoves": "Carregando learnset…",
+    "validationError": "O build tem erros. Verifique suas seleções.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutro)"
   }
 }

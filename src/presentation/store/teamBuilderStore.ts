@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { z } from 'zod';
 import type { PokemonType } from '@/domain/entities/Pokemon';
+import type { TeamMemberBuild } from '@/domain/entities/TeamMemberBuild';
+import { cookieStorage } from '@/presentation/lib/cookieStorage';
+import { withValidation } from '@/presentation/lib/validatedStorage';
 
 export const TEAM_MAX_SIZE = 6;
 
@@ -10,32 +14,46 @@ export interface TeamMember {
   readonly displayName: string;
   readonly types: readonly PokemonType[];
   readonly sprite: string;
+  readonly build?: TeamMemberBuild;
 }
 
 interface TeamBuilderState {
   readonly team: readonly TeamMember[];
   readonly addMember: (member: TeamMember) => void;
+  /** Adds members in order, skipping duplicates, stopping at TEAM_MAX_SIZE. */
+  readonly addMembers: (members: TeamMember[]) => void;
   readonly removeMember: (id: number) => void;
   readonly reorderTeam: (from: number, to: number) => void;
+  readonly setMemberBuild: (id: number, build: TeamMemberBuild) => void;
   readonly clear: () => void;
 }
 
-const cookieStorage = {
-  getItem: (name: string): string | null => {
-    if (typeof document === 'undefined') return null;
-    const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-    return match ? decodeURIComponent(match[1]) : null;
-  },
-  setItem: (name: string, value: string): void => {
-    if (typeof document === 'undefined') return;
-    const maxAge = 60 * 60 * 24 * 365;
-    document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax`;
-  },
-  removeItem: (name: string): void => {
-    if (typeof document === 'undefined') return;
-    document.cookie = `${name}=; max-age=0; path=/`;
-  },
-};
+const pokemonStatsSchema = z.object({
+  hp: z.number().int().min(0),
+  attack: z.number().int().min(0),
+  defense: z.number().int().min(0),
+  specialAttack: z.number().int().min(0),
+  specialDefense: z.number().int().min(0),
+  speed: z.number().int().min(0),
+});
+
+const teamMemberBuildSchema = z.object({
+  abilityName: z.string(),
+  natureName: z.string(),
+  level: z.number().int().min(1).max(100),
+  ivs: pokemonStatsSchema,
+  evs: pokemonStatsSchema,
+  moveNames: z.array(z.string()).max(4),
+});
+
+const teamMemberSchema = z.object({
+  id: z.number().int().positive(),
+  name: z.string(),
+  displayName: z.string(),
+  types: z.array(z.string()),
+  sprite: z.string(),
+  build: teamMemberBuildSchema.optional(),
+});
 
 export const useTeamBuilderStore = create<TeamBuilderState>()(
   persist(
@@ -47,6 +65,16 @@ export const useTeamBuilderStore = create<TeamBuilderState>()(
         if (team.some((m) => m.id === member.id)) return;
         set({ team: [...team, member] });
       },
+      addMembers: (members: TeamMember[]) => {
+        const { team } = get();
+        const next = [...team];
+        for (const member of members) {
+          if (next.length >= TEAM_MAX_SIZE) break;
+          if (next.some((m) => m.id === member.id)) continue;
+          next.push(member);
+        }
+        if (next.length !== team.length) set({ team: next });
+      },
       removeMember: (id: number) => {
         set((state) => ({ team: state.team.filter((m) => m.id !== id) }));
       },
@@ -57,11 +85,23 @@ export const useTeamBuilderStore = create<TeamBuilderState>()(
         next.splice(to, 0, moved);
         set({ team: next });
       },
+      setMemberBuild: (id: number, build: TeamMemberBuild) => {
+        set((state) => ({
+          team: state.team.map((m) => (m.id === id ? { ...m, build } : m)),
+        }));
+      },
       clear: () => set({ team: [] }),
     }),
     {
-      name: 'pokemon-team',
-      storage: createJSONStorage(() => cookieStorage),
+      name: 'pokemon-team-v2',
+      storage: createJSONStorage(() =>
+        withValidation(
+          cookieStorage,
+          z.object({
+            team: z.array(teamMemberSchema).max(TEAM_MAX_SIZE),
+          }),
+        ),
+      ),
     },
   ),
 );

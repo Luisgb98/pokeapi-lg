@@ -72,7 +72,8 @@
     "pokedex": "Pokédex",
     "teamBuilder": "Team",
     "compare": "Vergleichen",
-    "game": "Wer ist das?",
+    "game": "Spiele",
+    "favorites": "Favoriten",
     "tools": "Navigation"
   },
   "teamBuilder": {
@@ -100,7 +101,20 @@
     "membersResist": "{count} resistent",
     "memberImmune": "{count} immun",
     "pickerTitle": "Pokémon hinzufügen",
-    "searchHint": "Mindestens 2 Zeichen eingeben"
+    "searchHint": "Mindestens 2 Zeichen eingeben",
+    "shareTeam": "Team teilen",
+    "shareCopied": "Kopiert!",
+    "shareTitle": "Schau dir mein Pokémon-Team an",
+    "addFavorites": "Favoriten hinzufügen",
+    "addFavoritesHintImporting": "Favoriten werden hinzugefügt…",
+    "addFavoritesHintFull": "Dein Team ist bereits voll",
+    "addFavoritesHintEmpty": "Du hast noch keine Pokémon favorisiert",
+    "addFavoritesHintAllAdded": "Alle deine Favoriten sind bereits im Team",
+    "addFavoritesHintReady": "{count} Lieblings-Pokémon zum Team hinzufügen",
+    "offenseTitle": "Offensive Abdeckung",
+    "offenseSubtitle": "Basierend auf den eigenen Typen des Teams (nur STAB)",
+    "offenseGaps": "Nicht supereffektiv getroffen:",
+    "offenseNoGaps": "Dein Team trifft jeden Typ supereffektiv"
   },
   "typeChart": {
     "title": "Typ-Verteidigung",
@@ -133,7 +147,9 @@
     "remove": "{name} aus Favoriten entfernen",
     "filterLabel": "Nur Favoriten anzeigen",
     "empty": "Noch keine Favoriten",
-    "emptyHint": "Tippe auf das Herz einer Pokémon-Karte, um es hier zu speichern"
+    "emptyHint": "Tippe auf das Herz einer Pokémon-Karte, um es hier zu speichern",
+    "heading": "Deine Favoriten",
+    "subtitle": "Alle Pokémon mit Herz, an einem Ort."
   },
   "species": {
     "section": "Pokédex-Eintrag",
@@ -189,6 +205,127 @@
     "loading": "Lädt…",
     "roundOf": "Runde {current}/{total}",
     "gameOver": "Herausforderung abgeschlossen!",
-    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück"
+    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück",
+    "shareResult": "Ergebnis teilen",
+    "shareCopied": "Kopiert!",
+    "sharedResultTitle": "Ergebnis der Herausforderung",
+    "playToday": "Heutige Herausforderung spielen",
+    "streakLabel": "Serie: {count} 🔥",
+    "bestLabel": "Rekord: {best}/10",
+    "typeQuizCta": "Typen-Quiz spielen →"
+  },
+  "typeQuiz": {
+    "heading": "Typen-Quiz",
+    "subtitle": "Tägliche Herausforderung — welcher Typ trifft am härtesten?",
+    "question": "Welcher Typ ist supereffektiv gegen…?",
+    "correct": "Richtig!",
+    "wrong": "Falsch! Die Antwort war {type}",
+    "timeout": "Zeit abgelaufen! Die Antwort war {type}",
+    "nextRound": "Nächste Runde",
+    "roundOf": "Runde {current}/{total}",
+    "gameOver": "Herausforderung abgeschlossen!",
+    "gameOverSubtitle": "Komm morgen für eine neue Herausforderung zurück",
+    "streakLabel": "Serie: {count} 🔥",
+    "bestLabel": "Rekord: {best}/10"
+  },
+  "gamesHub": {
+    "heading": "Spiele",
+    "subtitle": "Tägliche Pokémon-Challenges — jeden Tag eine neue",
+    "modes": {
+      "whosThat": {
+        "title": "Wer ist dieses Pokémon?",
+        "blurb": "Erkenne das Pokémon an seiner Silhouette"
+      },
+      "typeQuiz": {
+        "title": "Typen-Quiz",
+        "blurb": "Wähle den supereffektiven Typ, bevor die Zeit abläuft"
+      }
+    }
+  },
+  "typeCalculator": {
+    "heading": "Typ-Rechner",
+    "subtitle": "Wähle bis zu zwei Typen, um ihre defensiven Matchups zu sehen",
+    "selectPrompt": "Wähle einen Typ, um zu beginnen",
+    "immune": "Immun",
+    "quadWeak": "4× Schwach",
+    "doubleWeak": "2× Schwach",
+    "halfResist": "½× Resistenz",
+    "quarterResist": "¼× Resistenz"
+  },
+  "about": {
+    "section": "Über",
+    "height": "Größe",
+    "weight": "Gewicht",
+    "abilities": "Fähigkeiten",
+    "hidden": "Versteckt"
+  },
+  "statCalculator": {
+    "heading": "Statuswert-Rechner",
+    "subtitle": "Berechne echte Statuswerte aus Level, Wesen, IVs und EVs",
+    "level": "Level",
+    "nature": "Wesen",
+    "base": "Basis",
+    "iv": "IV",
+    "ev": "EP",
+    "result": "Wert",
+    "evTotal": "EP-Summe: {used} / {max}",
+    "evWarning": "Die EP-Summe überschreitet das legale Maximum von 510",
+    "pokemonId": "Pokédex-Nummer",
+    "load": "Laden",
+    "statHp": "KP",
+    "statAttack": "Angriff",
+    "statDefense": "Verteidigung",
+    "statSpecialAttack": "Sp.-Angr.",
+    "statSpecialDefense": "Sp.-Vert.",
+    "statSpeed": "Initiative"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "account": "Konto",
+    "guest": "Gast"
+  },
+  "import": {
+    "title": "Fortschritt speichern",
+    "favorites": "{count} Favoriten",
+    "team": "{count} Teammitglieder",
+    "comparison": "1 Vergleich",
+    "importButton": "In Konto importieren",
+    "skip": "Überspringen",
+    "importing": "Importiere…"
+  },
+  "account": {
+    "title": "Mein Konto",
+    "subtitle": "Gespeicherte Teams verwalten",
+    "signInPrompt": "Anmelden, um Teams zu speichern",
+    "signInDetail": "Dein Fortschritt wird auf allen Geräten synchronisiert.",
+    "signInButton": "Mit GitHub anmelden",
+    "empty": "Noch keine gespeicherten Teams.",
+    "members": "{count} Mitglieder",
+    "load": "Laden",
+    "delete": "Löschen"
+  },
+  "teamBuild": {
+    "configure": "Build konfigurieren",
+    "configureShort": "Konfigurieren",
+    "ability": "Fähigkeit",
+    "hiddenAbility": "Versteckt",
+    "nature": "Wesen",
+    "level": "Level",
+    "ivs": "IVs",
+    "evs": "EVs",
+    "evBudget": "EV-Budget: {remaining} verbleibend",
+    "moves": "Attacken",
+    "selectUpToFour": "Bis zu 4 Attacken auswählen",
+    "finalStats": "Endwerte",
+    "save": "Build speichern",
+    "cancel": "Abbrechen",
+    "reset": "Zurücksetzen",
+    "searchMoves": "Attacken suchen…",
+    "noMoves": "Keine Attacken gefunden",
+    "loadingMoves": "Learnset wird geladen…",
+    "validationError": "Build enthält Fehler. Bitte überprüfe deine Auswahl.",
+    "natureHint": "{nature} (+{up} / −{down})",
+    "natureNeutral": "{nature} (neutral)"
   }
 }
