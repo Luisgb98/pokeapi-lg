@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from '@/presentation/components/ui/select';
 import { MovePicker } from '@/presentation/components/molecules/MovePicker';
+import { Button } from '@/presentation/components/ui/button';
 import { NATURES, getNature } from '@/domain/data/natures';
 import {
   calculateAllStats,
@@ -145,206 +146,205 @@ export function TeamMemberBuildEditor({
   }
 
   return (
-    <div className="space-y-5">
-      {/* Ability */}
-      <section>
-        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
-          {t('ability')}
-        </label>
-        <Select value={abilityName} onValueChange={setAbilityName}>
-          <SelectTrigger className="w-full capitalize">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {abilities.map((a) => (
-              <SelectItem key={a.name} value={a.name} className="capitalize">
-                {a.name.replace(/-/g, ' ')}
-                {a.isHidden && (
-                  <span className="ml-1.5 text-xs text-stone-400">({t('hiddenAbility')})</span>
-                )}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </section>
-
-      {/* Nature + Level */}
-      <section className="grid grid-cols-2 gap-4">
-        <div>
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain px-5 py-5">
+        {/* Ability */}
+        <section>
           <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
-            {t('nature')}
+            {t('ability')}
           </label>
-          <Select value={natureName} onValueChange={setNatureName}>
+          <Select value={abilityName} onValueChange={setAbilityName}>
             <SelectTrigger className="w-full capitalize">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {NATURES.map((n) => (
-                <SelectItem key={n.name} value={n.name} className="capitalize">
-                  {natureLabel(n.name)}
+              {abilities.map((a) => (
+                <SelectItem key={a.name} value={a.name} className="capitalize">
+                  {a.name.replace(/-/g, ' ')}
+                  {a.isHidden && (
+                    <span className="ml-1.5 text-xs text-stone-400">({t('hiddenAbility')})</span>
+                  )}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-        </div>
-        <div>
-          <label
-            htmlFor="build-level"
-            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400"
-          >
-            {t('level')}
-          </label>
-          <div className="flex items-center gap-2">
-            <input
-              id="build-level"
-              type="number"
-              min={LEVEL_MIN}
-              max={LEVEL_MAX}
-              value={level}
-              onChange={(e) => handleLevelChange(parseInt(e.target.value, 10))}
-              className="h-9 w-16 rounded-md border border-stone-200 bg-transparent px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 dark:border-stone-700"
-            />
-            <input
-              type="range"
-              min={LEVEL_MIN}
-              max={LEVEL_MAX}
-              value={level}
-              onChange={(e) => handleLevelChange(parseInt(e.target.value, 10))}
-              className="h-2 flex-1 cursor-pointer appearance-none rounded-full bg-stone-200 accent-stone-900 dark:bg-stone-700 dark:accent-stone-100"
-            />
+        </section>
+
+        {/* Nature + Level */}
+        <section className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
+              {t('nature')}
+            </label>
+            <Select value={natureName} onValueChange={setNatureName}>
+              <SelectTrigger className="w-full capitalize">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {NATURES.map((n) => (
+                  <SelectItem key={n.name} value={n.name} className="capitalize">
+                    {natureLabel(n.name)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-        </div>
-      </section>
+          <div>
+            <label
+              htmlFor="build-level"
+              className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400"
+            >
+              {t('level')}
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                id="build-level"
+                type="number"
+                min={LEVEL_MIN}
+                max={LEVEL_MAX}
+                value={level}
+                onChange={(e) => handleLevelChange(parseInt(e.target.value, 10))}
+                className="h-9 w-16 rounded-md border border-stone-200 bg-transparent px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 dark:border-stone-700"
+              />
+              <input
+                type="range"
+                min={LEVEL_MIN}
+                max={LEVEL_MAX}
+                value={level}
+                onChange={(e) => handleLevelChange(parseInt(e.target.value, 10))}
+                className="h-2 flex-1 cursor-pointer appearance-none rounded-full bg-stone-200 accent-stone-900 dark:bg-stone-700 dark:accent-stone-100"
+              />
+            </div>
+          </div>
+        </section>
 
-      {/* IV / EV stat table */}
-      <section>
-        <div className="mb-1.5 flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
-            {t('ivs')} / {t('evs')}
-          </span>
-          <span
-            className={[
-              'text-xs font-medium',
-              evOverLimit ? 'text-red-500' : 'text-stone-500 dark:text-stone-400',
-            ].join(' ')}
-          >
-            {t('evBudget', { remaining: Math.max(0, evRemaining) })}
-          </span>
-        </div>
-        <div className="overflow-hidden rounded-lg border border-stone-200 dark:border-stone-700">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-stone-100 bg-stone-50 text-xs font-medium uppercase tracking-wide text-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
-                <th className="px-3 py-1.5 text-left">Stat</th>
-                <th className="px-2 py-1.5 text-center">{tStat('base')}</th>
-                <th className="px-2 py-1.5 text-center">{tStat('iv')}</th>
-                <th className="px-2 py-1.5 text-center">{tStat('ev')}</th>
-                <th className="px-3 py-1.5 text-center">{tStat('result')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {STAT_ROWS.map(({ key, tKey }, idx) => {
-                const isIncreased = key !== 'hp' && nature.increased === key;
-                const isDecreased = key !== 'hp' && nature.decreased === key;
-                return (
-                  <tr
-                    key={key}
-                    className={
-                      idx % 2 === 0
-                        ? 'border-b border-stone-100 dark:border-stone-700/60'
-                        : 'border-b border-stone-100 bg-stone-50/50 dark:border-stone-700/60 dark:bg-stone-800/30'
-                    }
-                  >
-                    <td className="px-3 py-1.5 font-medium text-stone-700 dark:text-stone-300">
-                      {tStat(tKey as Parameters<typeof tStat>[0])}
-                    </td>
-                    <td className="px-2 py-1.5 text-center text-stone-500 dark:text-stone-400">
-                      {baseStats[key]}
-                    </td>
-                    <td className="px-2 py-1.5 text-center">
-                      <input
-                        type="number"
-                        min={0}
-                        max={IV_MAX}
-                        value={ivs[key]}
-                        onChange={(e) => handleIvChange(key, parseInt(e.target.value, 10))}
-                        className="h-7 w-12 rounded border border-stone-200 bg-transparent px-1 text-center text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 dark:border-stone-700"
-                      />
-                    </td>
-                    <td className="px-2 py-1.5 text-center">
-                      <input
-                        type="number"
-                        min={0}
-                        max={EV_MAX}
-                        value={evs[key]}
-                        onChange={(e) => handleEvChange(key, parseInt(e.target.value, 10))}
-                        aria-invalid={evOverLimit || undefined}
-                        className="h-7 w-12 rounded border border-stone-200 bg-transparent px-1 text-center text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 aria-invalid:border-destructive dark:border-stone-700"
-                      />
-                    </td>
-                    <td
-                      className={[
-                        'px-3 py-1.5 text-center font-bold',
-                        isIncreased
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : isDecreased
-                            ? 'text-red-500 dark:text-red-400'
-                            : 'text-stone-800 dark:text-stone-200',
-                      ].join(' ')}
+        {/* IV / EV stat table */}
+        <section>
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
+              {t('ivs')} / {t('evs')}
+            </span>
+            <span
+              className={[
+                'text-xs font-medium',
+                evOverLimit ? 'text-red-500' : 'text-stone-500 dark:text-stone-400',
+              ].join(' ')}
+            >
+              {t('evBudget', { remaining: Math.max(0, evRemaining) })}
+            </span>
+          </div>
+          <div className="overflow-hidden rounded-lg border border-stone-200 dark:border-stone-700">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-stone-100 bg-stone-50 text-xs font-medium uppercase tracking-wide text-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
+                  <th className="px-3 py-1.5 text-left">Stat</th>
+                  <th className="px-2 py-1.5 text-center">{tStat('base')}</th>
+                  <th className="px-2 py-1.5 text-center">{tStat('iv')}</th>
+                  <th className="px-2 py-1.5 text-center">{tStat('ev')}</th>
+                  <th className="px-3 py-1.5 text-center">{tStat('result')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {STAT_ROWS.map(({ key, tKey }, idx) => {
+                  const isIncreased = key !== 'hp' && nature.increased === key;
+                  const isDecreased = key !== 'hp' && nature.decreased === key;
+                  return (
+                    <tr
+                      key={key}
+                      className={
+                        idx % 2 === 0
+                          ? 'border-b border-stone-100 dark:border-stone-700/60'
+                          : 'border-b border-stone-100 bg-stone-50/50 dark:border-stone-700/60 dark:bg-stone-800/30'
+                      }
                     >
-                      {computed[key]}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </section>
+                      <td className="px-3 py-1.5 font-medium text-stone-700 dark:text-stone-300">
+                        {tStat(tKey as Parameters<typeof tStat>[0])}
+                      </td>
+                      <td className="px-2 py-1.5 text-center text-stone-500 dark:text-stone-400">
+                        {baseStats[key]}
+                      </td>
+                      <td className="px-2 py-1.5 text-center">
+                        <input
+                          type="number"
+                          min={0}
+                          max={IV_MAX}
+                          value={ivs[key]}
+                          onChange={(e) => handleIvChange(key, parseInt(e.target.value, 10))}
+                          className="h-7 w-12 rounded border border-stone-200 bg-transparent px-1 text-center text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 dark:border-stone-700"
+                        />
+                      </td>
+                      <td className="px-2 py-1.5 text-center">
+                        <input
+                          type="number"
+                          min={0}
+                          max={EV_MAX}
+                          value={evs[key]}
+                          onChange={(e) => handleEvChange(key, parseInt(e.target.value, 10))}
+                          aria-invalid={evOverLimit || undefined}
+                          className="h-7 w-12 rounded border border-stone-200 bg-transparent px-1 text-center text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 aria-invalid:border-destructive dark:border-stone-700"
+                        />
+                      </td>
+                      <td
+                        className={[
+                          'px-3 py-1.5 text-center font-bold',
+                          isIncreased
+                            ? 'text-emerald-600 dark:text-emerald-400'
+                            : isDecreased
+                              ? 'text-red-500 dark:text-red-400'
+                              : 'text-stone-800 dark:text-stone-200',
+                        ].join(' ')}
+                      >
+                        {computed[key]}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-      {/* Move picker */}
-      <section>
-        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
-          {t('moves')}
-        </label>
-        <MovePicker
-          learnedMoves={learnedMoves}
-          selected={moveNames}
-          onChange={setMoveNames}
-          searchPlaceholder={t('searchMoves')}
-          noMovesLabel={t('noMoves')}
-          selectUpToFourLabel={t('selectUpToFour')}
-        />
-      </section>
+        {/* Move picker */}
+        <section>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
+            {t('moves')}
+          </label>
+          <MovePicker
+            learnedMoves={learnedMoves}
+            selected={moveNames}
+            onChange={setMoveNames}
+            searchPlaceholder={t('searchMoves')}
+            noMovesLabel={t('noMoves')}
+            selectUpToFourLabel={t('selectUpToFour')}
+          />
+        </section>
+      </div>
 
-      {validationError && (
-        <p className="text-xs text-red-500 dark:text-red-400">{validationError}</p>
-      )}
-
-      {/* Actions */}
-      <div className="flex items-center justify-between border-t border-stone-100 pt-4 dark:border-stone-800">
-        <button
-          type="button"
-          onClick={handleReset}
-          className="text-xs font-medium text-stone-400 transition-colors hover:text-stone-600 dark:hover:text-stone-300"
-        >
-          {t('reset')}
-        </button>
-        <div className="flex gap-2">
-          <button
+      {/* Sticky action footer */}
+      <div className="shrink-0 border-t border-stone-200 bg-white px-5 py-3 dark:border-stone-800 dark:bg-stone-950">
+        {validationError && (
+          <p className="mb-2 text-xs font-medium text-red-500 dark:text-red-400">
+            {validationError}
+          </p>
+        )}
+        <div className="flex items-center justify-between gap-2">
+          <Button
             type="button"
-            onClick={onClose}
-            className="rounded-md border border-stone-200 px-3 py-1.5 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"
+            onClick={handleReset}
+            variant="ghost"
+            size="sm"
+            className="text-stone-500 dark:text-stone-400"
           >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            className="rounded-md bg-stone-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-stone-700 dark:bg-stone-50 dark:text-stone-900 dark:hover:bg-stone-200"
-          >
-            {t('save')}
-          </button>
+            {t('reset')}
+          </Button>
+          <div className="flex gap-2">
+            <Button type="button" onClick={onClose} variant="outline" size="sm">
+              {t('cancel')}
+            </Button>
+            <Button type="button" onClick={handleSave} variant="default" size="sm">
+              {t('save')}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

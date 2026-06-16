@@ -33,11 +33,11 @@ export function TeamMemberBuildModal({ member, onSave, onClose }: TeamMemberBuil
         <Dialog.Content
           aria-describedby={undefined}
           className={cn(
-            'fixed inset-x-0 bottom-0 z-50 flex max-h-[90dvh] flex-col rounded-t-2xl bg-white shadow-2xl ring-1 ring-stone-900/10 dark:bg-stone-950 dark:ring-stone-50/10',
+            'fixed inset-x-0 bottom-0 z-50 flex max-h-[90dvh] flex-col overflow-hidden rounded-t-2xl border border-stone-200 bg-white shadow-2xl dark:border-stone-800 dark:bg-stone-950',
             'sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-h-[85dvh] sm:rounded-2xl',
           )}
         >
-          <div className="flex shrink-0 items-center justify-between border-b border-stone-100 bg-white/95 px-5 py-4 backdrop-blur-sm dark:border-stone-800 dark:bg-stone-950/95">
+          <div className="flex shrink-0 items-center justify-between border-b border-stone-200 bg-white px-5 py-4 dark:border-stone-800 dark:bg-stone-950">
             <div>
               <Dialog.Title className="font-display text-base font-bold text-stone-900 dark:text-stone-100">
                 {t('configure')}
@@ -63,9 +63,9 @@ export function TeamMemberBuildModal({ member, onSave, onClose }: TeamMemberBuil
             </button>
           </div>
 
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5">
+          <div className="flex min-h-0 flex-1 flex-col">
             {isLoading && (
-              <div className="py-12 text-center text-sm text-stone-400 dark:text-stone-500">
+              <div className="px-5 py-12 text-center text-sm text-stone-400 dark:text-stone-500">
                 {t('loadingMoves')}
               </div>
             )}
