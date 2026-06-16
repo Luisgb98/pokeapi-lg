@@ -37,6 +37,7 @@ import { OffensiveCoverageDisplay } from '@/presentation/components/organisms/Of
 import { FullTypeChart } from '@/presentation/components/organisms/FullTypeChart';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
 import { Button } from '@/presentation/components/ui/button';
+import { Tooltip } from '@/presentation/components/ui/tooltip';
 import type { PokemonType } from '@/domain/entities/Pokemon';
 
 interface TeamBuilderProps {
@@ -104,6 +105,20 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
   const importableIds = favoriteIds
     .filter((id) => !team.some((m) => m.id === id))
     .slice(0, freeSlots);
+
+  const isAddFavoritesDisabled = !hydrated || isImporting || isFull || importableIds.length === 0;
+
+  const addFavoritesHint = !hydrated
+    ? undefined
+    : isImporting
+      ? t('addFavoritesHintImporting')
+      : isFull
+        ? t('addFavoritesHintFull')
+        : favoriteIds.length === 0
+          ? t('addFavoritesHintEmpty')
+          : importableIds.length === 0
+            ? t('addFavoritesHintAllAdded')
+            : t('addFavoritesHintReady', { count: importableIds.length });
 
   const handleAddFavorites = () => {
     startImporting(async () => {
@@ -196,28 +211,32 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
         </DndContext>
 
         <div className="mt-4 flex flex-wrap items-center justify-end gap-2 border-t border-stone-100 pt-4 dark:border-stone-800">
-          <Button
-            type="button"
-            onClick={handleAddFavorites}
-            disabled={!hydrated || isImporting || isFull || importableIds.length === 0}
-            variant="outline"
-            size="sm"
-          >
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5z"
-              />
-            </svg>
-            {t('addFavorites')}
-          </Button>
+          <Tooltip content={addFavoritesHint}>
+            <span className="inline-flex" tabIndex={isAddFavoritesDisabled ? 0 : undefined}>
+              <Button
+                type="button"
+                onClick={handleAddFavorites}
+                disabled={isAddFavoritesDisabled}
+                variant="outline"
+                size="sm"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5z"
+                  />
+                </svg>
+                {t('addFavorites')}
+              </Button>
+            </span>
+          </Tooltip>
           {team.length > 0 && <TeamShareButton />}
           {team.length > 0 && (
             <Button
@@ -225,7 +244,7 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
               onClick={clear}
               variant="ghost"
               size="sm"
-              className="text-stone-500 hover:bg-red-50 hover:text-red-600 dark:text-stone-400 dark:hover:bg-red-950/40 dark:hover:text-red-400"
+              className="text-stone-500 hover:bg-red-50 hover:text-red-600 hover:shadow-[inset_0_0_0_1px_#fecaca] dark:text-stone-400 dark:hover:bg-red-950/40 dark:hover:text-red-400 dark:hover:shadow-[inset_0_0_0_1px_#7f1d1d]"
             >
               <svg
                 fill="none"
