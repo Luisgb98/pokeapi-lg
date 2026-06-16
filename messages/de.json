@@ -302,6 +302,7 @@
   },
   "teamBuild": {
     "configure": "Build konfigurieren",
+    "configureShort": "Konfigurieren",
     "ability": "Fähigkeit",
     "hiddenAbility": "Versteckt",
     "nature": "Wesen",

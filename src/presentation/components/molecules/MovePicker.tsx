@@ -24,11 +24,18 @@ export function MovePicker({
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    if (!q) return learnedMoves;
-    return learnedMoves.filter(
-      (lm) =>
-        lm.move.displayName.toLowerCase().includes(q) || lm.move.name.toLowerCase().includes(q),
-    );
+    const source = q
+      ? learnedMoves.filter(
+          (lm) =>
+            lm.move.displayName.toLowerCase().includes(q) || lm.move.name.toLowerCase().includes(q),
+        )
+      : learnedMoves;
+    const seen = new Set<string>();
+    return source.filter((lm) => {
+      if (seen.has(lm.move.name)) return false;
+      seen.add(lm.move.name);
+      return true;
+    });
   }, [learnedMoves, search]);
 
   function toggle(moveName: string) {
@@ -85,7 +92,7 @@ export function MovePicker({
         </div>
       )}
 
-      <div className="max-h-48 overflow-y-auto rounded-md border border-stone-200 dark:border-stone-700">
+      <div className="max-h-48 overflow-y-auto overscroll-contain rounded-md border border-stone-200 dark:border-stone-700">
         {filtered.length === 0 ? (
           <p className="px-3 py-4 text-center text-xs text-stone-400 dark:text-stone-500">
             {noMovesLabel}

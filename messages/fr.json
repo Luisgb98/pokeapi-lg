@@ -302,6 +302,7 @@
   },
   "teamBuild": {
     "configure": "Configurer le build",
+    "configureShort": "Configurer",
     "ability": "Capacité",
     "hiddenAbility": "Cachée",
     "nature": "Nature",
