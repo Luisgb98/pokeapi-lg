@@ -36,6 +36,8 @@ import { TeamCoverageDisplay } from '@/presentation/components/organisms/TeamCov
 import { OffensiveCoverageDisplay } from '@/presentation/components/organisms/OffensiveCoverageDisplay';
 import { FullTypeChart } from '@/presentation/components/organisms/FullTypeChart';
 import { getPrimaryTypeClasses } from '@/presentation/lib/typeColors';
+import { Button } from '@/presentation/components/ui/button';
+import { Tooltip } from '@/presentation/components/ui/tooltip';
 import type { PokemonType } from '@/domain/entities/Pokemon';
 
 interface TeamBuilderProps {
@@ -104,6 +106,20 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
     .filter((id) => !team.some((m) => m.id === id))
     .slice(0, freeSlots);
 
+  const isAddFavoritesDisabled = !hydrated || isImporting || isFull || importableIds.length === 0;
+
+  const addFavoritesHint = !hydrated
+    ? undefined
+    : isImporting
+      ? t('addFavoritesHintImporting')
+      : isFull
+        ? t('addFavoritesHintFull')
+        : favoriteIds.length === 0
+          ? t('addFavoritesHintEmpty')
+          : importableIds.length === 0
+            ? t('addFavoritesHintAllAdded')
+            : t('addFavoritesHintReady', { count: importableIds.length });
+
   const handleAddFavorites = () => {
     startImporting(async () => {
       const results = await Promise.allSettled(importableIds.map((id) => fetchPokemonById(id)));
@@ -165,7 +181,7 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
                     member={member}
                     typeLabels={typeLabels}
                     removeLabel={t('removeFromTeam')}
-                    configureLabel={tBuild('configure')}
+                    configureLabel={tBuild('configureShort')}
                     onRemove={removeMember}
                     onConfigure={setConfiguringId}
                     priority={i < 2}
@@ -194,24 +210,57 @@ export function TeamBuilder({ typeLabels, sharedMembers = [] }: TeamBuilderProps
           </DragOverlay>
         </DndContext>
 
-        <div className="mt-3 flex items-center justify-end gap-4">
+        <div className="mt-4 flex flex-wrap items-center justify-end gap-2 border-t border-stone-100 pt-4 dark:border-stone-800">
+          <Tooltip content={addFavoritesHint}>
+            <span className="inline-flex" tabIndex={isAddFavoritesDisabled ? 0 : undefined}>
+              <Button
+                type="button"
+                onClick={handleAddFavorites}
+                disabled={isAddFavoritesDisabled}
+                variant="outline"
+                size="sm"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5z"
+                  />
+                </svg>
+                {t('addFavorites')}
+              </Button>
+            </span>
+          </Tooltip>
           {team.length > 0 && <TeamShareButton />}
-          <button
-            type="button"
-            onClick={handleAddFavorites}
-            disabled={!hydrated || isImporting || isFull || importableIds.length === 0}
-            className="text-xs font-medium text-stone-400 transition-colors hover:text-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {t('addFavorites')}
-          </button>
           {team.length > 0 && (
-            <button
+            <Button
               type="button"
               onClick={clear}
-              className="text-xs font-medium text-stone-400 transition-colors hover:text-red-500"
+              variant="ghost"
+              size="sm"
+              className="text-stone-500 hover:bg-red-50 hover:text-red-600 hover:shadow-[inset_0_0_0_1px_#fecaca] dark:text-stone-400 dark:hover:bg-red-950/40 dark:hover:text-red-400 dark:hover:shadow-[inset_0_0_0_1px_#7f1d1d]"
             >
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                />
+              </svg>
               {t('clearTeam')}
-            </button>
+            </Button>
           )}
         </div>
       </section>
